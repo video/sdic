@@ -103,7 +103,7 @@
 
 
 ;;;----------------------------------------------------------------------
-;;;		定数/変数の宣言
+;;;             定数/変数の宣言
 ;;;----------------------------------------------------------------------
 
 (defvar sdic-gene-extract-option "-dc" "\
@@ -115,44 +115,44 @@
 
 
 ;;;----------------------------------------------------------------------
-;;;		本体
+;;;             本体
 ;;;----------------------------------------------------------------------
 
 (defun sdic-gene-init-dictionary (file-name &rest option-list)
   "Function to initialize dictionary"
   (let ((dic (sdic-make-dictionary-symbol)))
     (if (file-readable-p (setq file-name (expand-file-name file-name)))
-	(progn
-	  (mapcar '(lambda (c) (put dic (car c) (nth 1 c))) option-list)
-	  (put dic 'file-name file-name)
-	  (put dic 'identifier (concat "sdic-gene+" file-name))
-	  (or (get dic 'title)
-	      (put dic 'title (file-name-nondirectory file-name)))
-	  (if (get dic 'extract)
-	      (or (get dic 'extract-option)
-		  (put dic 'extract-option sdic-gene-extract-option)))
-	  (or (get dic 'coding-system)
-	      (put dic 'coding-system sdic-default-coding-system))
-	  dic)
+        (progn
+          (mapcar '(lambda (c) (put dic (car c) (nth 1 c))) option-list)
+          (put dic 'file-name file-name)
+          (put dic 'identifier (concat "sdic-gene+" file-name))
+          (or (get dic 'title)
+              (put dic 'title (file-name-nondirectory file-name)))
+          (if (get dic 'extract)
+              (or (get dic 'extract-option)
+                  (put dic 'extract-option sdic-gene-extract-option)))
+          (or (get dic 'coding-system)
+              (put dic 'coding-system sdic-default-coding-system))
+          dic)
       (error "Can't read dictionary: %s" (prin1-to-string file-name)))))
 
 
 (defun sdic-gene-open-dictionary (dic)
   "Function to open dictionary"
   (if (or (sdicf-buffer-live-p (get dic 'sdic-gene-search-buffer))
-	  (save-excursion
-	    (set-buffer (put dic 'sdic-gene-search-buffer (generate-new-buffer sdic-gene-search-buffer-name)))
-	    (buffer-disable-undo)
-	    (insert "\n")
-	    (prog1 (if (get dic 'extract)
-		       (= 0 (sdicf-call-process (get dic 'extract) (get dic 'coding-system) nil t nil
-						(get dic 'extract-option)
-						(get dic 'file-name)))
-		     (condition-case err
-			 (sdicf-insert-file-contents (get dic 'file-name) (get dic 'coding-system))
-		       (error nil)))
-	      (setq buffer-read-only t)
-	      (set-buffer-modified-p nil))))
+          (save-excursion
+            (set-buffer (put dic 'sdic-gene-search-buffer (generate-new-buffer sdic-gene-search-buffer-name)))
+            (buffer-disable-undo)
+            (insert "\n")
+            (prog1 (if (get dic 'extract)
+                       (= 0 (sdicf-call-process (get dic 'extract) (get dic 'coding-system) nil t nil
+                                                (get dic 'extract-option)
+                                                (get dic 'file-name)))
+                     (condition-case err
+                         (sdicf-insert-file-contents (get dic 'file-name) (get dic 'coding-system))
+                       (error nil)))
+              (setq buffer-read-only t)
+              (set-buffer-modified-p nil))))
       dic))
 
 
@@ -167,10 +167,10 @@
   (let (ret (case-fold-search t))
     (while (search-forward string nil t)
       (save-excursion
-	(setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
-						(progn (skip-chars-forward "^\t") (point)))
-			      (1+ (point)))
-			ret))))
+        (setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
+                                                (progn (skip-chars-forward "^\t") (point)))
+                              (1+ (point)))
+                        ret))))
     (nreverse ret)))
 
 
@@ -179,10 +179,10 @@
   (let (ret (case-fold-search t))
     (while (re-search-forward string nil t)
       (save-excursion
-	(setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
-						(progn (skip-chars-forward "^\t") (point)))
-			      (1+ (point)))
-			ret))))
+        (setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
+                                                (progn (skip-chars-forward "^\t") (point)))
+                              (1+ (point)))
+                        ret))))
     (nreverse ret)))
 
 
@@ -218,12 +218,12 @@ search-type の値によって次のように動作を変更する。
       (sdic-gene-re-search-internal string))
      ;; それ以外の検索形式を指定された場合
      (t (error "Not supported search type is specified. \(%s\)"
-	       (prin1-to-string search-type))))))
+               (prin1-to-string search-type))))))
 
 
 (defun sdic-gene-get-content (dic point)
   (save-excursion
     (set-buffer (get dic 'sdic-gene-search-buffer))
     (if (<= point (point-max))
-	(buffer-substring (goto-char point) (progn (end-of-line) (point)))
+        (buffer-substring (goto-char point) (progn (end-of-line) (point)))
       (error "Can't find content. (ID=%d)" point))))

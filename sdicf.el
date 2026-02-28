@@ -4,7 +4,7 @@
 ;; Copyright (C) 1999 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
 ;; Author: TSUCHIYA Masatoshi <tsuchiya@namazu.org>
-;;	   NISHIDA Keisuke <knishida@ring.aist.go.jp>
+;;         NISHIDA Keisuke <knishida@ring.aist.go.jp>
 ;; Created: 1 Feb 1999
 ;; Version: 0.9
 ;; Keywords: dictionary
@@ -51,18 +51,18 @@
 
 
 ;;;------------------------------------------------------------
-;;;		Customizable variables
+;;;             Customizable variables
 ;;;------------------------------------------------------------
 
 (defun sdicf-find-program (&rest programs)
   (if programs
       (catch 'which
-	(mapcar (lambda (file)
-		  (mapcar (lambda (path)
-			    (if (file-executable-p (expand-file-name file path))
-				(throw 'which (expand-file-name file path))))
-			  exec-path))
-		programs))))
+        (mapcar (lambda (file)
+                  (mapcar (lambda (path)
+                            (if (file-executable-p (expand-file-name file path))
+                                (throw 'which (expand-file-name file path))))
+                          exec-path))
+                programs))))
 
 (defvar sdicf-default-directory (expand-file-name "~/")
   "*Default directory for executing command.")
@@ -79,11 +79,11 @@
 (defvar sdicf-default-coding-system
   (if (>= emacs-major-version 20)
       (if (featurep 'mule)
-	  (if (string-match "XEmacs" emacs-version)
-	      (cond
-	       ((memq 'euc-japan-unix (coding-system-list)) 'euc-japan-unix)
-	       ((memq 'euc-jp-unix (coding-system-list)) 'euc-jp-unix))
-	    'euc-japan-unix))
+          (if (string-match "XEmacs" emacs-version)
+              (cond
+               ((memq 'euc-japan-unix (coding-system-list)) 'euc-japan-unix)
+               ((memq 'euc-jp-unix (coding-system-list)) 'euc-jp-unix))
+            'euc-japan-unix))
     (and (boundp 'MULE) *euc-japan*unix))
   "*Default coding system for sdicf.el")
 
@@ -102,7 +102,7 @@
 
 
 ;;;------------------------------------------------------------
-;;;		Internal variables
+;;;             Internal variables
 ;;;------------------------------------------------------------
 
 (defconst sdicf-version "0.9" "Version number of sdicf.el")
@@ -124,7 +124,7 @@
 
 
 ;;;------------------------------------------------------------
-;;;		Internal functions
+;;;             Internal functions
 ;;;------------------------------------------------------------
 
 (if (fboundp 'buffer-live-p)
@@ -162,10 +162,10 @@ Value is nil if OBJECT is not a buffer or if it has been killed."
 作業用バッファが存在することを確認し、なければ新しく生成する。作業用バッ
 ファを返す。"
   (or (and (sdicf-buffer-live-p (sdicf-get-buffer sdic))
-	   (sdicf-get-buffer sdic))
+           (sdicf-get-buffer sdic))
       (let ((buf (generate-new-buffer (format " *sdic %s*" (sdicf-get-filename sdic)))))
-	(buffer-disable-undo buf)
-	(aset sdic 4 buf))))
+        (buffer-disable-undo buf)
+        (aset sdic 4 buf))))
 
 (defun sdicf-common-quit (sdic) "\
 共通の辞書終了関数"
@@ -177,8 +177,8 @@ Value is nil if OBJECT is not a buffer or if it has been killed."
 トは次の行頭に移動する。"
   (if (eq (following-char) ?<)
       (progn
-	(setq entries (cons (buffer-substring (point) (progn (end-of-line) (point))) entries))
-	(forward-char))
+        (setq entries (cons (buffer-substring (point) (progn (end-of-line) (point))) entries))
+        (forward-char))
     (forward-line)))
 
 (defun sdicf-encode-string (string) "\
@@ -187,11 +187,11 @@ STRING をエンコードする
   (let ((start 0) ch list)
     (while (string-match "[&<>\n]" string start)
       (setq ch (aref string (match-beginning 0))
-	    list (cons (if (eq ch ?&) "&amp;"
-			 (if (eq ch ?<) "&lt;"
-			   (if (eq ch ?>) "&gt;" "&lf;")))
-		       (cons (substring string start (match-beginning 0)) list))
-	    start (match-end 0)))
+            list (cons (if (eq ch ?&) "&amp;"
+                         (if (eq ch ?<) "&lt;"
+                           (if (eq ch ?>) "&gt;" "&lf;")))
+                       (cons (substring string start (match-beginning 0)) list))
+            start (match-end 0)))
     (eval (cons 'concat (nreverse (cons (substring string start) list))))))
 
 (defun sdicf-decode-string (string) "\
@@ -200,38 +200,38 @@ STRING をデコードする
   (let ((start 0) list)
     (while (string-match "&\\(\\(lt\\)\\|\\(gt\\)\\|\\(lf\\)\\|\\(amp\\)\\);" string start)
       (setq list (cons (if (match-beginning 2) "<"
-			 (if (match-beginning 3) ">"
-			   (if (match-beginning 4) "\n" "&")))
-		       (cons (substring string start (match-beginning 0)) list))
-	    start (match-end 0)))
+                         (if (match-beginning 3) ">"
+                           (if (match-beginning 4) "\n" "&")))
+                       (cons (substring string start (match-beginning 0)) list))
+            start (match-end 0)))
     (eval (cons 'concat (nreverse (cons (substring string start) list))))))
 
 (defun sdicf-insert-file-contents (filename coding-system &optional visit beg end replace) "\
 CODING-SYSTEM を明示的に指定して insert-file-contents を呼び出す
 CODING-SYSTEM 以外の引数の意味は insert-file-contents と同じ"
   (let ((coding-system-for-read coding-system)
-	(file-coding-system-for-read coding-system))
+        (file-coding-system-for-read coding-system))
     (insert-file-contents filename visit beg end replace)))
 
 (defun sdicf-call-process (program coding-system &optional infile buffer display &rest args) "\
 CODING-SYSTEM を明示的に指定して call-process を呼び出す
 CODING-SYSTEM 以外の引数の意味は call-process と同じ"
   (let ((default-directory sdicf-default-directory)
-	(coding-system-for-read coding-system)
-	(coding-system-for-write coding-system)
-	(process-input-coding-system coding-system)
-	(process-output-coding-system coding-system)
-	(file-name-coding-system coding-system)
-	(default-process-coding-system (cons coding-system coding-system)))
+        (coding-system-for-read coding-system)
+        (coding-system-for-write coding-system)
+        (process-input-coding-system coding-system)
+        (process-output-coding-system coding-system)
+        (file-name-coding-system coding-system)
+        (default-process-coding-system (cons coding-system coding-system)))
     (apply 'call-process program infile buffer display args)))
 
 (defun sdicf-start-process (name buffer program coding-system &rest args) "\
 start-process を実行した後、生成されたプロセスに CODING-SYSTEM を設定する
 CODING-SYSTEM 以外の引数の意味は start-process と同じ"  
   (let* ((default-directory sdicf-default-directory)
-	 (proc (apply 'start-process name buffer program args)))
+         (proc (apply 'start-process name buffer program args)))
     (if (fboundp 'set-process-coding-system)
-	(set-process-coding-system proc coding-system coding-system)
+        (set-process-coding-system proc coding-system coding-system)
       (set-process-input-coding-system proc coding-system)
       (set-process-output-coding-system proc coding-system))
     proc))
@@ -247,15 +247,15 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ"
 (defun sdicf-direct-init (sdic)
   (or (sdicf-buffer-live-p (sdicf-get-buffer sdic))
       (save-excursion
-	(sdicf-common-init sdic)
-	(set-buffer (sdicf-get-buffer sdic))
-	(delete-region (point-min) (point-max))
-	(sdicf-insert-file-contents (sdicf-get-filename sdic) (sdicf-get-coding-system sdic))
-	(while (re-search-forward "^#" nil t)
-	  (delete-region (1- (point)) (progn (end-of-line) (min (1+ (point)) (point-max)))))
-	(setq buffer-read-only t)
-	(set-buffer-modified-p nil)
-	t)))
+        (sdicf-common-init sdic)
+        (set-buffer (sdicf-get-buffer sdic))
+        (delete-region (point-min) (point-max))
+        (sdicf-insert-file-contents (sdicf-get-filename sdic) (sdicf-get-coding-system sdic))
+        (while (re-search-forward "^#" nil t)
+          (delete-region (1- (point)) (progn (end-of-line) (min (1+ (point)) (point-max)))))
+        (setq buffer-read-only t)
+        (set-buffer-modified-p nil)
+        t)))
 
 (defalias 'sdicf-direct-quit 'sdicf-common-quit)
 
@@ -271,12 +271,12 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ"
     (let ((case-fold-search case) entries)
       (goto-char (point-min))
       (if regexp
-	  (while (re-search-forward pattern nil t)
-	    (forward-line 0)
-	    (sdicf-search-internal))
-	(while (search-forward pattern nil t)
-	  (forward-line 0)
-	  (sdicf-search-internal)))
+          (while (re-search-forward pattern nil t)
+            (forward-line 0)
+            (sdicf-search-internal))
+        (while (search-forward pattern nil t)
+          (forward-line 0)
+          (sdicf-search-internal)))
       (nreverse entries))))
 
 
@@ -285,13 +285,13 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ"
 
 (defun sdicf-grep-available (sdic)
   (and (or (file-readable-p (sdicf-get-filename sdic))
-	   (signal 'sdicf-missing-file (list (sdicf-get-filename sdic))))
+           (signal 'sdicf-missing-file (list (sdicf-get-filename sdic))))
        (or (and (stringp sdicf-fgrep-command)
-		(file-executable-p sdicf-fgrep-command))
-	   (signal 'sdicf-missing-executable '(fgrep grep)))
+                (file-executable-p sdicf-fgrep-command))
+           (signal 'sdicf-missing-executable '(fgrep grep)))
        (or (and (stringp sdicf-egrep-command)
-		(file-executable-p sdicf-egrep-command))
-	   (signal 'sdicf-missing-executable '(egrep grep)))))
+                (file-executable-p sdicf-egrep-command))
+           (signal 'sdicf-missing-executable '(egrep grep)))))
 
 (defalias 'sdicf-grep-init 'sdicf-common-init)
 
@@ -309,13 +309,13 @@ sdicf-egrep-command で指定されたコマンドを使う。"
     (set-buffer (sdicf-get-buffer sdic))
     (delete-region (point-min) (point-max))
     (apply 'sdicf-call-process
-	   (if regexp sdicf-egrep-command sdicf-fgrep-command)
-	   (sdicf-get-coding-system sdic)
-	   nil t nil
-	   (if regexp (if case (list "-i" "-e" pattern (sdicf-get-filename sdic))
-			(list "-e" pattern (sdicf-get-filename sdic)))
-	     (if case (list "-i" pattern (sdicf-get-filename sdic))
-	       (list "-e" pattern (sdicf-get-filename sdic)))))
+           (if regexp sdicf-egrep-command sdicf-fgrep-command)
+           (sdicf-get-coding-system sdic)
+           nil t nil
+           (if regexp (if case (list "-i" "-e" pattern (sdicf-get-filename sdic))
+                        (list "-e" pattern (sdicf-get-filename sdic)))
+             (if case (list "-i" pattern (sdicf-get-filename sdic))
+               (list "-e" pattern (sdicf-get-filename sdic)))))
     (goto-char (point-min))
     (let (entries)
       (while (not (eobp)) (sdicf-search-internal))
@@ -327,40 +327,40 @@ sdicf-egrep-command で指定されたコマンドを使う。"
 
 (defun sdicf-array-available (sdic)
   (and (or (file-readable-p (sdicf-get-filename sdic))
-	   (signal 'sdicf-missing-file (list (sdicf-get-filename sdic))))
+           (signal 'sdicf-missing-file (list (sdicf-get-filename sdic))))
        (or (file-readable-p (concat (sdicf-get-filename sdic) ".ary"))
-	   (signal 'sdicf-missing-file (list (concat (sdicf-get-filename sdic) ".ary"))))
+           (signal 'sdicf-missing-file (list (concat (sdicf-get-filename sdic) ".ary"))))
        (or (and (stringp sdicf-array-command)
-		(file-executable-p sdicf-array-command))
-	   (signal 'sdicf-missing-executable '(array)))))
+                (file-executable-p sdicf-array-command))
+           (signal 'sdicf-missing-executable '(array)))))
 
 (defun sdicf-array-init (sdic)
   (sdicf-common-init sdic)
   (let ((proc (get-buffer-process (sdicf-get-buffer sdic))))
     (or (and proc (eq (process-status proc) 'run))
-	(progn
-	  (setq proc (sdicf-start-process "array"
-					  (sdicf-get-buffer sdic)
-					  sdicf-array-command
-					  (sdicf-get-coding-system sdic)
-					  (sdicf-get-filename sdic)))
-	  (accept-process-output proc)
-	  (process-send-string proc "style line\n")
-	  (accept-process-output proc)
-	  (process-send-string proc "order index\n")
-	  (accept-process-output proc)
-	  (process-kill-without-query proc)
-	  (set-process-filter proc 'sdicf-array-wait-prompt)
-	  t))))
+        (progn
+          (setq proc (sdicf-start-process "array"
+                                          (sdicf-get-buffer sdic)
+                                          sdicf-array-command
+                                          (sdicf-get-coding-system sdic)
+                                          (sdicf-get-filename sdic)))
+          (accept-process-output proc)
+          (process-send-string proc "style line\n")
+          (accept-process-output proc)
+          (process-send-string proc "order index\n")
+          (accept-process-output proc)
+          (process-kill-without-query proc)
+          (set-process-filter proc 'sdicf-array-wait-prompt)
+          t))))
 
 (defun sdicf-array-quit (sdic)
   (if (sdicf-buffer-live-p (sdicf-get-buffer sdic))
       (let ((proc (get-buffer-process (sdicf-get-buffer sdic))))
-	(and proc
-	     (eq (process-status proc) 'run)
-	     (set-process-filter proc nil)
-	     (process-send-string proc "quit\n"))
-	(kill-buffer (sdicf-get-buffer sdic)))))
+        (and proc
+             (eq (process-status proc) 'run)
+             (set-process-filter proc nil)
+             (process-send-string proc "quit\n"))
+        (kill-buffer (sdicf-get-buffer sdic)))))
 
 (defun sdicf-array-send-string (proc string) "\
 指定された文字列 STRING をコマンドとして PROC に渡してプロンプトが現れるまで待つ関数"
@@ -382,7 +382,7 @@ sdicf-egrep-command で指定されたコマンドを使う。"
       (skip-chars-backward " \t\n")
       (forward-line 0)
       (if (looking-at "ok\n")
-	  (setq sdicf-array-wait-prompt-flag nil))
+          (setq sdicf-array-wait-prompt-flag nil))
       )))
 
 (defun sdicf-array-search (sdic pattern &optional case regexp) "\
@@ -397,27 +397,27 @@ array を使って検索を行う
       (signal 'sdicf-invalid-method '(regexp))
     (save-excursion
       (let ((proc (get-buffer-process (set-buffer (sdicf-get-buffer sdic))))
-	    (case-fold-search nil))
-	(sdicf-array-send-string proc "init")
-	(delete-region (point-min) (point-max))
-	(sdicf-array-send-string proc (concat "search " pattern))
-	(if (looking-at "FOUND:")
-	    (progn
-	      (delete-region (point-min) (point-max))
-	      (sdicf-array-send-string proc "show")
-	      (let (entries cons)
-		(while (not (eobp)) (sdicf-search-internal))
-		(setq entries (sort entries 'string<)
-		      cons entries)
-		(while (cdr cons)
-		  (if (equal (car cons) (car (cdr cons)))
-		      (setcdr cons (cdr (cdr cons)))
-		    (setq cons (cdr cons))))
-		entries)))))))
+            (case-fold-search nil))
+        (sdicf-array-send-string proc "init")
+        (delete-region (point-min) (point-max))
+        (sdicf-array-send-string proc (concat "search " pattern))
+        (if (looking-at "FOUND:")
+            (progn
+              (delete-region (point-min) (point-max))
+              (sdicf-array-send-string proc "show")
+              (let (entries cons)
+                (while (not (eobp)) (sdicf-search-internal))
+                (setq entries (sort entries 'string<)
+                      cons entries)
+                (while (cdr cons)
+                  (if (equal (car cons) (car (cdr cons)))
+                      (setcdr cons (cdr (cdr cons)))
+                    (setq cons (cdr cons))))
+                entries)))))))
 
 
 ;;;------------------------------------------------------------
-;;;		Interface functions
+;;;             Interface functions
 ;;;------------------------------------------------------------
 
 (defun sdicf-open (filename &optional coding-system strategy) "\
@@ -443,18 +443,18 @@ SDIC 辞書オブジェクトは CAR が `SDIC' のベクタである。以下�
 "
   (let ((sdic (vector 'SDIC filename (or coding-system sdicf-default-coding-system) nil nil)))
     (aset sdic 3 (if strategy
-		     (if (assq strategy sdicf-strategy-alist)
-			 (if (funcall (nth 1 (assq strategy sdicf-strategy-alist)) sdic)
-			     strategy)
-		       (signal 'sdicf-invalid-strategy (list strategy)))
-		   (catch 'found-strategy
-		     (mapcar (lambda (e)
-			       (if (condition-case nil
-				       (funcall (nth 1 e) sdic)
-				     (sdicf-errors nil))
-				   (throw 'found-strategy (car e))))
-			     sdicf-strategy-alist)
-		     (signal 'sdicf-decide-strategy nil))))
+                     (if (assq strategy sdicf-strategy-alist)
+                         (if (funcall (nth 1 (assq strategy sdicf-strategy-alist)) sdic)
+                             strategy)
+                       (signal 'sdicf-invalid-strategy (list strategy)))
+                   (catch 'found-strategy
+                     (mapcar (lambda (e)
+                               (if (condition-case nil
+                                       (funcall (nth 1 e) sdic)
+                                     (sdicf-errors nil))
+                                   (throw 'found-strategy (car e))))
+                             sdicf-strategy-alist)
+                     (signal 'sdicf-decide-strategy nil))))
     sdic))
 
 (defun sdicf-close (sdic)
@@ -486,16 +486,16 @@ SDIC形式の辞書から WORD をキーとして検索を行う
       (signal 'wrong-type-argument (list 'stringp word)))
   (let ((case-fold-search (if (eq method 'text) case-fold-search)))
     (funcall (nth 4 (assq (sdicf-get-strategy sdic) sdicf-strategy-alist))
-	     sdic
-	     (cond
-	      ((eq method 'prefix) (concat "<K>" (sdicf-encode-string (downcase word))))
-	      ((eq method 'suffix) (concat (sdicf-encode-string (downcase word)) "</K>"))
-	      ((eq method 'exact) (concat "<K>" (sdicf-encode-string (downcase word)) "</K>"))
-	      ((eq method 'text) word)
-	      ((eq method 'regexp) word)
-	      (t (signal 'sdicf-invalid-method (list method))))
-	     (and (or (eq method 'text) (eq method 'regexp)) case-fold-search)
-	     (eq method 'regexp))))
+             sdic
+             (cond
+              ((eq method 'prefix) (concat "<K>" (sdicf-encode-string (downcase word))))
+              ((eq method 'suffix) (concat (sdicf-encode-string (downcase word)) "</K>"))
+              ((eq method 'exact) (concat "<K>" (sdicf-encode-string (downcase word)) "</K>"))
+              ((eq method 'text) word)
+              ((eq method 'regexp) word)
+              (t (signal 'sdicf-invalid-method (list method))))
+             (and (or (eq method 'text) (eq method 'regexp)) case-fold-search)
+             (eq method 'regexp))))
 
 (defun sdicf-entry-headword (entry)
   "エントリ ENTRY の見出し語を返す。"
@@ -509,11 +509,11 @@ ADD-HEADWORD が Non-nil の場合は検索キーに見出し語を加えたリ�
   (or (sdicf-entry-p entry)
       (signal 'wrong-type-argument (list 'sdicf-entry-p entry)))
   (let ((start (match-end 0))
-	(keywords (if (or add-headword (string= "<K>" (substring entry 0 3)))
-		      (list (sdicf-decode-string (substring entry (match-beginning 1) (match-end 1)))))))
+        (keywords (if (or add-headword (string= "<K>" (substring entry 0 3)))
+                      (list (sdicf-decode-string (substring entry (match-beginning 1) (match-end 1)))))))
     (while (eq start (string-match "<.>\\([^<]+\\)</.>" entry start))
       (setq start (match-end 0)
-	    keywords (cons (sdicf-decode-string (substring entry (match-beginning 1) (match-end 1))) keywords)))
+            keywords (cons (sdicf-decode-string (substring entry (match-beginning 1) (match-end 1))) keywords)))
     (nreverse keywords)))
 
 (defun sdicf-entry-text (entry)
