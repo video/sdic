@@ -1,5 +1,4 @@
-;; sdic-compat.el ---- -*- Emacs-Lisp -*- Library to search COMPAT format dictionary.
-;; $Id$
+;; sdic-compat.el --- Library to search COMPAT format dictionary -*- lexical-binding: t -*-
 
 ;; Copyright (C) 1998,99 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
@@ -32,9 +31,10 @@
 
 ;;; Install:
 
-;; (1) look と大文字/小文字の違いを無視した検索が出来る grep ( fgrep 
-;;     または GNU grep )が必要です。また、正規表現検索を利用する場合は 
-;;     egrep も必要です。パスが通っているか確認して下さい。
+;; (1) look と大文字/小文字の違いを無視した検索が出来る grep が必要です。
+;;     パスが通っているか確認して下さい。look が無い環境では sdic-compat
+;;     は利用できません。代わりに sdicf-client または sdic-gene を使って
+;;     下さい。
 ;;
 ;; (2) 辞書を適切な形式に変換して、適当な場所( 例: /usr/dict/ )に保存
 ;;     して下さい。辞書変換用スクリプトとして以下の Perl スクリプトが
@@ -100,7 +100,7 @@
 ;; egrep-case-option
 ;;     egrep オプションによって指定された外部コマンドに対して、英大文
 ;;     字/小文字を区別しないで検索するように指示するためのコマンドライ
-;;     ン引数を指定します。省略した場合は 
+;;     ン引数を指定します。省略した場合は
 ;;     sdic-compat-egrep-case-option の値を使います。
 
 
@@ -108,8 +108,8 @@
 
 ;; sdic-compat-look-command / sdic-compat-grep-command /
 ;; sdic-compat-egrep-command の値は自動的に設定されます。例えば、
-;; sdic-compat-grep-command の場合、fgrep / fgrep.exe / grep /
-;; grep.exe と4種のコマンドを検索して、見つかったコマンドを使います。
+;; sdic-compat-grep-command の場合、fgrep / grep と2種のコマンドを検索して、
+;; 最初に見つかったコマンドを使います。
 ;;
 ;; sdic-compat.el と sdic-gene.el は同じ機能を提供しているライブラリで
 ;; す。sdic-compat.el は外部コマンドを呼び出しているのに対して、
@@ -124,7 +124,7 @@
 ;;; ライブラリ定義情報
 (require 'sdic)
 (require 'sdicf)
-(provide 'sdic-compat)
+
 (put 'sdic-compat 'version "2.0")
 (put 'sdic-compat 'init-dictionary 'sdic-compat-init-dictionary)
 (put 'sdic-compat 'open-dictionary 'sdic-compat-open-dictionary)
@@ -137,20 +137,24 @@
 ;;;             定数/変数の宣言
 ;;;----------------------------------------------------------------------
 
-(defvar sdic-compat-look-command (sdicf-find-program "look" "look.exe")
-  "*Executable file name of look")
+(defvar sdic-compat-look-command (sdicf-find-program "look")
+  "Executable file name of look")
 
-(defvar sdic-compat-look-case-option "-f" "*Command line option for look to ignore case")
+(defvar sdic-compat-look-case-option "-f" "Command line option for look to ignore case")
 
-(defvar sdic-compat-grep-command (sdicf-find-program "fgrep" "fgrep.exe" "grep" "grep.exe")
-  "*Executable file name of grep")
+(defvar sdic-compat-grep-command (sdicf-find-program "fgrep" "grep")
+  "Executable file name of grep")
 
-(defvar sdic-compat-grep-case-option "-i" "*Command line option for grep to ignore case")
+(defvar sdic-compat-grep-case-option "-i" "Command line option for grep to ignore case")
 
-(defvar sdic-compat-egrep-command (sdicf-find-program "egrep" "egrep.exe" "grep" "grep.exe")
-  "*Executable file name of egrep")
+(defvar sdic-compat-grep-max-count 500
+  "Max count of search result for grep/egrep.
+If nil, do not limit search result.")
 
-(defvar sdic-compat-egrep-case-option "-i" "*Command line option for egrep to ignore case")
+(defvar sdic-compat-egrep-command (sdicf-find-program "egrep" "grep")
+  "Executable file name of egrep")
+
+(defvar sdic-compat-egrep-case-option "-i" "Command line option for egrep to ignore case")
 
 (defconst sdic-compat-search-buffer-name " *sdic-compat*")
 
@@ -160,19 +164,12 @@
 ;;;             本体
 ;;;----------------------------------------------------------------------
 
-(defun sdic-compat-available-p () "\
-Function to check availability of library.
-ライブラリの利用可能性を検査する関数"
-  (and (file-executable-p sdic-compat-look-command)
-       (file-executable-p sdic-compat-grep-command)))
-
-
 (defun sdic-compat-init-dictionary (file-name &rest option-list)
   "Function to initialize dictionary"
   (let ((dic (sdic-make-dictionary-symbol)))
     (if (file-readable-p (setq file-name (expand-file-name file-name)))
         (progn
-          (mapcar '(lambda (c) (put dic (car c) (nth 1 c))) option-list)
+          (mapc (lambda (c) (put dic (car c) (nth 1 c))) option-list)
           (put dic 'file-name file-name)
           (put dic 'identifier (concat "sdic-compat+" file-name))
           (or (get dic 'title)
@@ -199,19 +196,20 @@ Function to check availability of library.
 
 (defun sdic-compat-open-dictionary (dic)
   "Function to open dictionary"
-  (and (or (sdicf-buffer-live-p (get dic 'sdic-compat-search-buffer))
+  (and (or (buffer-live-p (get dic 'sdic-compat-search-buffer))
            (put dic 'sdic-compat-search-buffer (generate-new-buffer sdic-compat-search-buffer-name)))
        dic))
 
 
 (defun sdic-compat-close-dictionary (dic)
   "Function to close dictionary"
-  (kill-buffer (get dic 'sdic-compat-search-buffer))
+  (when (buffer-live-p (get dic 'sdic-compat-search-buffer))
+    (kill-buffer (get dic 'sdic-compat-search-buffer)))
   (put dic 'sdic-compat-search-buffer nil))
 
 
-(defun sdic-compat-search-entry (dic string &optional search-type) "\
-Function to search word with look or grep, and write results to current buffer.
+(defun sdic-compat-search-entry (dic string &optional search-type)
+  "look または grep を使って検索し、結果をカレントバッファに書き込む関数。
 search-type の値によって次のように動作を変更する。
     nil    : 前方一致検索
     t      : 後方一致検索
@@ -220,77 +218,81 @@ search-type の値によって次のように動作を変更する。
     regexp : 正規表現検索
 検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
 連想配列を返す。"
-  (save-excursion
-    (set-buffer (get dic 'sdic-compat-search-buffer))
-    (save-restriction
-      (if (get dic 'sdic-compat-erase-buffer)
-          (delete-region (point-min) (point-max))
-        (goto-char (point-max))
-        (narrow-to-region (point-max) (point-max)))
-      (put dic 'sdic-compat-erase-buffer nil)
-      (cond
-       ;; 前方一致検索の場合 -> look を使って検索
-       ((eq search-type nil)
-        (if (string-match "\\Ca" string)
-            (sdicf-call-process (get dic 'look) (get dic 'coding-system) nil t nil
-                                string (get dic 'file-name))
-          (sdicf-call-process (get dic 'look) (get dic 'coding-system) nil t nil
-                              (get dic 'look-case-option) string (get dic 'file-name))))
-       ;; 後方一致検索の場合 -> grep を使って検索
-       ((eq search-type t)
-        (if (string-match "\\Ca" string)
-            (sdicf-call-process (get dic 'grep) (get dic 'coding-system) nil t nil
-                                (concat string "\t") (get dic 'file-name))
-          (sdicf-call-process (get dic 'grep) (get dic 'coding-system) nil t nil
-                              (get dic 'grep-case-option)
-                              (concat string "\t") (get dic 'file-name))))
-       ;; 完全一致検索の場合 -> look を使って検索 / 余分なデータを消去
-       ((eq search-type 'lambda)
-        (if (string-match "\\Ca" string)
-            (sdicf-call-process (get dic 'look) (get dic 'coding-system) nil t nil
-                                string (get dic 'file-name))
-          (sdicf-call-process (get dic 'look) (get dic 'coding-system) nil t nil
-                              (get dic 'look-case-option)
-                              string (get dic 'file-name)))
+  (with-current-buffer (get dic 'sdic-compat-search-buffer)
+    (save-excursion
+      (save-restriction
+        (if (get dic 'sdic-compat-erase-buffer)
+            (delete-region (point-min) (point-max))
+          (goto-char (point-max))
+          (narrow-to-region (point-max) (point-max)))
+        (put dic 'sdic-compat-erase-buffer nil)
+        (let ((filename    (get dic 'file-name))
+              (coding      (get dic 'coding-system))
+              (l-case-opt  (get dic 'look-case-option))
+              (g-case-opt  (get dic 'grep-case-option))
+              (eg-case-opt (get dic 'egrep-case-option))
+              (is-non-ascii (string-match "\\Ca" string)))
+          (cond
+           ;; 前方一致検索の場合 -> look を使って検索
+           ((eq search-type nil)
+            (if is-non-ascii
+                (sdicf-call-process (get dic 'look) coding nil t nil
+                                    string filename)
+              (sdicf-call-process (get dic 'look) coding nil t nil
+                                  l-case-opt string filename)))
+           ;; 後方一致検索の場合 -> grep を使って検索
+           ((eq search-type t)
+            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
+                                (if is-non-ascii nil (list g-case-opt))
+                                (list (concat string "\t") filename))))
+              (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
+           ;; 完全一致検索の場合 -> look を使って検索 / 余分なデータを消去
+           ((eq search-type 'lambda)
+            (if is-non-ascii
+                (sdicf-call-process (get dic 'look) coding nil t nil
+                                    string filename)
+              (sdicf-call-process (get dic 'look) coding nil t nil
+                                  l-case-opt string filename))
+            (goto-char (point-min))
+            (while (if (looking-at (format "%s\t" (regexp-quote string)))
+                       (= 0 (forward-line 1))
+                     (delete-region (point) (point-max)))))
+           ;; 全文検索の場合 -> grep を使って検索
+           ((eq search-type 0)
+            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
+                                (if is-non-ascii nil (list g-case-opt))
+                                (list string filename))))
+              (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
+           ;; 正規表現検索の場合 -> egrep を使って検索
+           ((eq search-type 'regexp)
+            (or (stringp (get dic 'egrep))
+                (error "%s" "Command to search regular expression pattern is not specified"))
+            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
+                                (if is-non-ascii nil (list eg-case-opt))
+                                (list string filename))))
+              (apply #'sdicf-call-process (get dic 'egrep) coding nil t nil args)))
+           ;; それ以外の検索形式を指定された場合
+           (t (error "Not supported search type is specified. \(%s\)"
+                     (prin1-to-string search-type)))))
+        ;; 各検索結果に ID を付与する
         (goto-char (point-min))
-        (while (if (looking-at (format "%s\t" (regexp-quote string)))
-                   (= 0 (forward-line 1))
-                 (delete-region (point) (point-max)))))
-       ;; 全文検索の場合 -> grep を使って検索
-       ((eq search-type 0)
-        (if (string-match "\\Ca" string)
-            (sdicf-call-process (get dic 'grep) (get dic 'coding-system) nil t nil
-                                string (get dic 'file-name))
-          (sdicf-call-process (get dic 'grep) (get dic 'coding-system) nil t nil
-                              (get dic 'grep-case-option)
-                              string (get dic 'file-name))))
-       ;; 正規表現検索の場合 -> egrep を使って検索
-       ((eq search-type 'regexp)
-        (or (stringp (get dic 'egrep))
-            (error "%s" "Command to search regular expression pattern is not specified"))
-        (if (string-match "\\Ca" string)
-            (sdicf-call-process (get dic 'egrep) (get dic 'coding-system) nil t nil
-                                string (get dic 'file-name))
-          (sdicf-call-process (get dic 'egrep) (get dic 'coding-system) nil t nil
-                              (get dic 'egrep-case-option)
-                              string (get dic 'file-name))))
-       ;; それ以外の検索形式を指定された場合
-       (t (error "Not supported search type is specified. \(%s\)"
-                 (prin1-to-string search-type))))
-      ;; 各検索結果に ID を付与する
-      (goto-char (point-min))
-      (let (ret)
-        (while (if (looking-at "\\([^\t]+\\)\t")
-                   (progn
-                     (setq ret (cons (cons (sdic-match-string 1) (match-end 0)) ret))
-                     (= 0 (forward-line 1)))))
-        (nreverse ret)))))
+        (let (ret)
+          (while (if (looking-at "\\([^\t]+\\)\t")
+                     (progn
+                       (setq ret (cons (cons (match-string 1) (match-end 0)) ret))
+                       (= 0 (forward-line 1)))))
+          (nreverse ret))))))
 
 
 (defun sdic-compat-get-content (dic point)
-  (save-excursion
-    (set-buffer (get dic 'sdic-compat-search-buffer))
-    (put dic 'sdic-compat-erase-buffer t)
-    (if (<= point (point-max))
-        (buffer-substring (goto-char point) (progn (end-of-line) (point)))
-      (error "Can't find content. (ID=%d)" point))))
+  (with-current-buffer (get dic 'sdic-compat-search-buffer)
+    (save-excursion
+      (put dic 'sdic-compat-erase-buffer t)
+      (if (<= point (point-max))
+          (buffer-substring (goto-char point) (progn (end-of-line) (point)))
+        (error "Can't find content. (ID=%d)" point)))))
+
+
+(provide 'sdic-compat)
+
+;;; sdic-compat.el ends here

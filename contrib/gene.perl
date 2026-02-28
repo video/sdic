@@ -12,11 +12,11 @@
 #
 # COMPAT形式に変換する場合は、
 #
-#     nkf -S -e gene.txt | perl gene.perl --compat >gene.dic
+#     nkf -S -X -e gene.txt | perl gene.perl --compat | nkf -E -w >gene.dic
 #
 # SDIC形式に変換する場合は、
 #
-#     nkf -S -e gene.txt | perl gene.perl >gene.sdic
+#     nkf -S -X -e gene.txt | perl gene.perl | nkf -E -w >gene.sdic
 #
 # と指定して下さい。それぞれの形式の詳細については sdic.texi を参照。
 #

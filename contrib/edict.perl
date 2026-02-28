@@ -13,12 +13,12 @@
 #
 # SDIC形式に変換する場合は、次のように利用して下さい。
 #
-#     perl edict.perl edict >edict.sdic
+#     perl edict.perl edict | nkf -E -w >edict.sdic
 #
 # SDIC形式の詳細については sdic.texi を参照して下さい。英和辞書に変換
 # するためには、
 #
-#     perl edict.perl --reverse edict >edict.sdic
+#     perl edict.perl --reverse edict | nkf -E -w >edict.sdic
 #
 # と --reverse オプションを追加して実行して下さい。ただし、あまり良い
 # 英和辞書は得られません。これを改良して下さる方を募集中です。

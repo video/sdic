@@ -1,5 +1,4 @@
-;; sdic-gene.el ---- -*- Emacs-Lisp -*- Library to search COMPAT format dictionary.
-;; $Id$
+;; sdic-gene.el --- Library to search COMPAT format dictionary -*- lexical-binding: t -*-
 
 ;; Copyright (C) 1998,99 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
@@ -93,7 +92,7 @@
 ;;; ライブラリ定義情報
 (require 'sdic)
 (require 'sdicf)
-(provide 'sdic-gene)
+
 (put 'sdic-gene 'version "2.0")
 (put 'sdic-gene 'init-dictionary 'sdic-gene-init-dictionary)
 (put 'sdic-gene 'open-dictionary 'sdic-gene-open-dictionary)
@@ -106,8 +105,8 @@
 ;;;             定数/変数の宣言
 ;;;----------------------------------------------------------------------
 
-(defvar sdic-gene-extract-option "-dc" "\
-*Option for archiver.
+(defvar sdic-gene-extract-option "-dc"
+  "Option for archiver.
 圧縮辞書を展開するために使うオプション")
 
 (defconst sdic-gene-search-buffer-name " *sdic-gene*")
@@ -123,7 +122,7 @@
   (let ((dic (sdic-make-dictionary-symbol)))
     (if (file-readable-p (setq file-name (expand-file-name file-name)))
         (progn
-          (mapcar '(lambda (c) (put dic (car c) (nth 1 c))) option-list)
+          (mapc (lambda (c) (put dic (car c) (nth 1 c))) option-list)
           (put dic 'file-name file-name)
           (put dic 'identifier (concat "sdic-gene+" file-name))
           (or (get dic 'title)
@@ -139,55 +138,46 @@
 
 (defun sdic-gene-open-dictionary (dic)
   "Function to open dictionary"
-  (if (or (sdicf-buffer-live-p (get dic 'sdic-gene-search-buffer))
-          (save-excursion
-            (set-buffer (put dic 'sdic-gene-search-buffer (generate-new-buffer sdic-gene-search-buffer-name)))
-            (buffer-disable-undo)
-            (insert "\n")
-            (prog1 (if (get dic 'extract)
-                       (= 0 (sdicf-call-process (get dic 'extract) (get dic 'coding-system) nil t nil
-                                                (get dic 'extract-option)
-                                                (get dic 'file-name)))
-                     (condition-case err
-                         (sdicf-insert-file-contents (get dic 'file-name) (get dic 'coding-system))
-                       (error nil)))
-              (setq buffer-read-only t)
-              (set-buffer-modified-p nil))))
+  (if (or (buffer-live-p (get dic 'sdic-gene-search-buffer))
+          (with-current-buffer (put dic 'sdic-gene-search-buffer (generate-new-buffer sdic-gene-search-buffer-name))
+            (save-excursion
+              (buffer-disable-undo)
+              (insert "\n")
+              (prog1 (if (get dic 'extract)
+                         (= 0 (sdicf-call-process (get dic 'extract) (get dic 'coding-system) nil t nil
+                                                  (get dic 'extract-option)
+                                                  (get dic 'file-name)))
+                       (condition-case _err
+                           (sdicf-insert-file-contents (get dic 'file-name) (get dic 'coding-system))
+                         (error nil)))
+                (setq buffer-read-only t)
+                (set-buffer-modified-p nil)))))
       dic))
 
 
 (defun sdic-gene-close-dictionary (dic)
   "Function to close dictionary"
-  (kill-buffer (get dic 'sdic-gene-search-buffer))
+  (when (buffer-live-p (get dic 'sdic-gene-search-buffer))
+    (kill-buffer (get dic 'sdic-gene-search-buffer)))
   (put dic 'sdic-gene-search-buffer nil))
 
 
-(defsubst sdic-gene-search-internal (string)
-  "通常の検索を行う内部関数"
+(defsubst sdic-gene-search-internal (string &optional regexp)
+  "通常の検索/正規表現検索を行う内部関数"
   (let (ret (case-fold-search t))
-    (while (search-forward string nil t)
+    (while (if regexp (re-search-forward string nil t)
+             (search-forward string nil t))
       (save-excursion
         (setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
                                                 (progn (skip-chars-forward "^\t") (point)))
                               (1+ (point)))
-                        ret))))
+                        ret)))
+      (forward-line 1))
     (nreverse ret)))
 
 
-(defsubst sdic-gene-re-search-internal (string)
-  "正規表現検索を行う内部関数"
-  (let (ret (case-fold-search t))
-    (while (re-search-forward string nil t)
-      (save-excursion
-        (setq ret (cons (cons (buffer-substring (progn (beginning-of-line) (point))
-                                                (progn (skip-chars-forward "^\t") (point)))
-                              (1+ (point)))
-                        ret))))
-    (nreverse ret)))
-
-
-(defun sdic-gene-search-entry (dic string &optional search-type) "\
-Function to search word with look or grep, and write results to current buffer.
+(defun sdic-gene-search-entry (dic string &optional search-type)
+  "look または grep を使って検索し、結果をカレントバッファに書き込む関数。
 search-type の値によって次のように動作を変更する。
     nil    : 前方一致検索
     t      : 後方一致検索
@@ -195,35 +185,39 @@ search-type の値によって次のように動作を変更する。
     0      : 全文検索
     regexp : 正規表現検索
 検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
-連想配列を返す。
-"
-  (save-excursion
-    (set-buffer (get dic 'sdic-gene-search-buffer))
-    (goto-char (point-min))
-    (cond
-     ;; 前方一致検索
-     ((eq search-type nil)
-      (sdic-gene-search-internal (concat "\n" string)))
-     ;; 後方一致検索
-     ((eq search-type t)
-      (sdic-gene-search-internal (concat string "\t")))
-     ;; 完全一致検索
-     ((eq search-type 'lambda)
-      (sdic-gene-search-internal (concat "\n" string "\t")))
-     ;; 全文検索
-     ((eq search-type 0)
-      (sdic-gene-search-internal string))
-     ;; 正規表現検索
-     ((eq search-type 'regexp)
-      (sdic-gene-re-search-internal string))
-     ;; それ以外の検索形式を指定された場合
-     (t (error "Not supported search type is specified. \(%s\)"
-               (prin1-to-string search-type))))))
+連想配列を返す。"
+  (with-current-buffer (get dic 'sdic-gene-search-buffer)
+    (save-excursion
+      (goto-char (point-min))
+      (cond
+       ;; 前方一致検索
+       ((eq search-type nil)
+        (sdic-gene-search-internal (concat "\n" string)))
+       ;; 後方一致検索
+       ((eq search-type t)
+        (sdic-gene-search-internal (concat string "\t")))
+       ;; 完全一致検索
+       ((eq search-type 'lambda)
+        (sdic-gene-search-internal (concat "\n" string "\t")))
+       ;; 全文検索
+       ((eq search-type 0)
+        (sdic-gene-search-internal string))
+       ;; 正規表現検索
+       ((eq search-type 'regexp)
+        (sdic-gene-search-internal string t))
+       ;; それ以外の検索形式を指定された場合
+       (t (error "Not supported search type is specified. \(%s\)"
+                 (prin1-to-string search-type)))))))
 
 
 (defun sdic-gene-get-content (dic point)
-  (save-excursion
-    (set-buffer (get dic 'sdic-gene-search-buffer))
-    (if (<= point (point-max))
-        (buffer-substring (goto-char point) (progn (end-of-line) (point)))
-      (error "Can't find content. (ID=%d)" point))))
+  (with-current-buffer (get dic 'sdic-gene-search-buffer)
+    (save-excursion
+      (if (<= point (point-max))
+          (buffer-substring (goto-char point) (progn (end-of-line) (point)))
+        (error "Can't find content. (ID=%d)" point)))))
+
+
+(provide 'sdic-gene)
+
+;;; sdic-gene.el ends here

@@ -1,5 +1,4 @@
-;; sdicf-client.el ---- -*- Emacs-Lisp -*- Library to search SDIC form dictionary.
-;; $Id$
+;; sdicf-client.el --- Library to search SDIC form dictionary -*- lexical-binding: t -*-
 
 ;; Copyright (C) 1998,99 TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 
@@ -86,7 +85,7 @@
 ;;     ンドを必要としませんが、大量のメモリが必要になります。
 ;;
 ;; `grep'
-;;     fgrep を利用して検索を行います。
+;;     fgrep または Ripgrep (rg) を利用して検索を行います。
 ;;
 ;; `array'
 ;;     array を利用して検索を行います。辞書の index file を事前に生成
@@ -103,7 +102,7 @@
 ;;; ライブラリ定義情報
 (require 'sdic)
 (require 'sdicf)
-(provide 'sdicf-client)
+
 (put 'sdicf-client 'version "2.0")
 (put 'sdicf-client 'init-dictionary 'sdicf-client-init-dictionary)
 (put 'sdicf-client 'open-dictionary 'sdicf-client-open-dictionary)
@@ -122,7 +121,7 @@
   (let ((dic (sdic-make-dictionary-symbol)))
     (if (file-readable-p (setq file-name (expand-file-name file-name)))
         (progn
-          (mapcar (lambda (c) (put dic (car c) (nth 1 c))) option-list)
+          (mapc (lambda (c) (put dic (car c) (nth 1 c))) option-list)
           (put dic 'file-name file-name)
           (put dic 'identifier (concat "sdicf-client+" file-name))
           (or (get dic 'title)
@@ -145,8 +144,8 @@
   (if (get dic 'sdic-object) (sdicf-close (get dic 'sdic-object))))
 
 
-(defun sdicf-client-search-entry (dic string &optional search-type) "\
-Function to search word with look or grep, and write results to current buffer.
+(defun sdicf-client-search-entry (dic string &optional search-type)
+  "Function to search word with look or grep, and write results to current buffer.
 search-type の値によって次のように動作を変更する。
     nil    : 前方一致検索
     t      : 後方一致検索
@@ -161,10 +160,9 @@ search-type の値によって次のように動作を変更する。
                   (setq list (sdicf-entry-keywords entry))
                   (cons (if (= (length list) 1)
                             (car list)
-                          (apply 'concat
-                                 (car list)
-                                 " "
-                                 (mapcar (lambda (s) (format "[%s]" s)) (cdr list))))
+                          (concat (car list)
+                                  " "
+                                  (mapconcat (lambda (s) (format "[%s]" s)) (cdr list) "")))
                         entry))
               (lambda (entry)
                 (cons (sdicf-entry-headword entry) entry)))
@@ -178,5 +176,10 @@ search-type の値によって次のように動作を変更する。
                           string))))
 
 
-(defun sdicf-client-get-content (dic entry)
+(defun sdicf-client-get-content (_dic entry)
   (sdicf-entry-text entry))
+
+
+(provide 'sdicf-client)
+
+;;; sdicf-client.el ends here

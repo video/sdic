@@ -11,11 +11,11 @@
 #
 # COMPAT形式に変換する場合は、
 #
-#     nkf -S -e [file]... | perl eijirou.perl --compat >eijirou.dic
+#     nkf -S -X -e [file]... | perl eijirou.perl --compat | nkf -E -w >eijirou.dic
 #
 # SDIC形式に変換する場合は、
 #
-#     nkf -S -e [file]... | perl eijirou.perl >eijirou.sdic
+#     nkf -S -X -e [file]... | perl eijirou.perl | nkf -E -w >eijirou.sdic
 #
 # と指定して下さい。それぞれの形式の詳細については sdic.texi を参照。
 
