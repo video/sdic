@@ -3,21 +3,21 @@
 # Author: TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 # Keywords: dictionary
 
-# ¡Ø±Ñ¼­Ïº¡Ù¤òÊÑ´¹¤¹¤ë Perl ¥¹¥¯¥ê¥×¥È
+# ã€Žè‹±è¾žéƒŽã€ã‚’å¤‰æ›ã™ã‚‹ Perl ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
-# ±Ñ¼­Ïº¤Ï¡¢Èó¾ï¤ËµðÂç¤Ê¥Æ¥­¥¹¥È¥Ù¡¼¥¹¤Î¼­½ñ¤Ç¤¹¡£¤·¤«¤·¡¢Internet ¾å
-# ¤Ç¤ÏÇÛÉÛ¤µ¤ì¤Æ¤ª¤é¤º¡¢Nifty-Serve ¤«¤é¥À¥¦¥ó¥í¡¼¥É¤¹¤ë¤«¡¢CD-ROM ¤Þ
-# ¤¿¤Ï½ñÀÒ¤ò¹ØÆþ¤¹¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£
+# è‹±è¾žéƒŽã¯ã€éžå¸¸ã«å·¨å¤§ãªãƒ†ã‚­ã‚¹ãƒˆãƒ™ãƒ¼ã‚¹ã®è¾žæ›¸ã§ã™ã€‚ã—ã‹ã—ã€Internet ä¸Š
+# ã§ã¯é…å¸ƒã•ã‚Œã¦ãŠã‚‰ãšã€Nifty-Serve ã‹ã‚‰ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã‹ã€CD-ROM ã¾
+# ãŸã¯æ›¸ç±ã‚’è³¼å…¥ã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
 #
-# COMPAT·Á¼°¤ËÊÑ´¹¤¹¤ë¾ì¹ç¤Ï¡¢
+# COMPATå½¢å¼ã«å¤‰æ›ã™ã‚‹å ´åˆã¯ã€
 #
 #     nkf -S -e [file]... | perl eijirou.perl --compat >eijirou.dic
 #
-# SDIC·Á¼°¤ËÊÑ´¹¤¹¤ë¾ì¹ç¤Ï¡¢
+# SDICå½¢å¼ã«å¤‰æ›ã™ã‚‹å ´åˆã¯ã€
 #
 #     nkf -S -e [file]... | perl eijirou.perl >eijirou.sdic
 #
-# ¤È»ØÄê¤·¤Æ²¼¤µ¤¤¡£¤½¤ì¤¾¤ì¤Î·Á¼°¤Î¾ÜºÙ¤Ë¤Ä¤¤¤Æ¤Ï sdic.texi ¤ò»²¾È¡£
+# ã¨æŒ‡å®šã—ã¦ä¸‹ã•ã„ã€‚ãã‚Œãžã‚Œã®å½¢å¼ã®è©³ç´°ã«ã¤ã„ã¦ã¯ sdic.texi ã‚’å‚ç…§ã€‚
 
 $CHAR = "(?:[\xa1-\xfe][\xa1-\xfe]|[^\xa1-\xfe])";
 $HIRAGANA = "(?:[\xa4][\xa1-\xf3])";
@@ -43,13 +43,13 @@ if( $COMPAT ){
     &sdic();
 }
 
-# COMPAT·Á¼°¤Î¼­½ñ¤òÀ¸À®¤¹¤ë´Ø¿ô
+# COMPATå½¢å¼ã®è¾žæ›¸ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
 sub compat {
     while( <> ){
-	s/\s+$//;			# ¹ÔËö¤Î²þ¹Ô¥³¡¼¥É¤òºï½ü
-	s/\t/        /g;		# ¥¿¥Ö¤ò¶õÇò8Ê¸»ú¤ËÃÖ´¹
-	s/^[\200-\377]{2}//;		# ¹ÔÆ¬¤ÎÁ´³ÑÊ¸»ú¤òºï½ü
-	s/(\{[^\}]+\}) : / : $1 /;	# {¡Ä} ¤òÀâÌÀÊ¸¤Ë°ÜÆ°¤¹¤ë
+	s/\s+$//;			# è¡Œæœ«ã®æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤
+	s/\t/        /g;		# ã‚¿ãƒ–ã‚’ç©ºç™½8æ–‡å­—ã«ç½®æ›
+	s/^[\200-\377]{2}//;		# è¡Œé ­ã®å…¨è§’æ–‡å­—ã‚’å‰Šé™¤
+	s/(\{[^\}]+\}) : / : $1 /;	# {â€¦} ã‚’èª¬æ˜Žæ–‡ã«ç§»å‹•ã™ã‚‹
 	( $key,$content ) = split( / +: /,$_,2 );
 	$head = $key;
 	$key =~ tr/A-Z/a-z/;
@@ -67,25 +67,25 @@ sub compat {
     }
 }
 
-# SDIC ·Á¼°¤Î¼­½ñ¤òÀ¸À®¤¹¤ë´Ø¿ô
+# SDIC å½¢å¼ã®è¾žæ›¸ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
 sub sdic {
     while( <> ){
-	s/\s+$//;			# ¹ÔËö¤Î²þ¹Ô¥³¡¼¥É¤òºï½ü
-	s/&/&amp;/g;			# ¥á¥¿¥­¥ã¥é¥¯¥¿¤òÃÖ´¹¤¹¤ë
+	s/\s+$//;			# è¡Œæœ«ã®æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’å‰Šé™¤
+	s/&/&amp;/g;			# ãƒ¡ã‚¿ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã‚’ç½®æ›ã™ã‚‹
 	s/</&lt;/g;
 	s/>/&gt;/g;
-	s/^[\200-\377]{2}//;		# ¹ÔÆ¬¤ÎÁ´³ÑÊ¸»ú¤òºï½ü
+	s/^[\200-\377]{2}//;		# è¡Œé ­ã®å…¨è§’æ–‡å­—ã‚’å‰Šé™¤
 	( $head,$content ) = split( / +: /,$_,2 );
 	$key = $head;
-	$key =~ s/ +\{[^\}]+\}//;	# {¡Ä} ¤ò¸¡º÷¥­¡¼¤«¤éºï½ü¤¹¤ë
-	$key =~ s/ +\(\d+\)//;		# (¡Ä) ¤ò¸¡º÷¥­¡¼¤«¤éºï½ü¤¹¤ë
+	$key =~ s/ +\{[^\}]+\}//;	# {â€¦} ã‚’æ¤œç´¢ã‚­ãƒ¼ã‹ã‚‰å‰Šé™¤ã™ã‚‹
+	$key =~ s/ +\(\d+\)//;		# (â€¦) ã‚’æ¤œç´¢ã‚­ãƒ¼ã‹ã‚‰å‰Šé™¤ã™ã‚‹
 	$key =~ tr/A-Z/a-z/;
 	$key =~ s/\s+/ /;
 	if( $WAEI ){
-	    # ÏÂ±Ñ¼­Ï¯¤ËÆÃÍ­¤ÎÄ´À°¤ò¹Ô¤¦
-	    while( $content =~ s/^($CHAR*?)¡ü/$1 \/ /o ){ ; }
-	    $key =~ s/^($CHAR*?)¡¨(?:¡Ê$CHAR*?¡Ë|¡Á)$HIRAGANA?$/$1/o;
-	    $key =~ s/^($CHAR*?)¢¡$CHAR*?$/$1/o;
+	    # å’Œè‹±è¾žæœ—ã«ç‰¹æœ‰ã®èª¿æ•´ã‚’è¡Œã†
+	    while( $content =~ s/^($CHAR*?)â—/$1 \/ /o ){ ; }
+	    $key =~ s/^($CHAR*?)ï¼›(?:ï¼ˆ$CHAR*?ï¼‰|ã€œ)$HIRAGANA?$/$1/o;
+	    $key =~ s/^($CHAR*?)â—†$CHAR*?$/$1/o;
 	}
 	if( $UNSORT ){
 	    if( $key eq $head ){

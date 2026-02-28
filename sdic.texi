@@ -15,23 +15,23 @@ Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
 preserved on all copies.
 
-$BCx:n8"I=<($H$3$N5v2DJ8$,$9$Y$F$NJ#@=$KB8:_$9$k8B$j!"$3$N@bL@=q$N$^$C$?$/(B
-$BF10l$NJ#@=$r:n$j!"G[I[$9$k$3$H$r5v2D$9$k!#(B
+著作権表示とこの許可文がすべての複製に存在する限り、この説明書のまったく
+同一の複製を作り、配布することを許可する。
 
 Permission is granted to copy and distribute modified versions of this
 manual under the conditions for verbatim copying, provided that the
 entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
-$BF10lJ#@=$N>r7o$N2<$G!"$=$l$K$h$C$FF@$i$l$?7k2L$r$3$N5v2DJ8$NI=<($HF10l$N(B
-$B>r7o$N$b$H$GG[I[$9$k8B$j!"$3$N@bL@=q$N=$@5HG$NJ#@=$r$7!"G[I[$9$k$3$H$r5v(B
-$B2D$9$k!#(B
+同一複製の条件の下で、それによって得られた結果をこの許可文の表示と同一の
+条件のもとで配布する限り、この説明書の修正版の複製をし、配布することを許
+可する。
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the above conditions for modified versions.
 
-$B>e5-$N=$@5HG$K4X$9$k>r7o$N2<$G!"$3$N@bL@=q$NK]Lu$NJ#@=$r:n$j!"G[I[$9$k$3(B
-$B$H$r5v2D$9$k!#(B
+上記の修正版に関する条件の下で、この説明書の翻訳の複製を作り、配布するこ
+とを許可する。
 @end ifinfo
 
 @titlepage
@@ -46,23 +46,23 @@ Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
 preserved on all copies.
 
-$BCx:n8"I=<($H$3$N5v2DJ8$,$9$Y$F$NJ#@=$KB8:_$9$k8B$j!"$3$N@bL@=q$N$^$C$?$/(B
-$BF10l$NJ#@=$r:n$j!"G[I[$9$k$3$H$r5v2D$9$k!#(B
+著作権表示とこの許可文がすべての複製に存在する限り、この説明書のまったく
+同一の複製を作り、配布することを許可する。
 
 Permission is granted to copy and distribute modified versions of this
 manual under the conditions for verbatim copying, provided that the
 entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
-$BF10lJ#@=$N>r7o$N2<$G!"$=$l$K$h$C$FF@$i$l$?7k2L$r$3$N5v2DJ8$NI=<($HF10l$N(B
-$B>r7o$N$b$H$GG[I[$9$k8B$j!"$3$N@bL@=q$N=$@5HG$NJ#@=$r$7!"G[I[$9$k$3$H$r5v(B
-$B2D$9$k!#(B
+同一複製の条件の下で、それによって得られた結果をこの許可文の表示と同一の
+条件のもとで配布する限り、この説明書の修正版の複製をし、配布することを許
+可する。
 
 Permission is granted to copy and distribute translations of this manual
 into another language, under the above conditions for modified versions.
 
-$B>e5-$N=$@5HG$K4X$9$k>r7o$N2<$G!"$3$N@bL@=q$NK]Lu$NJ#@=$r:n$j!"G[I[$9$k$3(B
-$B$H$r5v2D$9$k!#(B
+上記の修正版に関する条件の下で、この説明書の翻訳の複製を作り、配布するこ
+とを許可する。
 @end titlepage
 
 
@@ -70,335 +70,335 @@ into another language, under the above conditions for modified versions.
 @comment  node-name,  next,  previous,  up
 
 @ifinfo
-SDIC $B$O!"(BEmacs $B>e$G1QOB(B/$BOB1Q<-=q$r1\Mw$9$k$?$a$N4J7i(B( simple )$B$G!">.$5$/(B
-( small )$B$F!"7Z$/(B( speedy )$B$F!">.?h(B( smart )$B$J%W%m%0%i%`$G$9!#(B
+SDIC は、Emacs 上で英和/和英辞書を閲覧するための簡潔( simple )で、小さく
+( small )て、軽く( speedy )て、小粋( smart )なプログラムです。
 
-$B$3$N@bL@=q$O!"(BSDIC-2.1 $B$KBP1~$7$^$9!#(B
+この説明書は、SDIC-2.1 に対応します。
 @end ifinfo
 
 @menu
-* Overview::                    $B35MW(B
-* Search Dictionary::           $B<-=q$r8!:w$9$k(B
-* Customizations::              SDIC $B$r@_Dj$9$k(B
-* Dictionaries::                $BMxMQ<B@S$N$"$k<-=q(B
-* Dictionary Format::           $B<-=q$N7A<0(B
-* History::                     $B2~JQMzNr(B
-* Acknowledgment::              $B<U<-(B
+* Overview::                    概要
+* Search Dictionary::           辞書を検索する
+* Customizations::              SDIC を設定する
+* Dictionaries::                利用実績のある辞書
+* Dictionary Format::           辞書の形式
+* History::                     改変履歴
+* Acknowledgment::              謝辞
 @end menu
 
 
 
 @node Overview, Search Dictionary, Top, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B35MW(B
+@chapter 概要
 
-SDIC $B$O!"(BEmacs $B>e$G1QOB(B/$BOB1Q<-=q$r1\Mw$9$k$?$a$N4J7i(B( simple )$B$G!">.$5$/(B
-( small )$B$F!"7Z$/(B( speedy )$B$F!">.?h(B( smart )$B$J%W%m%0%i%`$G$9!#7h$7$F!"(B
-Stupid DICtionary $B$NN,$G$O$"$j$^$;$s!#(B
+SDIC は、Emacs 上で英和/和英辞書を閲覧するための簡潔( simple )で、小さく
+( small )て、軽く( speedy )て、小粋( smart )なプログラムです。決して、
+Stupid DICtionary の略ではありません。
 
-Internet $B$rDL$7$F!"MF0W$KF~<j$G$-$k$h$&$J%F%-%9%H7A<0$N<-=q$r<g$JBP>]$H(B
-$B$7$F$$$^$9!#;HMQ<B@S$N$"$k<-=q$K$D$$$F$O(B@xref{Dictionaries}.
+Internet を通して、容易に入手できるようなテキスト形式の辞書を主な対象と
+しています。使用実績のある辞書については@xref{Dictionaries}.
 
-$B0J2<$N$h$&$JFCD9$,$"$j$^$9!#(B
+以下のような特長があります。
 
 @itemize @bullet
 @item
-$BGI@88l$r<+F0E*$K8!:w$7$^$9!#(B
-$B1Q8l$K$O(B relation $B$d(B lexicographic $B$N$h$&$K(B -tion / -ic $B$J$I$N8lHx$N$D$$(B
-$B$?GI@88l$,IQHK$K8=$l$^$9$,!"$3$l$iC18l$,<-=qCf$K8+$D$+$i$J$+$C$?>l9g!"<+(B
-$BF0E*$K85!9$N8l$r8!:w$7$^$9!#(B
+派生語を自動的に検索します。
+英語には relation や lexicographic のように -tion / -ic などの語尾のつい
+た派生語が頻繁に現れますが、これら単語が辞書中に見つからなかった場合、自
+動的に元々の語を検索します。
 
 @item
-$BF0;l$d7AMF;l$N5,B'JQ2=$dL>;l$NJ#?t7A$r<+F0E*$K<h$j07$$$^$9!#(B
-$BNc$($P!"(Bstudies $B$HF~NO$9$k$H!"(Bstudy $B$r=PNO$7$^$9!#(B
+動詞や形容詞の規則変化や名詞の複数形を自動的に取り扱います。
+例えば、studies と入力すると、study を出力します。
 
 @item
-$BC1=c$J%f!<%6!<%$%s%?!<%U%'!<%9(B
+単純なユーザーインターフェース
 @end itemize
 
-$B0l<!G[I[85$O!"(B@file{http://namazu.org/~tsuchiya/sdic/} $B$G$9!#MxMQ$*$h(B
-$B$S:FG[I[$K$"$?$C$F$O!"(BGNU $B0lHL8xMQ5vBz=q$N!V%P!<%8%g%s(B2$B!W0?$$$O$=$l0J(B
-$B9_$NE,Ev$J%P!<%8%g%s$N>r7o$K=>$C$F$/$@$5$$!#@53N$J>r7o$K$D$$$F$O!"%Q%C(B
-$B%1!<%8$KF1:-$5$l$F$$$k(B @file{COPYING} $B$r;2>H$7$F$/$@$5$$!#(B
+一次配布元は、@file{http://namazu.org/~tsuchiya/sdic/} です。利用およ
+び再配布にあたっては、GNU 一般公用許諾書の「バージョン2」或いはそれ以
+降の適当なバージョンの条件に従ってください。正確な条件については、パッ
+ケージに同梱されている @file{COPYING} を参照してください。
 
-$B$^$?!"(BSDIC $B$K$D$$$F5DO@$9$k$?$a$N%a!<%j%s%0%j%9%H(B 
-<sdic@@namazu.org> $B$,3+@_$5$l$F$$$^$9!#;22C$r4uK>$5$l$kJ}$O!"(B
+また、SDIC について議論するためのメーリングリスト 
+<sdic@@namazu.org> が開設されています。参加を希望される方は、
 
 @example
 sdic-ctl@@namazu.org
 @end example
 
-$B08$K(B subscribe ANATANO Namae $B$H$$$&K\J8$N%a!<%k$rAw$C$F2<$5$$!#(B
+宛に subscribe ANATANO Namae という本文のメールを送って下さい。
 
 
 
 @node Search Dictionary, Customizations, Overview, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B<-=q$r8!:w$9$k(B
+@chapter 辞書を検索する
 
-$BE,@Z$K%$%s%9%H!<%k$5$l$F$$$l$P!"(BSDIC $B$rMxMQ$9$k$N$O6K$a$F4JC1$G$9!#C1=c(B
-$B$K(B @key{M-x sdic} $B$H$7$F2<$5$$!#(B
+適切にインストールされていれば、SDIC を利用するのは極めて簡単です。単純
+に @key{M-x sdic} として下さい。
 
 @menu
-* Input Query::         $B8!:w8l$rF~NO$9$k(B
-* Keymap::              $B1\Mw;~$K;H$($k%-!<(B
-* Functions::           $B8!:w8l$rF~NO$9$k4X?t(B
+* Input Query::         検索語を入力する
+* Keymap::              閲覧時に使えるキー
+* Functions::           検索語を入力する関数
 @end menu
 
 
 
 @node Input Query, Keymap, Search Dictionary, Search Dictionary
 @comment  node-name,  next,  previous,  up
-@section $B8!:w8l$rF~NO$9$k(B
+@section 検索語を入力する
 @kindex M-x sdic
 
-$BE,@Z$K%$%s%9%H!<%k$5$l$F$$$l$P!"(BSDIC $B$rMxMQ$9$k$N$O6K$a$F4JC1$G$9!#C1=c(B
-$B$K(B @key{M-x sdic} $B$H$7$F2<$5$$!#$9$k$H!"(B
+適切にインストールされていれば、SDIC を利用するのは極めて簡単です。単純
+に @key{M-x sdic} として下さい。すると、
 
 @example
 Input word :
 @end example
 
-$B$HI=<($5$lC18l$NF~NO$,B%$5$l$^$9$+$i!"%_%K%P%C%U%!$KC18l$rF~NO$9$k$H!"<-(B
-$B=q$r%-!<%o!<%I8!:w$r9T$J$$$^$9!#$3$N7k2L$H$7$FI=<($5$l$k<-=q1\Mw%&%$%s%I(B
-$B%&Fb$GMxMQ2DG=$J%-!<$K$D$$$F$O(B@xref{Keymap},$B$r;2>H!#(B
+と表示され単語の入力が促されますから、ミニバッファに単語を入力すると、辞
+書をキーワード検索を行ないます。この結果として表示される辞書閲覧ウインド
+ウ内で利用可能なキーについては@xref{Keymap},を参照。
 
-$B$J$*!"@_DjNcDL$j$K@_Dj$7$?>l9g$O!"(B@key{C-c w} $B$H$9$l$P(B SDIC $B$,5/F0$5$l$^(B
-$B$9!#(B
+なお、設定例通りに設定した場合は、@key{C-c w} とすれば SDIC が起動されま
+す。
 
-$B%-!<%o!<%I8!:w0J30$N8!:w$r9T$J$&$?$a$K$O!"<!$N$h$&$KFCDj$N7A<0$K=>$C$F8!(B
-$B:w8l$rF~NO$7$F2<$5$$!#(B
+キーワード検索以外の検索を行なうためには、次のように特定の形式に従って検
+索語を入力して下さい。
 
 @table @samp
 @item 'word'
-$B8!:w8l(B word $B$r%7%s%0%k%/%*!<%H$G0O$`$H!"(Bword $B$K40A40lCW$9$kC18l$r8!:w$7(B
-$B$^$9!#(B
+検索語 word をシングルクオートで囲むと、word に完全一致する単語を検索し
+ます。
 
 @item word*
-$B8!:w8l(B word $B$N:G8e$K%"%9%?%j%9%/$rIU$12C$($k$H!"(Bword $B$KA0J}0lCW$9$kC18l(B
-$B$r8!:w$7$^$9!#(B
+検索語 word の最後にアスタリスクを付け加えると、word に前方一致する単語
+を検索します。
 
 @item *word
-$B8!:w8l(B word $B$N@hF,$K%"%9%?%j%9%/$rIU$12C$($k$H!"(Bword $B$K8eJ}0lCW$9$kC18l(B
-$B$r8!:w$7$^$9!#(B
+検索語 word の先頭にアスタリスクを付け加えると、word に後方一致する単語
+を検索します。
 
 @item /word
-$B8!:w8l(B word $B$N@hF,$K%9%i%C%7%e$rIU$12C$($k$H$r!"(Bword $B$r%-!<$H$7$FA4J88!(B
-$B:w$r9T$J$$$^$9!#(B
+検索語 word の先頭にスラッシュを付け加えるとを、word をキーとして全文検
+索を行ないます。
 @end table
 
 
 
 @node Keymap, Functions, Input Query, Search Dictionary
 @comment  node-name,  next,  previous,  up
-@section $B%-!<%^%C%W(B
+@section キーマップ
 
-$B<-=q1\Mw%&%$%s%I%&Fb$G$O0J2<$N%-!<$,MxMQ$G$-$^$9!#(B
+辞書閲覧ウインドウ内では以下のキーが利用できます。
 
 @table @samp
 @item w
-$B?7$?$JC18l$r8!:w$9$k!#(B
+新たな単語を検索する。
 
 @item '
-$B?7$?$JC18l$r40A40lCW8!:w$9$k(B
+新たな単語を完全一致検索する
 
 @item ^
-$B?7$?$JC18l$rA0J}0lCW8!:w$9$k(B
+新たな単語を前方一致検索する
 
 @item $
-$B?7$?$JC18l$r8eJ}0lCW8!:w$9$k(B
+新たな単語を後方一致検索する
 
 @item /
-$B?7$?$JC18l$rA4J88!:w$9$k(B
+新たな単語を全文検索する
 
 @item SPC
-$B<-=q1\Mw%&%$%s%I%&$r%9%/%m!<%k%"%C%W$9$k!#(B
+辞書閲覧ウインドウをスクロールアップする。
 
 @item b
 @itemx BS
 @itemx Delete
-$B<-=q1\Mw%&%$%s%I%&$r%9%/%m!<%k%@%&%s$9$k!#(B
+辞書閲覧ウインドウをスクロールダウンする。
 
 @item n
 @itemx TAB
-$B<!$N9`L\$K0\F0$9$k!#(B
+次の項目に移動する。
 
 @item p
 @itemx M-TAB
-$BA0$N9`L\$K0\F0$9$k!#(B
+前の項目に移動する。
 
 @item o
-$B<-=q1\Mw%&%$%s%I%&$+$iB>$N%&%$%s%I%&$K0\$k!#(B
+辞書閲覧ウインドウから他のウインドウに移る。
 
 @item q
-$B<-=q1\Mw%&%$%s%I%&$r>C$9!#(B
+辞書閲覧ウインドウを消す。
 
 @item <
-$B<-=q1\Mw%&%$%s%I%&$N@hF,$K0\F0$9$k!#(B
+辞書閲覧ウインドウの先頭に移動する。
 
 @item >
-$B<-=q1\Mw%&%$%s%I%&$N=*C<$K0\F0$9$k!#(B
+辞書閲覧ウインドウの終端に移動する。
 
 @item ?
-$B%X%k%W$rI=<($9$k!#(B
+ヘルプを表示する。
 
 @item Q
-SDIC $B$r=*N;$9$k!#(B
+SDIC を終了する。
 @end table
 
-@code{sdic-disable-vi-key}, @code{sdic-mode-hook} $B$J$I$NJQ?t$r;H$&$3$H$K(B
-$B$h$C$F!"$3$N%-!<%^%C%W$rD4@a$9$k$3$H$,=PMh$^$9!#(B@xref{Variables}.
+@code{sdic-disable-vi-key}, @code{sdic-mode-hook} などの変数を使うことに
+よって、このキーマップを調節することが出来ます。@xref{Variables}.
 
 
 
 @node Functions, , Keymap, Search Dictionary
 @comment  node-name,  next,  previous,  up
-@section $B8!:w8l$rF~NO$9$k4X?t(B
+@section 検索語を入力する関数
 
-$B8!:w8l$rF~NO$9$k$?$a$K4v$D$+$N4X?t$,Dj5A$5$l$F$$$^$9!#9%$_$K$"$C$?4X?t$r(B
-$BMxMQ$7$F2<$5$$!#(B
+検索語を入力するために幾つかの関数が定義されています。好みにあった関数を
+利用して下さい。
 
 @defun sdic
 @defunx sdic-describe-word
-$B%+!<%=%k0LCV$NC18l$r%G%U%)%k%H$N8!:w8l$H$7!"$=$N8l$r%_%K%P%C%U%!Fb$GJT=8(B
-$B$7$F$+$i8!:w$r9T$J$&4X?t(B
+カーソル位置の単語をデフォルトの検索語とし、その語をミニバッファ内で編集
+してから検索を行なう関数
 @end defun
 
 @defun sdic-describe-word-at-point
-$B%+!<%=%k0LCV$NC18l$r%G%U%)%k%H$N8!:w8l$H$7$F%-!<%o!<%I8!:w$r9T$J$&4X?t!#(B
-@code{sdic-describe-word} $B$KHf$Y$FM>J,$JF~NO$rI,MW$H$7$J$$$,!"$=$NBe$o$j(B
-$B$K8!:w8l$r=$@5$G$-$J$$!#(B
+カーソル位置の単語をデフォルトの検索語としてキーワード検索を行なう関数。
+@code{sdic-describe-word} に比べて余分な入力を必要としないが、その代わり
+に検索語を修正できない。
 @end defun
 
 @defun sdic-describe-region
-$B%j!<%8%g%s$G0O$C$?HO0O$r8!:w8l$H$7$F%-!<%o!<%I8!:w$r9T$J$&4X?t(B
+リージョンで囲った範囲を検索語としてキーワード検索を行なう関数
 @end defun
 
 
 
 @node Customizations, Dictionaries, Search Dictionary, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B%+%9%?%^%$%:(B
+@chapter カスタマイズ
 
-$B$3$N>O$G$O!"<-=q$rDI2C$7$?$j!"(BSDIC $B$NF0:n$rD4@a$9$kJ}K!$K$D$$$F@bL@$7$F$$$^$9!#(B
-SDIC $B$+$iMxMQ$9$k$3$H$N=PMh$k<-=q$K$D$$$F$O!"(B@xref{Dictionaries}.
+この章では、辞書を追加したり、SDIC の動作を調節する方法について説明しています。
+SDIC から利用することの出来る辞書については、@xref{Dictionaries}.
 
 
 @menu
-* Variables::                   $BF0:n$rD4@a$9$kJQ?t(B
-* Setting Dictionary List::     $BMxMQ$9$k<-=q$N%j%9%H$r@_Dj$9$k(B
-* Library for SDIC::            SDIC$B7A<0$N<-=q$r8!:w$9$k(B
-* Libraries for COMPAT::        COMPAT$B7A<0$N<-=q$r8!:w$9$k(B
-* Samples::                     $B@_DjNc(B
-* Trouble Shooting::            $B%H%i%V%k$N2r7h(B
+* Variables::                   動作を調節する変数
+* Setting Dictionary List::     利用する辞書のリストを設定する
+* Library for SDIC::            SDIC形式の辞書を検索する
+* Libraries for COMPAT::        COMPAT形式の辞書を検索する
+* Samples::                     設定例
+* Trouble Shooting::            トラブルの解決
 @end menu
 
 
 
 @node Variables, Setting Dictionary List, Customizations, Customizations
 @comment  node-name,  next,  previous,  up
-@section Lisp $BJQ?t(B
+@section Lisp 変数
 
 @defvar sdic-left-margin
-$B8+=P$78l$KBP$7$F$N@bL@J8$N;z2<$2I}$r@_Dj$9$kJQ?t$G$9!#%G%U%)%k%H$NCM$O(B 2 
-$B$G$9!#(B
+見出し語に対しての説明文の字下げ幅を設定する変数です。デフォルトの値は 2 
+です。
 @end defvar
 
 @defvar sdic-fill-column
-$B@bL@J8$r@07A$9$kI}!#%G%U%)%k%H$NCM$H$7$F(B @code{default-fill-column} $B$,@_(B
-$BDj$5$l$F$$$^$9!#(B
+説明文を整形する幅。デフォルトの値として @code{default-fill-column} が設
+定されています。
 @end defvar
 
 @defvar sdic-window-height
-$B8!:w7k2LI=<(%&%$%s%I%&$N9b$5!#%G%U%)%k%H$NCM$O(B 10 $B$G$9!#(B
+検索結果表示ウインドウの高さ。デフォルトの値は 10 です。
 @end defvar
 
 @defvar sdic-warning-hidden-entry
-$B$3$NJQ?t$K(B nil $B0J30$NCM$,@_Dj$5$l$F$$$k>l9g!"8!:w7k2LI=<(%&%$%s%I%&$KI=(B
-$B<($7$-$l$J$+$C$?>pJs$,$"$l$P7Y9p$7$^$9!#(B
+この変数に nil 以外の値が設定されている場合、検索結果表示ウインドウに表
+示しきれなかった情報があれば警告します。
 @end defvar
 
 @defvar sdic-disable-select-window
-$B$3$NJQ?t$K(B nil $B0J30$NCM$,@_Dj$5$l$F$$$k>l9g!"8!:w7k2LI=<(%&%$%s%I%&$K%+!<(B
-$B%=%k$r0\F0$7$J$$$h$&$K$7$^$9!#(B
+この変数に nil 以外の値が設定されている場合、検索結果表示ウインドウにカー
+ソルを移動しないようにします。
 @end defvar
 
 @defvar sdic-face-style
 @defvarx sdic-face-color
-$B8+=P$78l$rAu>~$9$kJ}K!$r;XDj$7$^$9!#%G%U%)%k%H$NCM$O!"(BBold Font $B$r;H$C$F(B
-$B8+=P$78l$rI=<($9$k$h$&$K$J$C$F$$$^$9!#(B
+見出し語を装飾する方法を指定します。デフォルトの値は、Bold Font を使って
+見出し語を表示するようになっています。
 @end defvar
 
 @defvar sdic-disable-vi-key
-$B$3$NJQ?t$K(B nil $B0J30$NCM$,@_Dj$5$l$F$$$k>l9g!"<-=q1\Mw;~$K(B vi $B%i%$%/$N%-!<(B
-$B$r;H$o$J$$$h$&$K$7$^$9!#(B
+この変数に nil 以外の値が設定されている場合、辞書閲覧時に vi ライクのキー
+を使わないようにします。
 @end defvar
 
 @defvar sdic-mode-hook
-$B<-=q1\Mw;~$NF0:n$rD4@a$9$k$?$a$N(B hook $BJQ?t(B
+辞書閲覧時の動作を調節するための hook 変数
 @end defvar
 
 @defvar sdic-eiwa-dictionary-list
-SDIC $B$+$iMxMQ2DG=$J1QOB<-=q$N%j%9%H$r@_Dj$7$F$*$/JQ?t!#IaDL$K%$%s%9%H!<(B
-$B%k$7$?>l9g$O!"F1;~$K%$%s%9%H!<%k$7$?1QOB<-=q$,@_Dj$5$l$F$$$^$9!#(B
+SDIC から利用可能な英和辞書のリストを設定しておく変数。普通にインストー
+ルした場合は、同時にインストールした英和辞書が設定されています。
 @end defvar
 
 @defvar sdic-waei-dictionary-list
-SDIC $B$+$iMxMQ2DG=$JOB1Q<-=q$N%j%9%H$r@_Dj$7$F$*$/JQ?t!#IaDL$K%$%s%9%H!<(B
-$B%k$7$?>l9g$O!"F1;~$K%$%s%9%H!<%k$7$?OB1Q<-=q$,@_Dj$5$l$F$$$^$9!#(B
+SDIC から利用可能な和英辞書のリストを設定しておく変数。普通にインストー
+ルした場合は、同時にインストールした和英辞書が設定されています。
 @end defvar
 
 @defvar sdic-default-coding-system
-$B%*%W%7%g%s$K$h$C$F4A;z%3!<%I$rL@<(E*$K;XDj$7$J$+$C$?>l9g$K!"<-=q$N4A;z%3!<(B
-$B%I$H$7$F;H$o$l$kCM!#%G%U%)%k%H$NCM$OF|K\8l(B EUC $B$G$9!#(B
+オプションによって漢字コードを明示的に指定しなかった場合に、辞書の漢字コー
+ドとして使われる値。デフォルトの値は日本語 EUC です。
 @end defvar
 
 
 
 @node Setting Dictionary List, Library for SDIC, Variables, Customizations
 @comment  node-name,  next,  previous,  up
-@section $B8!:w$9$k<-=q$r@_Dj$9$k(B
+@section 検索する辞書を設定する
 
-SDIC $B$r;H$C$F<-=q$r8!:w$9$k$?$a$K$O!"<-=q%U%!%$%k$H8!:wJ}K!$N;XDj$r(B2$B$D$N(B
-$BJQ?t(B @code{sdic-eiwa-dictionary-list}, @code{sdic-waei-dictionary-list} 
-$B$K@_Dj$9$kI,MW$,$"$j$^$9!#(B
+SDIC を使って辞書を検索するためには、辞書ファイルと検索方法の指定を2つの
+変数 @code{sdic-eiwa-dictionary-list}, @code{sdic-waei-dictionary-list} 
+に設定する必要があります。
 
-2$B$D$N%j%9%H$O!"$=$l$>$l$N<-=q$rDj5A$9$k(B3$B$D$NMWAG$+$i$J$k<-=qDj5A>pJs$N%j(B
-$B%9%H$K$J$C$F$$$^$9!#(B
+2つのリストは、それぞれの辞書を定義する3つの要素からなる辞書定義情報のリ
+ストになっています。
 
 @enumerate
 @item
-$B8!:w%i%$%V%i%j$N%7%s%\%k(B
+検索ライブラリのシンボル
 
 @item
-$B%i%$%V%i%j$NI,?\0z?t(B
+ライブラリの必須引数
 
 @item
-$B%i%$%V%i%j$N>JN,2DG=$J0z?t(B
+ライブラリの省略可能な引数
 @end enumerate
 
-$BNc$($P!"(BSDIC$B7A<0$N1QOB<-=q(B @file{/usr/dict/gene.sdic} $B$r(B 
-@file{sdicf-client.el} $B$r;H$C$F8!:w=PMh$k$h$&$K$9$k$K$O!"<!$N$h$&$K$7$F(B
-$B2<$5$$!#(B
+例えば、SDIC形式の英和辞書 @file{/usr/dict/gene.sdic} を 
+@file{sdicf-client.el} を使って検索出来るようにするには、次のようにして
+下さい。
 
 @lisp
 (setq sdic-eiwa-dictionary-list
       '((sdicf-client "/usr/dict/gene.sdic")))
 @end lisp
 
-EDICT$B<-=q(B @file{/usr/dict/edict.sdic} $B$rOB1Q<-=q$H$7$F(B 
-@file{sdicf-client.el} $B$r;H$C$F8!:w$9$k$K$O!"<!$N$h$&$K;XDj$7$^$9!#(B
+EDICT辞書 @file{/usr/dict/edict.sdic} を和英辞書として 
+@file{sdicf-client.el} を使って検索するには、次のように指定します。
 
 @lisp
 (setq sdic-waei-dictionary-list
       '((sdicf-client "/usr/dict/edict.sdic")))
 @end lisp
 
-EDICT$B<-=q$+$i@8@.$5$l$?OB1Q<-=q$K$O!"8+=P$78l$H8+=P$78l$N?6$j2>L>$,8!:w(B
-$B%-!<$H$7$F4^$^$l$F$$$^$9!#<!$N$h$&$K(B @file{sdicf-client.el} $B$KBP$7$F%*%W(B
-$B%7%g%s$rM?$($k$H!"4A;z$r4^$s$@8+=P$78l$H$=$N?6$j2>L>$,F1;~$KI=<($5$l$k$h(B
-$B$&$K$J$j$^$9!#$3$l$O!"%i%$%V%i%j$N>JN,2DG=$J0z?t$r@_Dj$9$kNc$H$J$C$F$$$^(B
-$B$9!#(B
+EDICT辞書から生成された和英辞書には、見出し語と見出し語の振り仮名が検索
+キーとして含まれています。次のように @file{sdicf-client.el} に対してオプ
+ションを与えると、漢字を含んだ見出し語とその振り仮名が同時に表示されるよ
+うになります。これは、ライブラリの省略可能な引数を設定する例となっていま
+す。
 
 @lisp
 (setq sdic-waei-dictionary-list
@@ -406,7 +406,7 @@ EDICT$B<-=q$+$i@8@.$5$l$?OB1Q<-=q$K$O!"8+=P$78l$H8+=P$78l$N?6$j2>L>$,8!:w(B
                       (add-keys-to-headword t))))
 @end lisp
 
-$B<!$N$h$&$K$9$k$H!"J#?t$N>JN,2DG=$J%*%W%7%g%s$r@_Dj$9$k$3$H$,=PMh$^$9!#(B
+次のようにすると、複数の省略可能なオプションを設定することが出来ます。
 
 @lisp
 (setq sdic-waei-dictionary-list
@@ -415,65 +415,65 @@ EDICT$B<-=q$+$i@8@.$5$l$?OB1Q<-=q$K$O!"8+=P$78l$H8+=P$78l$N?6$j2>L>$,8!:w(B
 		   (extract-option "-cd"))))
 @end lisp
 
-$B$I$N$h$&$J%*%W%7%g%s$,;H$($k$+$K$D$$$F$O!"$=$l$>$l$N8!:w%i%$%V%i%j$K$D$$(B
-$B$F$N@bL@$r;2>H$7$F$/$@$5$$!#(B
+どのようなオプションが使えるかについては、それぞれの検索ライブラリについ
+ての説明を参照してください。
 
 
 
 @node Library for SDIC, Libraries for COMPAT, Setting Dictionary List, Customizations
 @comment  node-name,  next,  previous,  up
-@section SDIC$B7A<0$N<-=q$r8!:w$9$k(B
+@section SDIC形式の辞書を検索する
 
-@file{sdicf-client.el} $B$O(BSDIC$B7A<0$N<-=q$r8!:w$9$k$?$a$N%i%$%V%i%j$G$9!#(B
-SDIC$B7A<0$N<-=q$N>\:Y$K$D$$$F$O!"(B@xref{SDIC Format}.
+@file{sdicf-client.el} はSDIC形式の辞書を検索するためのライブラリです。
+SDIC形式の辞書の詳細については、@xref{SDIC Format}.
 
-@file{sdicf-client.el} $B$KBP$7$F;XDj$G$-$k%*%W%7%g%s$O<!$NDL$j$G$9!#(B
+@file{sdicf-client.el} に対して指定できるオプションは次の通りです。
 
 @table @asis
 @item coding-system
-$B<-=q$N4A;z%3!<%I$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"(B
-@i{sdic-default-coding-system} $B$NCM$r;H$$$^$9!#(B
+辞書の漢字コードを指定します。省略した場合は、
+@i{sdic-default-coding-system} の値を使います。
 
 @item title
-$B<-=q$N%?%$%H%k$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"<-=q$N%U%!%$%kL>$NHs%G%#%l%/(B
-$B%H%jItJ,$r%?%$%H%k$H$7$^$9!#(B
+辞書のタイトルを指定します。省略した場合は、辞書のファイル名の非ディレク
+トリ部分をタイトルとします。
 
 @item add-keys-to-headword
-$BA4$F$N8!:w%-!<$r4^$a$F8+=P$78l$r9=@.$9$k>l9g$K(B nil $B0J30$K@_Dj$7$F2<$5$$!#(B
-$BOB1Q<-=q$r8!:w$9$k>l9g$K!"?6$j2>L>$b4^$a$F=PNO$9$k>l9g$KMxMQ$7$^$9!#(B
+全ての検索キーを含めて見出し語を構成する場合に nil 以外に設定して下さい。
+和英辞書を検索する場合に、振り仮名も含めて出力する場合に利用します。
 
 @item strategy
-@file{sdicf-client.el} $B$O!"<-=q$r8!:w$9$kJ}K!$r;HMQ4D6-$K1~$8$F;H$$J,$1(B
-$B$k$3$H$,=PMh$^$9!#>JN,$7$?>l9g$O!"(B@file{sdicf.el} $B$N<+F0H=Dj$K$h$C$FA*$P(B
-$B$l$?J}K!$r;HMQ$7$^$9!#(B
+@file{sdicf-client.el} は、辞書を検索する方法を使用環境に応じて使い分け
+ることが出来ます。省略した場合は、@file{sdicf.el} の自動判定によって選ば
+れた方法を使用します。
 @end table
 
 
-@i{strategy} $B%*%W%7%g%s$KBP$7$F;XDj$G$-$k8!:wJ}K!$O0J2<$NDL$j$G$9!#(B
+@i{strategy} オプションに対して指定できる検索方法は以下の通りです。
 
 @itemize @bullet
 @item
 direct
 
-$B<-=q%G!<%?$rA4$F%a%b%j$KFI$_9~$s$G$+$i8!:w$r9T$$$^$9!#30It%3%^%s%I$rI,MW(B
-$B$H$7$^$;$s$,!"BgNL$N%a%b%j$,I,MW$K$J$j$^$9!#(B
+辞書データを全てメモリに読み込んでから検索を行います。外部コマンドを必要
+としませんが、大量のメモリが必要になります。
 
 @item
 grep
 
-fgrep $B$rMxMQ$7$F8!:w$r9T$$$^$9!#(B
+fgrep を利用して検索を行います。
 
 @item
 array
 
-array $B$rMxMQ$7$F8!:w$r9T$$$^$9!#<-=q$N:w0z%U%!%$%k$r;vA0$K@8@.$7$F$*$$$F(B
-$B$+$i8!:w$r9T$$$^$9$N$G!"9bB.$K8!:w$,2DG=$G$9!#$7$+$7!":w0z%U%!%$%k$O<-=q(B
-$B$N(B3$BG\DxEY$NBg$-$5$K$J$j$^$9!#:w0z%U%!%$%k$N=`Hw$J$I$N>\:Y$K$D$$$F$O!"(B
+array を利用して検索を行います。辞書の索引ファイルを事前に生成しておいて
+から検索を行いますので、高速に検索が可能です。しかし、索引ファイルは辞書
+の3倍程度の大きさになります。索引ファイルの準備などの詳細については、
 @xref{SUFARY}.
 @end itemize
 
-$BHf3SE*>.5,LO$N<-=q$r8!:w$9$k>l9g$O(B grep $B$,:GE,$G$7$g$&!#$7$+$7!"(B5MByte 
-$B$h$jBg$-$$<-=q$N>l9g$O(B array $B$NMxMQ$r9MN8$9$Y$-$@$H;W$$$^$9!#(B
+比較的小規模の辞書を検索する場合は grep が最適でしょう。しかし、5MByte 
+より大きい辞書の場合は array の利用を考慮すべきだと思います。
 
 
 
@@ -481,42 +481,42 @@ array $B$rMxMQ$7$F8!:w$r9T$$$^$9!#<-=q$N:w0z%U%!%$%k$r;vA0$K@8@.$7$F$*$$$F(B
 @comment  node-name,  next,  previous,  up
 @subsection SUFARY
 
-SDIC$B7A<0$N<-=q$r(B array $B$rMxMQ$7$F8!:w$9$k$?$a$K$O!"0J2<$N<j=g$G=`Hw$,I,(B
-$BMW$G$9!#(B
+SDIC形式の辞書を array を利用して検索するためには、以下の手順で準備が必
+要です。
 
 @enumerate
 @item
-array $B$O!"(BSUFARY $B$KImB0$7$F$$$kBPOC7?A4J88!:w%W%m%0%i%`$G$9!#(BSUFARY $B$K$D(B
-$B$$$F$O!"(B@file{http://nais.to/~yto/tools/sufary/} $B$r;2>H$7$F2<$5(B
-$B$$!#8!:wBP>]$N%F%-%9%H$N:w0z$r;vA0$K:n@.$7$F$*$/%?%$%W$N8!:w%W%m%0%i%`$J(B
-$B$N$G!"(Bgrep $B$J$I$h$j$b9bB.$J8!:w$,2DG=$G$9!#(B
+array は、SUFARY に附属している対話型全文検索プログラムです。SUFARY につ
+いては、@file{http://nais.to/~yto/tools/sufary/} を参照して下さ
+い。検索対象のテキストの索引を事前に作成しておくタイプの検索プログラムな
+ので、grep などよりも高速な検索が可能です。
 
 @item
-SUFARY $B$NImB0J8=q$K=>$C$F!"(Barray $B$H(B mkary $B$r%$%s%9%H!<%k$7$F$*$$$F2<$5$$!#(B
+SUFARY の附属文書に従って、array と mkary をインストールしておいて下さい。
 
 @item
-$B<-=q$r(BSDIC$B7A<0$KJQ49$7!"(Bmkary $B$r;H$C$F<-=q$N:w0z$r@8@.$7$F$*$-$^$9!#(B
+辞書をSDIC形式に変換し、mkary を使って辞書の索引を生成しておきます。
 @end enumerate
 
 
 
 @node Libraries for COMPAT, Samples, Library for SDIC, Customizations
 @comment  node-name,  next,  previous,  up
-@section COMPAT$B7A<0$N<-=q$r8!:w$9$k(B
+@section COMPAT形式の辞書を検索する
 
-@file{sdic-compat.el} $B$H(B @file{sdic-gene.el} $B$O(BCOMPAT$B7A<0$N<-=q$r8!:w$9(B
-$B$k$?$a$N%i%$%V%i%j$G$9!#(B@file{sdic-compat.el} $B$O30It%3%^%s%I$r8F$S=P$7$F(B
-$B$$$k$N$KBP$7$F!"(B@file{sdic-gene.el} $B$O(B Emacs $B$N5!G=$N$_$rMxMQ$7$F$$$^$9!#(B
-$B$?$@$7!"<-=q$r%P%C%U%!$KFI$_9~$s$G$+$i8!:w$r9T$J$&$N$G!"BgNL$N%a%b%j$,I,(B
-$BMW$K$J$j$^$9!#(B@xref{COMPAT Format}. 
+@file{sdic-compat.el} と @file{sdic-gene.el} はCOMPAT形式の辞書を検索す
+るためのライブラリです。@file{sdic-compat.el} は外部コマンドを呼び出して
+いるのに対して、@file{sdic-gene.el} は Emacs の機能のみを利用しています。
+ただし、辞書をバッファに読み込んでから検索を行なうので、大量のメモリが必
+要になります。@xref{COMPAT Format}. 
 
-Default $B$N@_Dj$G$O!"I,MW$J30It%3%^%s%I$,8+$D$+$C$?>l9g$O(B 
-@file{sdic-compat.el} $B$r!"8+$D$+$i$J$+$C$?>l9g$K$O(B @file{sdic-gene.el} 
-$B$r;H$&$h$&$K$J$C$F$$$^$9!#(B
+Default の設定では、必要な外部コマンドが見つかった場合は 
+@file{sdic-compat.el} を、見つからなかった場合には @file{sdic-gene.el} 
+を使うようになっています。
 
 @menu
-* sdic-gene.el::                Emacs $B$N%P%C%U%!Fb$G8!:w$9$k(B
-* sdic-compat.el::              look / grep $B$r;H$C$F8!:w$9$k(B
+* sdic-gene.el::                Emacs のバッファ内で検索する
+* sdic-compat.el::              look / grep を使って検索する
 @end menu
 
 
@@ -524,28 +524,28 @@ Default $B$N@_Dj$G$O!"I,MW$J30It%3%^%s%I$,8+$D$+$C$?>l9g$O(B
 @comment  node-name,  next,  previous,  up
 @subsection sdic-gene.el
 
-COMPAT$B7A<0$N<-=q$r30It%W%m%0%i%`$KMj$i$:$K8!:w$9$k%i%$%V%i%j$G$9!#(B
-COMPAT$B7A<0$N>\:Y$K$D$$$F$O(B@xref{COMPAT Format}.
+COMPAT形式の辞書を外部プログラムに頼らずに検索するライブラリです。
+COMPAT形式の詳細については@xref{COMPAT Format}.
 
-@file{sdic-gene.el} $B$KBP$7$F;XDj$G$-$k%*%W%7%g%s$O<!$NDL$j$G$9!#(B
+@file{sdic-gene.el} に対して指定できるオプションは次の通りです。
 
 @table @asis
 @item coding-system
-$B<-=q$N4A;z%3!<%I$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"(B
-@i{sdic-default-coding-system} $B$NCM$r;H$$$^$9!#(B
+辞書の漢字コードを指定します。省略した場合は、
+@i{sdic-default-coding-system} の値を使います。
 
 @item title
-$B<-=q$N%?%$%H%k$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"<-=q$N%U%!%$%kL>$NHs%G%#%l%/(B
-$B%H%jItJ,$r%?%$%H%k$H$7$^$9!#(B
+辞書のタイトルを指定します。省略した場合は、辞書のファイル名の非ディレク
+トリ部分をタイトルとします。
 
 @item extract
-$B05=L<-=q$rE83+$9$k$?$a$N30It%3%^%s%I$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"<-=q$,(B
-$B05=L$5$l$F$$$J$$$H8+$J$7$^$9!#(B
+圧縮辞書を展開するための外部コマンドを指定します。省略した場合は、辞書が
+圧縮されていないと見なします。
 
 @item extract-option
-@i{extract} $B%*%W%7%g%s$K$h$C$F;XDj$5$l$?30It%3%^%s%I$KBP$7$F!"<-=q$rE83+(B
-$B$7$FI8=`=PNO$K=PNO$5$;$k$?$a$N%3%^%s%I%i%$%s0z?t$r;XDj$7$^$9!#>JN,$7$?>l(B
-$B9g$O(B @i{sdic-gene-extract-option} $B$NCM$r;H$$$^$9!#(B
+@i{extract} オプションによって指定された外部コマンドに対して、辞書を展開
+して標準出力に出力させるためのコマンドライン引数を指定します。省略した場
+合は @i{sdic-gene-extract-option} の値を使います。
 @end table
 
 
@@ -553,64 +553,64 @@ COMPAT$B7A<0$N>\:Y$K$D$$$F$O(B@xref{COMPAT Format}.
 @comment  node-name,  next,  previous,  up
 @subsection sdic-compat.el
 
-COMPAT $B7A<0$N<-=q$r30It%W%m%0%i%`(B( look / grep )$B$rMxMQ$7$F8!:w$9$k%i%$%V(B
-$B%i%j$G$9!#(BCOMPAT $B7A<0$N>\:Y$K$D$$$F$O(B@xref{COMPAT Format}.
+COMPAT 形式の辞書を外部プログラム( look / grep )を利用して検索するライブ
+ラリです。COMPAT 形式の詳細については@xref{COMPAT Format}.
 
-@file{sdic-compat.el} $B$KBP$7$F;XDj$G$-$k%*%W%7%g%s$O<!$NDL$j$G$9!#(B
+@file{sdic-compat.el} に対して指定できるオプションは次の通りです。
 
 @table @asis
 @item coding-system
-$B<-=q$N4A;z%3!<%I$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"(B
-@i{sdic-default-coding-system} $B$NCM$r;H$$$^$9!#(B
+辞書の漢字コードを指定します。省略した場合は、
+@i{sdic-default-coding-system} の値を使います。
 
 @item title
-$B<-=q$N%?%$%H%k$r;XDj$7$^$9!#>JN,$7$?>l9g$O!"<-=q$N%U%!%$%kL>$NHs%G%#%l%/(B
-$B%H%jItJ,$r%?%$%H%k$H$7$^$9!#(B
+辞書のタイトルを指定します。省略した場合は、辞書のファイル名の非ディレク
+トリ部分をタイトルとします。
 
 @item look
-$BA0J}0lCW8!:w(B / $B40A40lCW8!:w$N;~$KMxMQ$9$k30It%3%^%s%I$NL>A0$r;XDj$7$^$9!#(B
-$B>JN,$7$?>l9g$O(B @i{sdic-compat-look-command} $B$NCM$r;H$$$^$9!#(B
+前方一致検索 / 完全一致検索の時に利用する外部コマンドの名前を指定します。
+省略した場合は @i{sdic-compat-look-command} の値を使います。
 
 @item look-case-option
-@i{look} $B%*%W%7%g%s$K$h$C$F;XDj$5$l$?30It%3%^%s%I$KBP$7$F!"1QBgJ8;z(B / $B>.(B
-$BJ8;z$r6hJL$7$J$$$G8!:w(B( case-ignore search )$B$9$k$h$&$K;X<($9$k$?$a$N%3%^(B
-$B%s%I%i%$%s0z?t$r;XDj$7$^$9!#>JN,$7$?>l9g$O(B 
-@i{sdic-compat-look-case-option} $B$NCM$r;H$$$^$9!#(B
+@i{look} オプションによって指定された外部コマンドに対して、英大文字 / 小
+文字を区別しないで検索( case-ignore search )するように指示するためのコマ
+ンドライン引数を指定します。省略した場合は 
+@i{sdic-compat-look-case-option} の値を使います。
 
 @item grep
-$B8eJ}0lCW8!:w(B / $BA4J88!:w$N;~$KMxMQ$9$k30It%3%^%s%I$NL>A0$r;XDj$7$^$9!#>J(B
-$BN,$7$?>l9g$O(B @i{sdic-compat-grep-command} $B$NCM$r;H$$$^$9!#(B
+後方一致検索 / 全文検索の時に利用する外部コマンドの名前を指定します。省
+略した場合は @i{sdic-compat-grep-command} の値を使います。
 
 @item grep-case-option
-@i{grep} $B%*%W%7%g%s$K$h$C$F;XDj$5$l$?30It%3%^%s%I$KBP$7$F!"1QBgJ8;z(B / $B>.(B
-$BJ8;z$r6hJL$7$J$$$G8!:w(B( case-ignore search )$B$9$k$h$&$K;X<($9$k$?$a$N%3%^(B
-$B%s%I%i%$%s0z?t$r;XDj$7$^$9!#>JN,$7$?>l9g$O(B 
-@i{sdic-compat-grep-case-option} $B$NCM$r;H$$$^$9!#(B
+@i{grep} オプションによって指定された外部コマンドに対して、英大文字 / 小
+文字を区別しないで検索( case-ignore search )するように指示するためのコマ
+ンドライン引数を指定します。省略した場合は 
+@i{sdic-compat-grep-case-option} の値を使います。
 
 @item egrep
-$B@55,I=8=8!:w$N;~$KMxMQ$9$k30It%3%^%s%I$NL>A0$r;XDj$7$^$9!#>JN,$7$?>l9g$O(B 
-@i{sdic-compat-egrep-command} $B$NCM$r;H$$$^$9!#(B
+正規表現検索の時に利用する外部コマンドの名前を指定します。省略した場合は 
+@i{sdic-compat-egrep-command} の値を使います。
 
 @item egrep-case-option
-@i{egrep} $B%*%W%7%g%s$K$h$C$F;XDj$5$l$?30It%3%^%s%I$KBP$7$F!"1QBgJ8;z(B / 
-$B>.J8;z$r6hJL$7$J$$$G8!:w(B( case-ignore search )$B$9$k$h$&$K;X<($9$k$?$a$N%3(B
-$B%^%s%I%i%$%s0z?t$r;XDj$7$^$9!#>JN,$7$?>l9g$O(B 
-@i{sdic-compat-egrep-case-option} $B$NCM$r;H$$$^$9!#(B
+@i{egrep} オプションによって指定された外部コマンドに対して、英大文字 / 
+小文字を区別しないで検索( case-ignore search )するように指示するためのコ
+マンドライン引数を指定します。省略した場合は 
+@i{sdic-compat-egrep-case-option} の値を使います。
 @end table
 
 
 
 @node Samples, Trouble Shooting, Libraries for COMPAT, Customizations
 @comment  node-name,  next,  previous,  up
-@section $B@_DjNc(B
+@section 設定例
 
-$B%$%s%9%H!<%k;~$KF1;~$K@_Dj$5$l$?<-=q$r8!:w$9$k>l9g$O!"<!$N$h$&$J@_Dj$r(B 
-@file{~/.emacs} $B$KDI2C$9$l$P==J,$G$9!#(B
+インストール時に同時に設定された辞書を検索する場合は、次のような設定を 
+@file{~/.emacs} に追加すれば十分です。
 
 @lisp
-(autoload 'sdic-describe-word "sdic" "$BC18l$N0UL#$rD4$Y$k(B" t nil)
+(autoload 'sdic-describe-word "sdic" "単語の意味を調べる" t nil)
 (global-set-key "\C-cw" 'sdic-describe-word)
-(autoload 'sdic-describe-word-at-point "sdic" "$B%+!<%=%k$N0LCV$NC18l$N0UL#$rD4$Y$k(B" t nil)
+(autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 @end lisp
 
@@ -618,14 +618,14 @@ COMPAT $B7A<0$N<-=q$r30It%W%m%0%i%`(B( look / grep )$B$rMxMQ$7$F8!:w$9$k%i%$%
 
 @node Trouble Shooting, , Samples, Customizations
 @comment  node-name,  next,  previous,  up
-@section $B%H%i%V%k$N2r7h(B
+@section トラブルの解決
 
-$B2?$+LdBj$,H/@8$7$?>l9g$O!"(BSDIC Users $B%a!<%j%s%0%j%9%H$GAjCL$7$F$_$F2<$5$$!#(B
+何か問題が発生した場合は、SDIC Users メーリングリストで相談してみて下さい。
 @xref{Overview}.
 
 @menu
-* Broken look::                 look $B$NIT6q9g$K$D$$$F(B
-* Broken grep::                 grep $B$NIT6q9g$K$D$$$F(B
+* Broken look::                 look の不具合について
+* Broken grep::                 grep の不具合について
 * Using array in Windows::
 @end menu
 
@@ -633,27 +633,27 @@ COMPAT $B7A<0$N<-=q$r30It%W%m%0%i%`(B( look / grep )$B$rMxMQ$7$F8!:w$9$k%i%$%
 
 @node Broken look, Broken grep, Trouble Shooting, Trouble Shooting
 @comment  node-name,  next,  previous,  up
-@subsection look $B$NIT6q9g$K$D$$$F(B
+@subsection look の不具合について
 
-@file{sdic-compat.el} $B$O!"<-=q$r8!:w$9$k$?$a$K30It%3%^%s%I$N(B look $B$rMxMQ(B
-$B$7$F$$$^$9!#$7$+$7!"0lIt$N(B look $B$O!"%P%C%U%!$N%5%$%:$N>e8B$J$I$K$h$j!"%G!<(B
-$B%?$,7g$1$k$3$H$,$"$k$3$H$,CN$i$l$F$$$^$9!#$*;H$$$N(B look $B$K$3$NIT6q9g$,4^(B
-$B$^$l$F$$$k$+$I$&$+!"D4$Y$k$?$a$K<!$N(B2$B$D$N%3%^%s%I$N<B9T7k2L$rHf3S$7$F$_(B
-$B$F2<$5$$!#(B
+@file{sdic-compat.el} は、辞書を検索するために外部コマンドの look を利用
+しています。しかし、一部の look は、バッファのサイズの上限などにより、デー
+タが欠けることがあることが知られています。お使いの look にこの不具合が含
+まれているかどうか、調べるために次の2つのコマンドの実行結果を比較してみ
+て下さい。
 
 @example
 look -f 'a lot of' gene.dic
 grep -i '^a lot of' gene.dic
 @end example
 
-2$B$D$N%3%^%s%I$N<B9T7k2L$,F1$8$G$"$l$P!"$*$=$i$/$=$N(B look $B$OBg>fIW$G$7$g(B
-$B$&!#(Blook $B$N<B9T7k2L$NJ8;zNs$NJ}$,C;$1$l$P!"(Blook $B$r:F%3%s%Q%$%k$9$kI,MW$,(B
-$B$"$j$^$9!#(B@file{ftp://nadia.ics.es.osaka-u.ac.jp/d1/net/misc/v15/look/} 
-$B$J$I$+$i%=!<%9$rF~<j$7$F!":F%3%s%Q%$%k$7$F2<$5$$!#(B
+2つのコマンドの実行結果が同じであれば、おそらくその look は大丈夫でしょ
+う。look の実行結果の文字列の方が短ければ、look を再コンパイルする必要が
+あります。@file{ftp://nadia.ics.es.osaka-u.ac.jp/d1/net/misc/v15/look/} 
+などからソースを入手して、再コンパイルして下さい。
 
-$B$^$?$O!"(B@file{sdic-compat.el} $B$r;H$o$:$K(B @file{sdic-gene.el} $B$rMxMQ$9$k(B
-$B$h$&$K@_Dj$9$k$3$H$b=PMh$^$9!#0J2<$N@_Dj$r(B @file{~/.emacs} $B$KIU$12C$($F(B
-$B2<$5$$!#(B
+または、@file{sdic-compat.el} を使わずに @file{sdic-gene.el} を利用する
+ように設定することも出来ます。以下の設定を @file{~/.emacs} に付け加えて
+下さい。
 
 @lisp
 (setq sdic-compat-look-command t)
@@ -662,39 +662,39 @@ grep -i '^a lot of' gene.dic
 
 @node Broken grep, Using array in Windows, Broken look, Trouble Shooting
 @comment  node-name,  next,  previous,  up
-@subsection grep $B$NIT6q9g$K$D$$$F(B
+@subsection grep の不具合について
 
-@file{sdic-compat.el} $B$*$h$S(B @file{sdic-grep.el} $B$O!"<-=q$r8!:w$9$k$?$a(B
-$B$K30It%3%^%s%I$N(B grep $B$rMxMQ$7$F$$$^$9!#$7$+$7!"(BGNU grep $B$N8E$$%P!<%8%g(B
-$B%s$O!"8!:wBP>]$N%U%!%$%k$N:G8e$N9T$r@5>o$K8!:w$G$-$J$$$H$$$&%P%0$,$"$k$3(B
-$B$H$,CN$i$l$F$$$^$9!#$*;H$$$N(B grep $B$K!"$3$N%P%0$,4^$^$l$F$$$k$+$I$&$+!"D4(B
-$B$Y$k$?$a$K<!$N<j=g$r<B9T$7$F$/$@$5$$!#(B
+@file{sdic-compat.el} および @file{sdic-grep.el} は、辞書を検索するため
+に外部コマンドの grep を利用しています。しかし、GNU grep の古いバージョ
+ンは、検索対象のファイルの最後の行を正常に検索できないというバグがあるこ
+とが知られています。お使いの grep に、このバグが含まれているかどうか、調
+べるために次の手順を実行してください。
 
 @enumerate
 @item
-$B0J2<$N%3%^%s%I$K$h$j<-=q$N:G8e$N9T$r<h$j=P$7$^$9!#(B
+以下のコマンドにより辞書の最後の行を取り出します。
 
 @example
 tail /usr/dict/gene.dic
 @end example
 
 @item
-$B:G8e$N9T$NC18l$r(B grep $B$G8!:w$7$^$9!#(B
+最後の行の単語を grep で検索します。
 
 @example
 grep zymase /usr/dict/gene.dic
 @end example
 @end enumerate
 
-$B<-=q$N:G8e$N9T$b4^$a$F=PNO$5$l$?$J$i$P!"$=$N(B grep $B$O$*$=$i$/@5>o$G$7$g$&!#(B
+辞書の最後の行も含めて出力されたならば、その grep はおそらく正常でしょう。
 
-$B%P%0$,4^$^$l$F$$$k(B grep $B$r;H$C$F$$$k>l9g$O!"(B
-@file{ftp://ftp.media.kyoto-u.ac.jp/pub/GNU/grep/} $B$J$I$+$i%=!<%9$rF~<j(B
-$B$7$F:G?7$N(B GNU grep $B$r%$%s%9%H!<%k$9$k$+!"(BOS $B$KIUB0$7$F$$$k(B grep $B$J$I$N(B
-$BBeBX$N%W%m%0%i%`$r;HMQ$9$k$h$&$K8!:w%i%$%V%i%j$KBP$7$F;XDj$7$F$/$@$5$$!#(B
+バグが含まれている grep を使っている場合は、
+@file{ftp://ftp.media.kyoto-u.ac.jp/pub/GNU/grep/} などからソースを入手
+して最新の GNU grep をインストールするか、OS に付属している grep などの
+代替のプログラムを使用するように検索ライブラリに対して指定してください。
 
 @lisp
-; /usr/bin/grep $B$,(B OS $B$KIUB0$7$F$$$k(B grep
+; /usr/bin/grep が OS に付属している grep
 (setq sdic-compat-grep-command "/usr/bin/grep")
 (setq sdic-grep-command "/usr/bin/grep")
 @end lisp
@@ -702,36 +702,36 @@ grep zymase /usr/dict/gene.dic
 
 @node Using array in Windows, , Broken grep, Trouble Shooting
 @comment  node-name,  next,  previous,  up
-@subsection array $B$r(B Windows $B4D6-$G;H$&$?$a$N@_Dj(B
+@subsection array を Windows 環境で使うための設定
 
-Windows $B4D6-$O%5%V%W%m%;%9$N07$$$KLdBj$,$"$k$?$a$K!"(B@file{sdicf-client.el}
-$B$+$i(B array $B$rMxMQ$7$F8!:w$r9T$J$&$?$a$K$O!"4v$D$+Cm0U$9$k$3$H$,$"$j$^$9!#(B
+Windows 環境はサブプロセスの扱いに問題があるために、@file{sdicf-client.el}
+から array を利用して検索を行なうためには、幾つか注意することがあります。
 
-$B0J2<$N<j=g$OGr0f$5$s$K65$($FD:$-$^$7$?!#(B
+以下の手順は白井さんに教えて頂きました。
 
 @enumerate
 @item
-array $B$H(B mkary $B$O(B Cygnus-win32 $B>e$N4D6-$G(B make $B0lH/$GF0$-$^$9!#(Barray.exe 
-$B$H(B mkary.exe $B$r(B @code{path} $B$NDL$C$?$H$3$m$K$*$-$^$7$g$&!#(B
+array と mkary は Cygnus-win32 上の環境で make 一発で動きます。array.exe 
+と mkary.exe を @code{path} の通ったところにおきましょう。
 
 @item
-Mule for Win32 $B$G$O(B@emph{$B$*$=$i$/(B}$B$=$N$^$^$GF0$-$^$9!#(BMeadow + Win-NT $B$G(B
-$B$b!"$-$C$HBg>fIW$G$7$g$&!#(B
+Mule for Win32 では@emph{おそらく}そのままで動きます。Meadow + Win-NT で
+も、きっと大丈夫でしょう。
 
 @item
-Meadow + Win-95/98 $B$G$O!"(Barray $B$H0lIt$N>oCs%=%U%H$NAj@-$,0-$$$h$&$G$9!#(B
-$B%&%$%k%9%A%'%C%+$J$I$,FC$KAj@-$,0-$$$N$G!">oCs%=%U%H$r$O$:$7$FF0:n$5$;$F(B
-$B$_$F2<$5$$!#F0:n$,$*$+$7$$$H$-$O!"<-=q$N8!:w;~$OF0$/$N$G$9$,!"(BMeadow $B$r(B
-$B=*N;$9$k;~$K(B@emph{$B$@$a(B}$B$K$J$k$h$&$G$9!#(B
+Meadow + Win-95/98 では、array と一部の常駐ソフトの相性が悪いようです。
+ウイルスチェッカなどが特に相性が悪いので、常駐ソフトをはずして動作させて
+みて下さい。動作がおかしいときは、辞書の検索時は動くのですが、Meadow を
+終了する時に@emph{だめ}になるようです。
 
 @item
-$B$=$l$G$b$@$a$J$H$-$O!"0J2<$N>r7o$r<i$l$PF0$/(B@emph{$B$+$b(B}$B$7$l$^$;$s!#(B
+それでもだめなときは、以下の条件を守れば動く@emph{かも}しれません。
 @itemize @bullet
 @item
-@file{sdicf-client.el} $B$r;H$C$F8!:w$9$k<-=q$r$R$H$D$@$1$K$9$k!#(B
+@file{sdicf-client.el} を使って検索する辞書をひとつだけにする。
 
 @item
-$B0J2<$NMM$J%3!<%I$r(B @file{~/.emacs} $B$K=q$/!#(B
+以下の様なコードを @file{~/.emacs} に書く。
 
 @lisp
 (add-hook 'sdic-mode-hook
@@ -740,7 +740,7 @@ Meadow + Win-95/98 $B$G$O!"(Barray $B$H0lIt$N>oCs%=%U%H$NAj@-$,0-$$$h$&$G$9!#
                   (add-hook 'kill-emacs-hook 'sdic-kill-with-meadow))))
 
 (defun sdic-kill-with-meadow ()
-   "Meadow $B=*N;;~$K(B sdic $B$r0BA4$K=*N;$9$k4X?t(B"
+   "Meadow 終了時に sdic を安全に終了する関数"
   (interactive)
   (sdic-exit)
   (and (boundp 'server-process)
@@ -754,68 +754,68 @@ Meadow + Win-95/98 $B$G$O!"(Barray $B$H0lIt$N>oCs%=%U%H$NAj@-$,0-$$$h$&$G$9!#
 
 @node Dictionaries, Dictionary Format, Customizations, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B<-=q$K$D$$$F(B
+@chapter 辞書について
 
-SDIC $B$O!"(BCOMPAT$B7A<0$H(BSDIC$B7A<0$N(B2$B$D$N<-=q7A<0$r%5%]!<%H$7$F$$$^$9!#$=$l$>(B
-$B$l$N7A<0$N>\:Y$K$D$$$F$O(B @xref{Dictionary Format},$B$r;2>H$7$F$/$@$5$$!#8=(B
-$B:_!"(BSDIC $B$G;HMQ<B@S$N$"$k<-=q$O<!$NDL$j$G$9!#(B
+SDIC は、COMPAT形式とSDIC形式の2つの辞書形式をサポートしています。それぞ
+れの形式の詳細については @xref{Dictionary Format},を参照してください。現
+在、SDIC で使用実績のある辞書は次の通りです。
 
 
 @table @asis
-@item GENE95$B<-=q(B
+@item GENE95辞書
 @file{http://www.forest.impress.co.jp/dict.html#gene95}
 
-Kurumi $B$5$s$,(B Nifty-Serve $B1Q2qOC%U%)!<%i%`$G8x3+$5$l$F$$$k<}O?8l?tLs(B
-57350$B8l$N1QOB<-=q$G$9!#(B
+Kurumi さんが Nifty-Serve 英会話フォーラムで公開されている収録語数約
+57350語の英和辞書です。
 
-$B%Q%C%1!<%8$KF1:-$5$l$F$$$k(B @file{gene.perl} $B$r;HMQ$7$F!"(BCOMPAT$B7A<0$^$?$O(B
-SDIC$B7A<0$KJQ49$7$F$/$@$5$$!#$^$?!"9bNS$5$s$K$h$k(B @file{jgene.perl} $B$r;H$C(B
-$B$F!"OB1Q<-E5$r:n$k$3$H$b$G$-$^$9!#(B
+パッケージに同梱されている @file{gene.perl} を使用して、COMPAT形式または
+SDIC形式に変換してください。また、高林さんによる @file{jgene.perl} を使っ
+て、和英辞典を作ることもできます。
 
-@item $B1Q<-O/(B
+@item 英辞朗
 @file{http://member.nifty.ne.jp/eijiro/index.html}
 
-$B1Q<-O:$O!"(BNifty-Serve $B1Q2qOC%U%)!<%i%`$^$?$O=q@R$+$iF~<j2DG=$J<-=q$G$9!#(B
-$B>\$7$/$O$=$l$i$KImB0$N%I%-%e%a%s%H$r;2>H$7$F2<$5$$!#C1=c$J%F%-%9%H7A<0$G(B
-$BG[I[$5$l$F$$$k1QOB<-=q$H$7$F$O!"$*$=$i$/:GBg$N$b$N$@$H;W$o$l$^$9$,!";DG0(B
-$B$J$,$i%$%s%?!<%M%C%H>e$G$OG[I[$5$l$F$$$^$;$s!#(B
+英辞郎は、Nifty-Serve 英会話フォーラムまたは書籍から入手可能な辞書です。
+詳しくはそれらに附属のドキュメントを参照して下さい。単純なテキスト形式で
+配布されている英和辞書としては、おそらく最大のものだと思われますが、残念
+ながらインターネット上では配布されていません。
 
-$B%Q%C%1!<%8$KF1:-$5$l$F$$$k(B @file{eijirou.perl} $B$r;HMQ$7$F!"(BCOMPAT$B7A<0$^(B
-$B$?$O(BSDIC$B7A<0$KJQ49$7$F$/$@$5$$!#$=$NJ}K!$K$D$$$F$O!"IUB0$N(B @file{INSTALL} 
-$B$b;2>H$7$F$/$@$5$$!#1Q<-O/$O6K$a$F5pBg$J$N$G!"8!:w$K;~4V$,$+$+$j$^$9!#(B
-UNIX $B4D6-$G;HMQ$5$l$k>l9g$O!"(BSDIC$B7A<0$KJQ49$7$F!"(BSUFARY $B$rMxMQ$7$F8!:w$9(B
-$B$kJ}$,NI$$$G$7$g$&!#(B@xref{Library for SDIC}.
+パッケージに同梱されている @file{eijirou.perl} を使用して、COMPAT形式ま
+たはSDIC形式に変換してください。その方法については、付属の @file{INSTALL} 
+も参照してください。英辞朗は極めて巨大なので、検索に時間がかかります。
+UNIX 環境で使用される場合は、SDIC形式に変換して、SUFARY を利用して検索す
+る方が良いでしょう。@xref{Library for SDIC}.
 
-@item EDICT$B<-=q(B
+@item EDICT辞書
 @file{ftp://ftp.u-aizu.ac.jp/pub/SciEng/nihongo/ftp.cc.monash.edu.au/00INDEX.html}
 
-$B%*!<%9%H%i%j%"!&(BMonash$BBg3X$N(BJim Breen$B65<x$,<}=8$5$l$?OB1Q<-E5$r(BEDICT$B7A<0(B
-$B$H$$$&FH<+%U%)!<%^%C%H$N<-=q$H$7$FG[I[$5$l$F$$$^$9!#$3$l$i$O!"%Q%C%1!<%8(B
-$B$KF1:-$5$l$F$$$k(B @file{edict.perl} $B$r;H$C$F(BSDIC$B7A<0$KJQ49$9$k$3$H$K$h$j(B
-$B;HMQ$G$-$^$9!#(B
+オーストラリア・Monash大学のJim Breen教授が収集された和英辞典をEDICT形式
+という独自フォーマットの辞書として配布されています。これらは、パッケージ
+に同梱されている @file{edict.perl} を使ってSDIC形式に変換することにより
+使用できます。
 @end table
 
 
 
 @node Dictionary Format, History, Dictionaries, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B<-=q$N%U%)!<%^%C%H(B
+@chapter 辞書のフォーマット
 
-SDIC $B$O!"(B2$B$D$N<-=q$N7A<0$r%5%]!<%H$7$F$$$k!#(B
+SDIC は、2つの辞書の形式をサポートしている。
 
 @menu
-* COMPAT Format::       COMPAT $B7A<0(B
-* SDIC Format::         SDIC $B7A<0(B
+* COMPAT Format::       COMPAT 形式
+* SDIC Format::         SDIC 形式
 @end menu
 
 
 
 @node COMPAT Format, SDIC Format, Dictionary Format, Dictionary Format
 @comment  node-name,  next,  previous,  up
-@section COMPAT $B7A<0(B
+@section COMPAT 形式
 
-COMPAT$B7A<0$O!"(Blook $B$r;H$C$?A0J}0lCW8!:w$,9bB.$K9T$($k9=B$$K$J$C$F$$$k!#(B
-$B$^$?!"9=B$$,C1=c$J$N$G!"<-=q$N%U%!%$%k%5%$%:$,>.$5$/M^$($i$l$k!#(B
+COMPAT形式は、look を使った前方一致検索が高速に行える構造になっている。
+また、構造が単純なので、辞書のファイルサイズが小さく抑えられる。
 
 
 @subsection BNF
@@ -833,10 +833,10 @@ char     := [^\t\n]
 
 @node SDIC Format, , COMPAT Format, Dictionary Format
 @comment  node-name,  next,  previous,  up
-@section SDIC $B7A<0(B
+@section SDIC 形式
 
-SDIC$B7A<0$O!"(Bgrep $B$J$I$N9T;X8~$N8!:w%W%m%0%i%`$r;H$C$FA0J}0lCW8!:w5Z$S8e(B
-$BJ}0lCW8!:w!"40A40lCW8!:w!"A4J88!:w$,MF0W$K9T$J$($k9=B$$K$J$C$F$$$k!#(B
+SDIC形式は、grep などの行指向の検索プログラムを使って前方一致検索及び後
+方一致検索、完全一致検索、全文検索が容易に行なえる構造になっている。
 
 
 @subsection BNF
@@ -856,191 +856,191 @@ char_lf  := char | '&lf;'
 @end example
 
 
-@subsection $BCm<a(B
+@subsection 注釈
 
 @enumerate
 @item
-@i{entry} $B$O<-=q$N(B1$B$D$NMWAG$KBP1~$9$k9=J8MWAG$G$"$k!#(B
+@i{entry} は辞書の1つの要素に対応する構文要素である。
 
 @item
-@i{headword} $B$O8+=P$78l$rJ];}$9$k9=J8MWAG$G$"$k!#DL>o!"8!:w7k2L$rI=<($9(B
-$B$k$H$-$NI=Bj$H$7$FMQ$$$i$l$k!#(B
+@i{headword} は見出し語を保持する構文要素である。通常、検索結果を表示す
+るときの表題として用いられる。
 
 @item
-@i{content} $B$O@bL@J8$rJ];}$9$k9=J8MWAG$G$"$k!#(B
+@i{content} は説明文を保持する構文要素である。
 
 @item
-@i{keyword} $B$O8!:wMQ$NJ8;zNs$rJ];}$9$k9=J8MWAG$G$"$k!#=>$C$F!"8+=P$78l(B 
-@i{headword} $B$K0J2<$N@55,2=$r;\$7$?J8;zNs$rBeF~$9$k!#(B
+@i{keyword} は検索用の文字列を保持する構文要素である。従って、見出し語 
+@i{headword} に以下の正規化を施した文字列を代入する。
 
 @itemize @bullet
-@item $B%"%k%U%!%Y%C%H$NBgJ8;z$rA4$F>.J8;z$KJQ49$9$k(B
-@item $BJR2>L>$rJ?2>L>$K$9$k(B
-@item $BJ#?t$N6uGrJ8;z$r(B1$B$D$N%9%Z!<%9$KCV49$9$k(B
+@item アルファベットの大文字を全て小文字に変換する
+@item 片仮名を平仮名にする
+@item 複数の空白文字を1つのスペースに置換する
 @end itemize
 
-$B8+=P$78l$K4A;z$,4^$^$l$F$$$k>l9g$O!"$=$NFI$_2>L>$r(B @i{keyword} $B$H$7$FDI(B
-$B2C$9$k$3$H$,K>$^$7$$!#(B
+見出し語に漢字が含まれている場合は、その読み仮名を @i{keyword} として追
+加することが望ましい。
 
 @item
-@i{headword} $B$rI=8=$9$k$?$a$N%?%0$H$7$F(B @samp{<H>} $B$rMQ$$$kI,MW$,@8$8$k(B
-$B$N$O!"B?$/$N>l9g!"8+=P$78l$KM>J,$JMWAG$,4^$^$l$F$$$k>l9g$K8B$i$l$k!#Nc$((B
-$B$P!"<!$N$h$&$J%(%s%H%j$,9M$($i$l$k!#(B
+@i{headword} を表現するためのタグとして @samp{<H>} を用いる必要が生じる
+のは、多くの場合、見出し語に余分な要素が含まれている場合に限られる。例え
+ば、次のようなエントリが考えられる。
 
 @example
-<H>go @{$BF0(B-1@}</H><K>go</K>$B9T$/(B
+<H>go @{動-1@}</H><K>go</K>行く
 @end example
 
-$B$3$NNc$G$O!"8+=P$78l$K$=$N8l$NIJ;l>pJs$,4^$^$l$F$$$k!#$3$N$h$&$JIJ;l>pJs(B
-$B$O!"<-=q$N8!:w%-!<$H$7$FE,Ev$G$O$J$$$N$G!"8!:w;~$K$OBP>]$H$7$J$$$h$&$K$7(B
-$B$F$*$/$N$,E,Ev$@$m$&!#(B
+この例では、見出し語にその語の品詞情報が含まれている。このような品詞情報
+は、辞書の検索キーとして適当ではないので、検索時には対象としないようにし
+ておくのが適当だろう。
 
-$B$^$?!"(B@samp{<H>} $B$H(B @samp{<K>} $B$rE,Ev$KA*Br$9$k$3$H$K$h$C$F!"<-=q$N8!:w(B
-$BB.EY$rDc2<$5$;$J$$$h$&$K$9$k$3$H$,$G$-$k!#(B
+また、@samp{<H>} と @samp{<K>} を適当に選択することによって、辞書の検索
+速度を低下させないようにすることができる。
 
 @example
-<K>United Nations</K><K>united nations</K>$B9q:]O"9g(B
+<K>United Nations</K><K>united nations</K>国際連合
 @end example
 
-$B$H$$$&%(%s%H%j$,$"$C$?$H$9$k!#$3$N;~!"A0J}0lCW8!:w$r9T$J$&$?$a$K(B 
-@samp{<K>united} $B$r%-!<$H$7$F8!:w$9$k$3$H$r9M$($k!#9TF,$NJ8;zNs(B 
-@samp{<K>United $B!A(B} $B$H8!:w%-!<$O(B3$BJ8;zL\$^$GHf3S$5$l$k$@$m$&!#$b$7$b$"$J(B
-$B$?$,!"$3$N<-=q$r8!:w$9$k>l9g!"$D$M$K%"%k%U%!%Y%C%H$NBgJ8;z$H>.J8;z$N0c$$(B
-$B$rL5;k$7$F8!:w$7$?$$$H9M$($F$$$k$J$i$P!"$3$NHf3S$OL5BL$JHf3S$G$"$k!#(B
-@samp{<H>} $B$rMQ$$$F$$$l$P!"$3$N$h$&$JL5BL$JHf3S$rHr$1$k$3$H$,$G$-$k!#$7(B
-$B$+$7!"$3$NA*Br$O!"$=$N<-=q$r8!:w$9$k%"%W%j%1!<%7%g%s$H8!:w$r9T$J$&%W%m%0(B
-$B%i%`$N@-<A$K0MB8$9$kLdBj$G$"$k!#(B
+というエントリがあったとする。この時、前方一致検索を行なうために 
+@samp{<K>united} をキーとして検索することを考える。行頭の文字列 
+@samp{<K>United 〜} と検索キーは3文字目まで比較されるだろう。もしもあな
+たが、この辞書を検索する場合、つねにアルファベットの大文字と小文字の違い
+を無視して検索したいと考えているならば、この比較は無駄な比較である。
+@samp{<H>} を用いていれば、このような無駄な比較を避けることができる。し
+かし、この選択は、その辞書を検索するアプリケーションと検索を行なうプログ
+ラムの性質に依存する問題である。
 
 @item
-$B%?%0$OBgJ8;z>.J8;z$r6hJL$9$k!#%"%k%U%!%Y%C%H$NBgJ8;z$H>.J8;z$r6hJL$7$J$$(B
-$B8!:w(B( case-ignore search )$B$,<BAu$5$l$F$$$J$$8!:w%W%m%0%i%`$rMxMQ$9$k2DG=(B
-$B@-$,$"$k$?$a!#(B
+タグは大文字小文字を区別する。アルファベットの大文字と小文字を区別しない
+検索( case-ignore search )が実装されていない検索プログラムを利用する可能
+性があるため。
 
 @item
-$B85!9$N<-=qCf$K8=$l$k%a%?%-%c%i%/%?(B <>& $B$O$=$l$>$l(B @samp{&lt;}
-@samp{&gt;} @samp{&amp;} $B$KCV49$9$k!#=>$C$F!"(B@i{string} $B$K$O(B <> $B$O8=$l$J(B
-$B$$!#<-=q$N@bL@J8$K4^$^$l$F$$$k2~9T%3!<%I$O(B @samp{&lf;} $B$KCV49$9$k!#(B
+元々の辞書中に現れるメタキャラクタ <>& はそれぞれ @samp{&lt;}
+@samp{&gt;} @samp{&amp;} に置換する。従って、@i{string} には <> は現れな
+い。辞書の説明文に含まれている改行コードは @samp{&lf;} に置換する。
 
 @item
-@i{comment} $B$O<-=q$K$D$$$F$N@bL@$J$I$N3F<o$N%3%a%s%H$rJ];}$9$k9=J8MWAG$G(B
-$B$"$k!#(B
+@i{comment} は辞書についての説明などの各種のコメントを保持する構文要素で
+ある。
 
 @item
-SDIC$B7A<0$O!"(BSGML$B$H$7$F$N4J7i$5$d0l4S@-$h$j$b!"%"%W%j%1!<%7%g%sB&$+$i$N%"(B
-$B%/%;%9$NMF0W$5$r=EMW;k$9$k!#=>$C$F!"9TF,$N(B1$BJ8;z$N$_$K$h$C$F(B @i{line} $B$K(B
-$BBeF~$5$lF@$kJ#?t$N9=J8MWAG$r<1JL$G$-$k$h$&$K3HD%$5$l$k!#(B
+SDIC形式は、SGMLとしての簡潔さや一貫性よりも、アプリケーション側からのア
+クセスの容易さを重要視する。従って、行頭の1文字のみによって @i{line} に
+代入され得る複数の構文要素を識別できるように拡張される。
 
 @item
-SDIC$B7A<0$N<-=q%U%!%$%k$NI8=`3HD%;R$r(B @file{.sdic} $B$H$9$k!#(B
+SDIC形式の辞書ファイルの標準拡張子を @file{.sdic} とする。
 @end enumerate
 
 
-@subsection $B8!:wNc(B
+@subsection 検索例
 
 @example
-$BA0J}0lCW8!:w(B        grep <K>study dictionary
-$B8eJ}0lCW8!:w(B        grep study</K> dictionary
-$B40A40lCW8!:w(B        grep <K>study</K> dictionary
+前方一致検索        grep <K>study dictionary
+後方一致検索        grep study</K> dictionary
+完全一致検索        grep <K>study</K> dictionary
 @end example
 
 
 
 @node History, Acknowledgment, Dictionary Format, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B2~JQMzNr(B
+@chapter 改変履歴
 
-SDIC $B$O!"(B1998$BG/(B2$B7n$K:G=i$N%P!<%8%g%s$r(B xdic $B$H$$$&L>A0$G8x3+$7$^$7$?!#$=(B
-$B$N2~JQMzNr$O<!$NDL$j$G$9!#(B
-
-@itemize @bullet
-@item $B%P!<%8%g%s(B 1.0 (1998$BG/(B2$B7n(B3$BF|(B)
-
-@item $B%P!<%8%g%s(B 1.1 (1998$BG/(B2$B7n(B4$BF|(B)
-@itemize
-@item
-Emacs20 $B$KBP1~!#(B
-@item
-@file{Makefile} $B$N=$@5(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.2 (1998$BG/(B2$B7n(B6$BF|(B)
-@itemize
-@item
-$BGI@88l$KBP1~(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.3 (1998$BG/(B4$B7n(B14$BF|(B)
-@itemize
-@item
-$B%P%0%U%#%C%/%9(B
-@item
-Debian $BMQ$N%Q%C%1!<%8$r!"@nB<$5$s$,%a%s%F%J%s%9$7$F2<$5$k$h$&$K$J$j$^$7$?!#(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.4 (1998$BG/(B7$B7n(B14$BF|(B)
-@itemize
-@item
-Emacs-19.28 $B%Y!<%9$N(B Mule $B$G$O!"(B@i{previous-overlay-change} $B4X?t$,L$Dj5A(B
-$B$N$?$a$K!"(B@i{xdic:previous-item} $B$,F0$+$J$+$C$?LdBj$KBP=h!#(B
-@item
-xdic-mode $B$N%-!<%P%$%s%I$K(B BackSpace $B%-!<$H(B Delete $B%-!<$K$h$k%9%/%m!<%k(B
-$B%@%&%s$rDI2C!#(B
-@item
-stemming $B4X?t$N2~A1!#(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.5 (1998$BG/(B9$B7n(B9$BF|(B)
-@itemize
-@item
-Emacs $B$N%P!<%8%g%s$K$h$C$F(B @i{fill-region} $B4X?t$NF0:n$,0[$J$C$F$$$k$?$a(B
-$B$K(B @i{xdic:format-buffer} $B$N=PNO$KIT6q9g$,$"$j!"Dj5AJ8$NJ8Kv$,7g$1$F$7$^(B
-$B$&$3$H$,$"$C$?$N$r=$@5!#(B
-@item
-$B!V1Q<-O:!W$rMxMQ$9$k$?$a$N(B Tips $B$r(B README $B$KDI2C!#(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.5p1 (1998$BG/(B9$B7n(B10$BF|(B)
-@itemize
-@item
-$BJ#?t$NF10l$N8+=P$78l$,4^$^$l$F$$$k<-=q$r8!:w$7$?>l9g!":G8e$N8+=P$78l$N$_(B
-$B$7$+I=<($5$l$F$$$J$+$C$?IT6q9g$r=$@5!#(B
-@end itemize
-
-@item $B%P!<%8%g%s(B 1.6 (1998$BG/(B9$B7n(B22$BF|(B)
-@itemize @bullet
-@item
-Mule for Win32 $B$GJ8;z2=$1$,5/$3$C$F$$$?LdBj$r=$@5!#(B
-@item
-$B8+=P$78l$N=$>~(B($B%G%U%)%k%H$O(B bold)$B$rJQ99$G$-$k$h$&$K$7$?!#(B
-@item
-$B$=$NB>!":Y$+$$=$@5(B
-@end itemize
-@end itemize
-
-$B$=$N8e!"(B@samp{fj.sources} $B$K$*$$$F!"(BX $B>e$GEE;R%V%C%/$r8!:w$9$k$?$a$N(B 
-xdic $B$H$$$&F1$8L>A0$N%W%m%0%i%`$,8x3+$5$l$?$?$a!":.F1$rHr$1$k$?$a$K%P!<(B
-$B%8%g%s(B 2.0 $B$r8x3+$9$k$HF1;~$KL>>N$rJQ99$7$^$7$?!#$3$l$^$G$N(B xdic-1.x $B$N(B
-$B7ONs$+$i$OFbIt9=B$$K$D$$$F$b@_Dj$K$D$$$F$bBgI}$JJQ99$,9T$J$o$l$F$$$^$9!#(B
+SDIC は、1998年2月に最初のバージョンを xdic という名前で公開しました。そ
+の改変履歴は次の通りです。
 
 @itemize @bullet
-@item $B%P!<%8%g%s(B 2.0 (1999$BG/(B2$B7n(B3$BF|(B)
+@item バージョン 1.0 (1998年2月3日)
+
+@item バージョン 1.1 (1998年2月4日)
+@itemize
+@item
+Emacs20 に対応。
+@item
+@file{Makefile} の修正
+@end itemize
+
+@item バージョン 1.2 (1998年2月6日)
+@itemize
+@item
+派生語に対応
+@end itemize
+
+@item バージョン 1.3 (1998年4月14日)
+@itemize
+@item
+バグフィックス
+@item
+Debian 用のパッケージを、川村さんがメンテナンスして下さるようになりました。
+@end itemize
+
+@item バージョン 1.4 (1998年7月14日)
+@itemize
+@item
+Emacs-19.28 ベースの Mule では、@i{previous-overlay-change} 関数が未定義
+のために、@i{xdic:previous-item} が動かなかった問題に対処。
+@item
+xdic-mode のキーバインドに BackSpace キーと Delete キーによるスクロール
+ダウンを追加。
+@item
+stemming 関数の改善。
+@end itemize
+
+@item バージョン 1.5 (1998年9月9日)
+@itemize
+@item
+Emacs のバージョンによって @i{fill-region} 関数の動作が異なっているため
+に @i{xdic:format-buffer} の出力に不具合があり、定義文の文末が欠けてしま
+うことがあったのを修正。
+@item
+「英辞郎」を利用するための Tips を README に追加。
+@end itemize
+
+@item バージョン 1.5p1 (1998年9月10日)
+@itemize
+@item
+複数の同一の見出し語が含まれている辞書を検索した場合、最後の見出し語のみ
+しか表示されていなかった不具合を修正。
+@end itemize
+
+@item バージョン 1.6 (1998年9月22日)
 @itemize @bullet
 @item
-$BOB1Q<-=q$KBP1~$7$^$7$?!#(B
+Mule for Win32 で文字化けが起こっていた問題を修正。
 @item
-$BJ#?t$N<-=q$rF1;~$K8!:w$9$k$3$H$,=PMh$k$h$&$K$J$j$^$7$?!#(B
+見出し語の修飾(デフォルトは bold)を変更できるようにした。
 @item
-$B1QOB<-=q$r%-!<%o!<%I8!:w$9$k>l9g!"A0CV;l$r0U<1$7$F8!:w$r9T$J$&$h$&$K$7$^(B
-$B$7$?!#(B
+その他、細かい修正
+@end itemize
+@end itemize
+
+その後、@samp{fj.sources} において、X 上で電子ブックを検索するための 
+xdic という同じ名前のプログラムが公開されたため、混同を避けるためにバー
+ジョン 2.0 を公開すると同時に名称を変更しました。これまでの xdic-1.x の
+系列からは内部構造についても設定についても大幅な変更が行なわれています。
+
+@itemize @bullet
+@item バージョン 2.0 (1999年2月3日)
+@itemize @bullet
 @item
-$B%-!<%o!<%I8!:w0J30$KA0J}0lCW8!:w!"8eJ}0lCW8!:w!"40A40lCW8!:w!"A4J88!:w$,(B
-$B$G$-$k$h$&$K3HD%$7$^$7$?!#(B
+和英辞書に対応しました。
 @item
-SDIC$B7A<0$N<-=q$KBP$9$kBP1~$rDI2C$7$^$7$?!#(B
+複数の辞書を同時に検索することが出来るようになりました。
 @item
-$B30It%3%^%s%I$rMj$i$:$K8!:w$9$k$?$a$N8!:w%i%$%V%i%j$rDI2C$7$^$7$?!#(B
+英和辞書をキーワード検索する場合、前置詞を意識して検索を行なうようにしま
+した。
 @item
-XEmacs $B$KBP1~$7$^$7$?!#(B
+キーワード検索以外に前方一致検索、後方一致検索、完全一致検索、全文検索が
+できるように拡張しました。
+@item
+SDIC形式の辞書に対する対応を追加しました。
+@item
+外部コマンドを頼らずに検索するための検索ライブラリを追加しました。
+@item
+XEmacs に対応しました。
 @end itemize
 @end itemize
 
@@ -1048,33 +1048,33 @@ XEmacs $B$KBP1~$7$^$7$?!#(B
 
 @node Acknowledgment, , History, Top
 @comment  node-name,  next,  previous,  up
-@chapter $B<U<-(B
+@chapter 謝辞
 
-SDIC $B$N@=:n$r<jEA$C$F$/$@$5$C$?A4$F$N?M!9$K46<U$7$^$9!#FC$K!"(B
+SDIC の製作を手伝ってくださった全ての人々に感謝します。特に、
 
 @itemize @bullet
 @item
-$B>.4X$5$s$O!":G=i4|$+$i(B @file{xdic.el} $B$r;H$$!"Ne$^$7$F$/$l$^$7$?!#(B
+小関さんは、最初期から @file{xdic.el} を使い、励ましてくれました。
 
 @item
-$B@nB<$5$s$O!"(BDebian $BMQ%Q%C%1!<%8$r%a%s%F%J%s%9$7$F2<$5$C$F$$$^$9!#(B
+川村さんは、Debian 用パッケージをメンテナンスして下さっています。
 
 @item
-$B9bNS$5$s$O!"(B@file{jgene.perl} $B$r:n@.$7!"MM!9$JDI2C5!G=$rDs0F$7$F2<$5$$$^(B
-$B$7$?!#<B8=$,CY$/$F$4$a$s$J$5$$!#(B
+高林さんは、@file{jgene.perl} を作成し、様々な追加機能を提案して下さいま
+した。実現が遅くてごめんなさい。
 
 @item 
-$BGr0f$5$s$O!"BgNL$N%P%0$r8+$D$1!"=$@5$r<jEA$C$F2<$5$$$^$7$?!#(B
+白井さんは、大量のバグを見つけ、修正を手伝って下さいました。
 
 @item
-$BCgB<$5$s$O!"(BMule-2.3@@19.28 $B$N4D6-$G$N%P%0=$@5$r<jEA$C$F2<$5$$$^$7$?!#(B
+仲村さんは、Mule-2.3@@19.28 の環境でのバグ修正を手伝って下さいました。
 
 @item
-$B>eED$5$s$O!"(BXEmacs $BMQ$N%Q%C%A$r:n@=$7$F2<$5$$$^$7$?!#(B
+上田さんは、XEmacs 用のパッチを作製して下さいました。
 @end itemize
 
-$B$=$7$F$b$A$m$s!"F0:n%F%9%H$K6(NO$7$F$/$@$5$C$?(B SDIC Users $B%a!<%j%s%0%j%9(B
-$B%H$N%a%s%P!<$N$_$J$5$s$H!"%[!<%`%Z!<%8$J$I%3%s%T%e!<%?;q8;$rDs6!$7$F$/$@(B
-$B$5$C$?8@8l%a%G%#%"8&5f<<$N$_$J$5$s$K46<U$7$^$9!#(B
+そしてもちろん、動作テストに協力してくださった SDIC Users メーリングリス
+トのメンバーのみなさんと、ホームページなどコンピュータ資源を提供してくだ
+さった言語メディア研究室のみなさんに感謝します。
 
-$B$"$j$,$H$&$4$6$$$^$7$?!#$3$l$+$i$b59$7$/$*4j$$$7$^$9!#(B
+ありがとうございました。これからも宜しくお願いします。

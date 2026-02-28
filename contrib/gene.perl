@@ -3,35 +3,35 @@
 # Author: TSUCHIYA Masatoshi <tsuchiya@namazu.org>
 # Keywords: dictionary
 
-# GENE95������Ѵ����� Perl ������ץ�
+# GENE95辞書を変換する Perl スクリプト
 
-# GENE95����ϡ�Kurumi ���� Nifty-Serve �Ѳ��åե������Ǹ��������
-# ������¼���Ǥ���������Ρפ� SDIC �Υڡ�����������Ǥ��ޤ���
+# GENE95辞書は、Kurumi さんが Nifty-Serve 英会話フォーラムで公開されて
+# いる英和辞書です。「窓の杜」や SDIC のページから入手できます。
 #
 #     http://pine.kuee.kyoto-u.ac.jp/member/tsuchiya/elisp/gene.html
 #
-# COMPAT�������Ѵ�������ϡ�
+# COMPAT形式に変換する場合は、
 #
 #     nkf -S -e gene.txt | perl gene.perl --compat >gene.dic
 #
-# SDIC�������Ѵ�������ϡ�
+# SDIC形式に変換する場合は、
 #
 #     nkf -S -e gene.txt | perl gene.perl >gene.sdic
 #
-# �Ȼ��ꤷ�Ʋ����������줾��η����ξܺ٤ˤĤ��Ƥ� sdic.texi �򻲾ȡ�
+# と指定して下さい。それぞれの形式の詳細については sdic.texi を参照。
 #
-# �ʤ���COMPAT�����μ����SDIC�������Ѵ�������ϡ�
+# なお、COMPAT形式の辞書をSDIC形式に変換する場合は、
 #
 #    perl gene.perl --compat-to-sdic gene.dic >gene.sdic
 #
-# �Ȥ��Ʋ�������
+# として下さい。
 #
-# SDIC�����μ����COMPAT�������Ѵ�������ϡ�
+# SDIC形式の辞書をCOMPAT形式に変換する場合は、
 #
 #    perl gene.perl --sdic-to-compat gene.sdic >gene.dic
 #
-# �Ȥ��Ʋ�������SDIC�����Τۤ�������˭���ʤΤǡ������Ѵ���Ԥ��Ȱ���
-# Ū�ˤϾ��󤬷���ޤ��Τǡ����դ��ƻȤäƲ�������
+# として下さい。SDIC形式のほうが情報が豊かなので、この変換を行うと一般
+# 的には情報が欠落しますので、注意して使って下さい。
 
 
 eval { binmode(STDOUT); };
@@ -49,17 +49,17 @@ if(( $ARGV[0] eq '--compat' )){
     &sdic();
 }
 
-# SDIC�����μ����Ĥ���ؿ�
+# SDIC形式の辞書をつくる関数
 sub sdic {
-    $_ = <>;				# 2���ɤ����Ф�
-    s/\s*$/\n/;				# ���ԥ����ɤ��Ѵ� [sdic:00428]
+    $_ = <>;				# 2行読み飛ばす
+    s/\s*$/\n/;				# 改行コードを変換 [sdic:00428]
     print "# ",$_;
     $_ = <>;
     s/\s*$/\n/;
     print "# ",$_;
     for( $i=0; <>; $i++ ){
-	s/\s+$//;			# �����ζ���ʸ������
-	s/&/&amp;/g;			# �᥿����饯�����ִ�����
+	s/\s+$//;			# 行末の空白文字を削除
+	s/&/&amp;/g;			# メタキャラクタを置換する
 	s/</&lt;/g;
 	s/>/&gt;/g;
 	if( $i%2==0 ){
@@ -82,9 +82,9 @@ sub sdic {
     }
 }
 
-# COMPAT�����μ������ؿ�
+# COMPAT形式の辞書を作る関数
 sub compat {
-    <>;					# 2���ɤ����Ф�
+    <>;					# 2行読み飛ばす
     <>;
     for( $i=0; <>; $i++ ){
 	s/\s+$//;
@@ -103,11 +103,11 @@ sub compat {
     }
 }
 
-# COMPAT�����μ����SDIC�������Ѵ�����ؿ�
+# COMPAT形式の辞書をSDIC形式に変換する関数
 sub compat_to_sdic {
     while( <> ){
-	s/\s+$//;			# �����ζ���ʸ������
-	s/&/&amp;/g;			# �᥿����饯�����ִ�����
+	s/\s+$//;			# 行末の空白文字を削除
+	s/&/&amp;/g;			# メタキャラクタを置換する
 	s/</&lt;/g;
 	s/>/&gt;/g;
 	@f = split( /\t/,$_,2 );
@@ -127,20 +127,20 @@ sub compat_to_sdic {
     }
 }
 
-# SDIC�����μ����COMPAT�������Ѵ�����ؿ�
-#     SDIC�����Τۤ�������¿�����ᡢCOMPAT�����ˤ���ȡ��ɤ����Ƥ��
-#     ��η�������뤿�ᡢ���դ������Ѥ��Ƥ���������
+# SDIC形式の辞書をCOMPAT形式に変換する関数
+#     SDIC形式のほうが情報が多いため、COMPAT形式にすると、どうしても情
+#     報の欠落が生じるため、注意して利用してください。
 sub sdic_to_compat {
     while( <> ){
 	next unless /^</;
-	s/\s+$//;			# �����ζ���ʸ������
-	s!^<([KH])>(.*?)</\1>!!;	# ���Ф������Ф�
+	s/\s+$//;			# 行末の空白文字を削除
+	s!^<([KH])>(.*?)</\1>!!;	# 見出し語を取り出す
 	$head = $2;
-	$head =~ s/&lt;/</g;		# ���Ф���Υ᥿����饯�����ִ�����
+	$head =~ s/&lt;/</g;		# 見出し語のメタキャラクタを置換する
 	$head =~ s/&gt;/>/g;
 	$head =~ s/&amp;/&/g;
 	while( s!^<K>(.*)</K>!! ){ ; }
-	s/&lt;/</g;			# ����ʸ�Υ᥿����饯�����ִ�����
+	s/&lt;/</g;			# 説明文のメタキャラクタを置換する
 	s/&gt;/>/g;
 	s/&amp;/&/g;
 	s/\t/        /g;
