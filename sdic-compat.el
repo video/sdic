@@ -222,7 +222,7 @@ search-type の値によって次のように動作を変更する。
     (save-excursion
       (save-restriction
         (if (get dic 'sdic-compat-erase-buffer)
-            (delete-region (point-min) (point-max))
+            (let ((inhibit-read-only t)) (erase-buffer))
           (goto-char (point-max))
           (narrow-to-region (point-max) (point-max)))
         (put dic 'sdic-compat-erase-buffer nil)

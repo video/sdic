@@ -229,7 +229,7 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ。"
       (save-excursion
         (sdicf-common-init sdic)
         (with-current-buffer (sdicf-get-buffer sdic)
-          (delete-region (point-min) (point-max))
+          (let ((inhibit-read-only t)) (erase-buffer))
           (sdicf-insert-file-contents (sdicf-get-filename sdic) (sdicf-get-coding-system sdic))
           (while (re-search-forward "^#" nil t)
             (delete-region (1- (point)) (progn (end-of-line) (min (1+ (point)) (point-max)))))
@@ -290,7 +290,7 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ。"
   (sdicf-grep-init sdic)
   (with-current-buffer (sdicf-get-buffer sdic)
     (save-excursion
-      (delete-region (point-min) (point-max))
+      (let ((inhibit-read-only t)) (erase-buffer))
       (let* ((coding (sdicf-get-coding-system sdic))
              (prog sdicf-grep-command)
              (file (sdicf-get-filename sdic))
@@ -371,7 +371,9 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ。"
       (set-buffer (process-buffer proc))
       (set-marker (process-mark proc) (point-max))
       (process-send-string proc (concat string "\n"))
-      (while sdicf-array-wait-prompt-flag (accept-process-output proc)))))
+      (while sdicf-array-wait-prompt-flag
+        (unless (accept-process-output proc 5)
+          (error "sdicf-array: プロセスがプロンプト待ちでタイムアウトしました"))))))
 
 (defun sdicf-array-wait-prompt (proc string)
   "プロンプト ok が現れたことを検知して、sdicf-array-wait-prompt-flag を nil にするフィルタ関数。"
@@ -402,13 +404,13 @@ sary コマンドが指定されている場合は、単発実行コマンドと
         (if is-sary
             ;; sary mode: call process synchronously
             (with-current-buffer (sdicf-get-buffer sdic)
-              (delete-region (point-min) (point-max))
+              (let ((inhibit-read-only t)) (erase-buffer))
               (let* ((coding (sdicf-get-coding-system sdic))
                      (file (sdicf-get-filename sdic)))
                 (if (and sdicf-array-max-count (executable-find "head"))
                     ;; If max-count is specified and "head" is available, use shell pipe
                     (let ((shell-command (format "%s %s %s %s | head -n %d"
-                                                 sdicf-array-command
+                                                 (shell-quote-argument sdicf-array-command)
                                                  (if case "-i" "")
                                                  (shell-quote-argument pattern)
                                                  (shell-quote-argument file)
@@ -431,11 +433,11 @@ sary コマンドが指定されている場合は、単発実行コマンドと
           (let ((proc (get-buffer-process (set-buffer (sdicf-get-buffer sdic))))
                 (case-fold-search nil))
             (sdicf-array-send-string proc "init")
-            (delete-region (point-min) (point-max))
+            (let ((inhibit-read-only t)) (erase-buffer))
             (sdicf-array-send-string proc (concat "search " pattern))
             (if (looking-at "FOUND:")
                 (progn
-                  (delete-region (point-min) (point-max))
+                  (let ((inhibit-read-only t)) (erase-buffer))
                   (sdicf-array-send-string proc "show")
                   (let (entries cons)
                     (while (not (eobp))

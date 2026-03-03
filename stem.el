@@ -69,135 +69,143 @@
 ;;      stemming-rule を記述した関数群
 ;;------------------------------------------------------------
 
-(defun stem:step1a (str) "第1a段階の stemming rule (非公開関数)"
-       (let ((s)(stem))
-         (if (setq s (cond
-                      ((stem:match "sses$") "ss")
-                      ((stem:match "ies$")  "i")
-                      ((stem:match "ss$")   "ss")
-                      ((stem:match "s$")    "")))
-             (concat stem s)
-           str)))
+(defun stem:step1a (str)
+  "第1a段階の stemming rule (非公開関数)"
+  (let ((s)(stem))
+    (if (setq s (cond
+                 ((stem:match "sses$") "ss")
+                 ((stem:match "ies$")  "i")
+                 ((stem:match "ss$")   "ss")
+                 ((stem:match "s$")    "")))
+        (concat stem s)
+      str)))
 
 
-(defun stem:step1b (str) "第1b段階の stemming rule (非公開関数)"
-       (let ((s)(stem))
-         (cond
-          ((and (stem:match "eed$") (stem:m> 0))
-           (concat stem "ee"))
-          ((or (and (not stem) (stem:match "ed$") (stem:*v*))
-               (and (stem:match "ing$") (stem:*v*)))
-           (if (and (stem:m= 1) (stem:*o))
-               (concat stem "e")
-             (setq str stem)
-             (if (setq s (cond
-                          ((stem:match "at$") "ate")
-                          ((stem:match "bl$") "ble")
-                          ((stem:match "iz$") "ize")
-                          ((stem:match "\\([^lsz]\\)\\1$")
-                           (substring str (match-beginning 1) (match-end 1)))))
-                 (concat stem s)
-               str)))
-          (t str))))
+(defun stem:step1b (str)
+  "第1b段階の stemming rule (非公開関数)"
+  (let ((s)(stem))
+    (cond
+     ((and (stem:match "eed$") (stem:m> 0))
+      (concat stem "ee"))
+     ((or (and (not stem) (stem:match "ed$") (stem:*v*))
+          (and (stem:match "ing$") (stem:*v*)))
+      (if (and (stem:m= 1) (stem:*o))
+          (concat stem "e")
+        (setq str stem)
+        (if (setq s (cond
+                     ((stem:match "at$") "ate")
+                     ((stem:match "bl$") "ble")
+                     ((stem:match "iz$") "ize")
+                     ((stem:match "\\([^lsz]\\)\\1$")
+                      (substring str (match-beginning 1) (match-end 1)))))
+            (concat stem s)
+          str)))
+     (t str))))
 
 
-(defun stem:step1c (str) "第1c段階の stemming rule (非公開関数)"
-       (let ((stem))
-         (if (and (stem:match "y$")
-                  (stem:*v*))
-             (concat stem "i")
-           str)))
+(defun stem:step1c (str)
+  "第1c段階の stemming rule (非公開関数)"
+  (let ((stem))
+    (if (and (stem:match "y$")
+             (stem:*v*))
+        (concat stem "i")
+      str)))
 
 
-(defun stem:step1 (str) "第1段階の stemming rule (非公開関数)"
-       (stem:step1c
-        (stem:step1b
-         (stem:step1a str))))
+(defun stem:step1 (str)
+  "第1段階の stemming rule (非公開関数)"
+  (stem:step1c
+   (stem:step1b
+    (stem:step1a str))))
 
 
-(defun stem:step2 (str) "第2段階の stemming rule (非公開関数)"
-       (let ((s)(stem))
-         (if (and
-              (setq s (cond
-                       ((stem:match "ational$") "ate")
-                       ((stem:match "tional$")  "tion")
-                       ((stem:match "enci$")    "ence")
-                       ((stem:match "anci$")    "ance")
-                       ((stem:match "izer$")    "ize")
-                       ((stem:match "abli$")    "able")
-                       ((stem:match "alli$")    "al")
-                       ((stem:match "entli$")   "ent")
-                       ((stem:match "eli$")     "e")
-                       ((stem:match "ousli$")   "ous")
-                       ((stem:match "ization$") "ize")
-                       ((stem:match "ation$")   "ate")
-                       ((stem:match "ator$")    "ate")
-                       ((stem:match "alism$")   "al")
-                       ((stem:match "iveness$") "ive")
-                       ((stem:match "fulness$") "ful")
-                       ((stem:match "ousness$") "ous")
-                       ((stem:match "aliti$")   "al")
-                       ((stem:match "iviti$")   "ive")
-                       ((stem:match "biliti$")  "ble")))
-              (stem:m> 0))
-             (concat stem s)
-           str)))
+(defun stem:step2 (str)
+  "第2段階の stemming rule (非公開関数)"
+  (let ((s)(stem))
+    (if (and
+         (setq s (cond
+                  ((stem:match "ational$") "ate")
+                  ((stem:match "tional$")  "tion")
+                  ((stem:match "enci$")    "ence")
+                  ((stem:match "anci$")    "ance")
+                  ((stem:match "izer$")    "ize")
+                  ((stem:match "abli$")    "able")
+                  ((stem:match "alli$")    "al")
+                  ((stem:match "entli$")   "ent")
+                  ((stem:match "eli$")     "e")
+                  ((stem:match "ousli$")   "ous")
+                  ((stem:match "ization$") "ize")
+                  ((stem:match "ation$")   "ate")
+                  ((stem:match "ator$")    "ate")
+                  ((stem:match "alism$")   "al")
+                  ((stem:match "iveness$") "ive")
+                  ((stem:match "fulness$") "ful")
+                  ((stem:match "ousness$") "ous")
+                  ((stem:match "aliti$")   "al")
+                  ((stem:match "iviti$")   "ive")
+                  ((stem:match "biliti$")  "ble")))
+         (stem:m> 0))
+        (concat stem s)
+      str)))
 
 
-(defun stem:step3 (str) "第3段階の stemming rule (非公開関数)"
-       (let ((s)(stem))
-         (if (and
-              (setq s (cond
-                       ((stem:match "icate$") "ic")
-                       ((stem:match "ative$") "")
-                       ((stem:match "alize$") "al")
-                       ((stem:match "iciti$") "ic")
-                       ((stem:match "ical$")  "ic")
-                       ((stem:match "ful$")   "")
-                       ((stem:match "ness$")  "")))
-              (stem:m> 0))
-             (concat stem s)
-           str)))
+(defun stem:step3 (str)
+  "第3段階の stemming rule (非公開関数)"
+  (let ((s)(stem))
+    (if (and
+         (setq s (cond
+                  ((stem:match "icate$") "ic")
+                  ((stem:match "ative$") "")
+                  ((stem:match "alize$") "al")
+                  ((stem:match "iciti$") "ic")
+                  ((stem:match "ical$")  "ic")
+                  ((stem:match "ful$")   "")
+                  ((stem:match "ness$")  "")))
+         (stem:m> 0))
+        (concat stem s)
+      str)))
 
 
-(defun stem:step4 (str) "第4段階の stemming rule (非公開関数)"
-       (let ((stem))
-         (if (and (or
-                   (stem:match "al$")
-                   (stem:match "ance$")
-                   (stem:match "ence$")
-                   (stem:match "er$")
-                   (stem:match "ic$")
-                   (stem:match "able$")
-                   (stem:match "ible$")
-                   (stem:match "ant$")
-                   (stem:match "ement$")
-                   (stem:match "ment$")
-                   (stem:match "ent$")
-                   (and (string-match "[st]\\(ion\\)$" str)
-                        (setq stem (substring str 0 (match-beginning 1))))
-                   (stem:match "ou$")
-                   (stem:match "ism$")
-                   (stem:match "ate$")
-                   (stem:match "iti$")
-                   (stem:match "ous$")
-                   (stem:match "ive$")
-                   (stem:match "ize$"))
-                  (stem:m> 1))
-             stem str)))
+(defun stem:step4 (str)
+  "第4段階の stemming rule (非公開関数)"
+  (let ((stem))
+    (if (and (or
+              (stem:match "al$")
+              (stem:match "ance$")
+              (stem:match "ence$")
+              (stem:match "er$")
+              (stem:match "ic$")
+              (stem:match "able$")
+              (stem:match "ible$")
+              (stem:match "ant$")
+              (stem:match "ement$")
+              (stem:match "ment$")
+              (stem:match "ent$")
+              (and (string-match "[st]\\(ion\\)$" str)
+                   (setq stem (substring str 0 (match-beginning 1))))
+              (stem:match "ou$")
+              (stem:match "ism$")
+              (stem:match "ate$")
+              (stem:match "iti$")
+              (stem:match "ous$")
+              (stem:match "ive$")
+              (stem:match "ize$"))
+             (stem:m> 1))
+        stem str)))
 
 
-(defun stem:step5 (str) "第5段階の stemming rule (非公開関数)"
-       (let ((stem))
-         (if (or
-              (and (stem:match "e$")
-                   (or (stem:m> 1)
-                       (and (stem:m= 1)
-                            (not (stem:*o)))))
-              (and (stem:match "ll$")
-                   (setq stem (concat stem "l"))
-                   (stem:m> 1)))
-             stem str)))
+(defun stem:step5 (str)
+  "第5段階の stemming rule (非公開関数)"
+  (let ((stem))
+    (if (or
+         (and (stem:match "e$")
+              (or (stem:m> 1)
+                  (and (stem:m= 1)
+                       (not (stem:*o)))))
+         (and (stem:match "ll$")
+              (setq stem (concat stem "l"))
+              (stem:m> 1)))
+        stem str)))
 
 
 (defvar stem:irregular-verb-alist
