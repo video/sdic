@@ -632,18 +632,35 @@ QUERY は元の検索語。"
 
 (defvar sdic-read-minibuffer-history '()
   "sdic-read-from-minibuffer 関数のヒストリ")
+
+
+(defun sdic-clear-history ()
+  "辞書検索の履歴 (`sdic-read-minibuffer-history`) を初期化（クリア）するコマンド"
+  (interactive)
+  (setq sdic-read-minibuffer-history nil)
+  (message "辞書検索履歴をクリアしました"))
+
+
 (defun sdic-read-from-minibuffer (&optional init pre-prompt)
   "ミニバッファから単語を読みとる"
-  (let ((w (or init (sdic-word-at-point) "")))
-    (setq sdic-read-minibuffer-history (cons w sdic-read-minibuffer-history)
-          w (read-from-minibuffer (if pre-prompt
-                                      (format "%s Input word : " pre-prompt)
-                                    "Input word : ")
-                                  w nil nil '(sdic-read-minibuffer-history . 1)))
+  (let* ((default-word (or init (sdic-word-at-point) ""))
+         (has-default (not (string= default-word "")))
+         (prompt-base (if pre-prompt (format "%s Input word" pre-prompt) "Input word"))
+         (prompt (if has-default
+                     (format "%s (default %s): " prompt-base default-word)
+                   (format "%s: " prompt-base)))
+         w)
+    (setq w (completing-read prompt
+                             sdic-read-minibuffer-history
+                             nil nil nil
+                             'sdic-read-minibuffer-history
+                             default-word))
     (while (< (length w) 2)
-      (setq w (read-from-minibuffer
-               (format "\"%s\" is too short. Input word again : " w)
-               w nil nil '(sdic-read-minibuffer-history . 1))))
+      (setq w (completing-read (format "\"%s\" is too short. Input word again: " w)
+                               sdic-read-minibuffer-history
+                               nil nil nil
+                               'sdic-read-minibuffer-history
+                               default-word)))
     w))
 
 
