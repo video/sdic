@@ -21,8 +21,8 @@
   これにより、数百万行規模の大規模な辞書データであっても、GNU grep と比較して圧倒的（数倍〜数十倍）な体感速度で検索結果を表示します。
 
 - sary による低負荷かつ高速な検索に対応：
-  インデックスファイル (`.ary`) が存在し、`exec-path` に `sary` が含まれている場合、SDIC はデフォルトの `array` に替わって自動的に [sary](https://sary.sourceforge.net/index.html.ja.html) を array ストラテジの検索バックエンドとして使用します。
-  初期セットアップの手間（コマンドのビルドとインデックス作成）は必要ですが、Suffix Array の二分探索アルゴリズムにより、検索時にファイル全体を走査する必要がありません。そのため、ripgrep と同等以上の実用的な検索速度を維持しつつ、検索時の CPU や論理メモリへの負荷を低く抑えることができます。
+  インデックスファイル (.ary) が存在し、`exec-path` に `sary` が含まれている場合、SDIC は `array` ストラテジの検索バックエンドとして [sary](https://sary.sourceforge.net/index.html.ja.html) を使用します。
+  `sary` は Suffix Array ベースのインデックスを利用するため、検索時に毎回辞書ファイル全体を走査する必要がありません。初期セットアップとしてコマンドの導入とインデックス作成は必要ですが、検索時の負荷を抑えつつ高速に検索できます。
 
 
 ### 検索バックエンドの自動選択とコマンド優先順位
@@ -46,9 +46,7 @@ graph TD
     TryGrep -- "Yes" --> UseGrep["grep ストラテジを選択"]
 
     %% 詳細分岐
-    UseArray --> ArrayBranch{"使用プログラムは？"}
-    ArrayBranch -- "優先" --> Sary["sary"]
-    ArrayBranch --> Array["array"]
+    UseArray --> Sary["sary"]
 
     UseGrep --> GrepBranch{"使用プログラムは？"}
     GrepBranch -- "優先" --> Ripgrep["ripgrep: おすすめ"]

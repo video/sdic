@@ -73,8 +73,8 @@
   "Max count of search result for rg/grep.
 If nil, do not limit search result.")
 
-(defvar sdicf-array-command (sdicf-find-program "sary" "array")
-  "Executable file name of sary or array")
+(defvar sdicf-array-command (sdicf-find-program "sary")
+  "Executable file name of sary.")
 
 (defvar sdicf-array-max-count 2000
   "Max count of search result for sary.
@@ -208,14 +208,6 @@ CODING-SYSTEM 以外の引数の意味は call-process-region と同じ。"
         (default-process-coding-system (cons coding-system coding-system)))
     (apply #'call-process-region start end program nil buffer display args)))
 
-(defun sdicf-start-process (name buffer program coding-system &rest args)
-  "start-process を実行した後、生成されたプロセスに CODING-SYSTEM を設定する。
-CODING-SYSTEM 以外の引数の意味は start-process と同じ。"
-  (let* ((default-directory sdicf-default-directory)
-         (proc (apply #'start-process name buffer program args)))
-    (set-process-coding-system proc coding-system coding-system)
-    proc))
-
 (defun sdicf-collect-entry-lines (&optional buffer)
   "BUFFER にある SDIC エントリ行のリストを返す。"
   (with-current-buffer (or buffer (current-buffer))
@@ -346,118 +338,41 @@ CODING-SYSTEM 以外の引数の意味は start-process と同じ。"
            (signal 'sdicf-missing-file (list (concat (sdicf-get-filename sdic) ".ary"))))
        (or (and (stringp sdicf-array-command)
                 (executable-find sdicf-array-command))
-           (signal 'sdicf-missing-executable '(array)))))
+           (signal 'sdicf-missing-executable '(sary)))))
 
-(defun sdicf-array-init (sdic)
-  (sdicf-common-init sdic)
-  (let ((is-sary (string-match "sary\\(\\.exe\\)?$" (file-name-nondirectory (or sdicf-array-command "")))))
-    (if is-sary
-        t
-      (let ((proc (get-buffer-process (sdicf-get-buffer sdic))))
-        (or (and proc (eq (process-status proc) 'run))
-            (progn
-              (setq proc (sdicf-start-process "array"
-                                              (sdicf-get-buffer sdic)
-                                              sdicf-array-command
-                                              (sdicf-get-coding-system sdic)
-                                              (sdicf-get-filename sdic)))
-              (accept-process-output proc)
-              (process-send-string proc "style line\n")
-              (accept-process-output proc)
-              (process-send-string proc "order index\n")
-              (accept-process-output proc)
-              (set-process-query-on-exit-flag proc nil)
-              (set-process-filter proc 'sdicf-array-wait-prompt)
-              t))))))
+(defalias 'sdicf-array-init 'sdicf-common-init)
 
-(defun sdicf-array-quit (sdic)
-  (if (buffer-live-p (sdicf-get-buffer sdic))
-      (let ((is-sary (string-match "sary\\(\\.exe\\)?$" (file-name-nondirectory (or sdicf-array-command "")))))
-        (unless is-sary
-          (let ((proc (get-buffer-process (sdicf-get-buffer sdic))))
-            (and proc
-                 (eq (process-status proc) 'run)
-                 (set-process-filter proc nil)
-                 (process-send-string proc "quit\n"))))
-        (kill-buffer (sdicf-get-buffer sdic)))))
-
-(defvar sdicf-array-wait-prompt-flag nil)
-
-(defun sdicf-array-send-string (proc string)
-  "指定された文字列 STRING をコマンドとして PROC に渡してプロンプトが現れるまで待つ関数。"
-  (save-excursion
-    (let ((sdicf-array-wait-prompt-flag t))
-      (set-buffer (process-buffer proc))
-      (set-marker (process-mark proc) (point-max))
-      (process-send-string proc (concat string "\n"))
-      (while sdicf-array-wait-prompt-flag
-        (unless (accept-process-output proc 5)
-          (error "sdicf-array: プロセスがプロンプト待ちでタイムアウトしました"))))))
-
-(defun sdicf-array-wait-prompt (proc string)
-  "プロンプト ok が現れたことを検知して、sdicf-array-wait-prompt-flag を nil にするフィルタ関数。"
-  (save-excursion
-    (save-match-data
-      (set-buffer (process-buffer proc))
-      (goto-char (process-mark proc))
-      (insert string)
-      (set-marker (process-mark proc) (point))
-      (skip-chars-backward " \t\n")
-      (forward-line 0)
-      (if (looking-at "ok\n")
-          (setq sdicf-array-wait-prompt-flag nil))
-      )))
+(defalias 'sdicf-array-quit 'sdicf-common-quit)
 
 (defun sdicf-array-search (sdic pattern &optional case regexp)
-  "sary または array を使って検索を行う。
+  "sary を使って検索を行う。
 
-見つかったエントリのリストを返す。array (SUFARY) は正規表現検索および大文字小文字の
-違いを区別しない検索は出来ない。従って、sary 以外で CASE が Non-nil の場合は、
-大文字小文字を区別して検索した場合の結果を返す。REGEXP が Non-nil の場合は設定エラーとする。
-sary コマンドが指定されている場合は、単発実行コマンドとして大文字小文字無視もサポートする。"
+見つかったエントリのリストを返す。REGEXP が Non-nil の場合は設定エラーとする。"
   (sdicf-array-init sdic)
-  (if regexp
-      (signal 'sdicf-invalid-method '(regexp))
+  (when regexp
+    (signal 'sdicf-invalid-method '(regexp)))
+  (with-current-buffer (sdicf-get-buffer sdic)
     (save-excursion
-      (let ((is-sary (string-match "sary\\(\\.exe\\)?$" (file-name-nondirectory (or sdicf-array-command "")))))
-        (if is-sary
-            ;; sary mode: call process synchronously
-            (with-current-buffer (sdicf-get-buffer sdic)
-              (let ((inhibit-read-only t)) (erase-buffer))
-              (let* ((coding (sdicf-get-coding-system sdic))
-                     (file (sdicf-get-filename sdic)))
-                (if (and sdicf-array-max-count (executable-find "head"))
-                    ;; If max-count is specified and "head" is available, use shell pipe
-                    (let ((shell-command (format "%s %s %s %s | head -n %d"
-                                                 (shell-quote-argument sdicf-array-command)
-                                                 (if case "-i" "")
-                                                 (shell-quote-argument pattern)
-                                                 (shell-quote-argument file)
-                                                 sdicf-array-max-count)))
-                      (sdicf-call-process shell-file-name coding nil t nil shell-command-switch shell-command))
-                  (let ((args (if case
-                                  (list "-i" pattern file)
-                                (list pattern file))))
-                    (apply #'sdicf-call-process sdicf-array-command coding nil t nil args))))
-              (sdicf-collect-entry-lines))
-          ;; array (SUFARY) mode: communicate with process
-          (let ((proc (get-buffer-process (set-buffer (sdicf-get-buffer sdic))))
-                (case-fold-search nil))
-            (sdicf-array-send-string proc "init")
-            (let ((inhibit-read-only t)) (erase-buffer))
-            (sdicf-array-send-string proc (concat "search " pattern))
-            (if (looking-at "FOUND:")
-                (progn
-                  (let ((inhibit-read-only t)) (erase-buffer))
-                  (sdicf-array-send-string proc "show")
-                  (let ((entries (sort (sdicf-collect-entry-lines) 'string<))
-                        cons)
-                    (setq cons entries)
-                    (while (cdr cons)
-                      (if (equal (car cons) (car (cdr cons)))
-                          (setcdr cons (cdr (cdr cons)))
-                        (setq cons (cdr cons))))
-                    entries)))))))))
+      (let ((inhibit-read-only t))
+        (erase-buffer))
+      (let* ((coding (sdicf-get-coding-system sdic))
+             (file (sdicf-get-filename sdic))
+             (args (append (if case '("-i") nil)
+                           (list pattern file))))
+        (if (and sdicf-array-max-count
+                 (executable-find "head"))
+            (let ((shell-command
+                   (format "%s%s %s %s | head -n %d"
+                           (shell-quote-argument sdicf-array-command)
+                           (if case " -i" "")
+                           (shell-quote-argument pattern)
+                           (shell-quote-argument file)
+                           sdicf-array-max-count)))
+              (sdicf-call-process shell-file-name coding nil t nil
+                                  shell-command-switch shell-command))
+          (apply #'sdicf-call-process
+                 sdicf-array-command coding nil t nil args)))
+      (sdicf-collect-entry-lines))))
 
 
 ;;;------------------------------------------------------------
@@ -471,8 +386,8 @@ FILENAME は辞書のファイル名。STRATEGY は検索を行なう方式を�
 で、次のいずれかの値を取る。
 
     `direct' - 辞書をバッファに読んで直接検索。
-    `grep'   - grep コマンドを用いて検索。
-    `array'  - SUFARY を用いた高速検索。
+    `grep'   - rg または grep コマンドを用いて検索。
+    `array'  - sary を用いた高速検索。
 
 STRATEGY が省略された場合は sdicf-strategy-alist の値を使って自動的に
 判定する。CODING-SYSTEM が省略された場合は、sdicf-default-coding-system
