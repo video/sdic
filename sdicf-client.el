@@ -144,6 +144,18 @@
   (if (get dic 'sdic-object) (sdicf-close (get dic 'sdic-object))))
 
 
+(defun sdicf-client-normalize-search-type (search-type)
+  "SEARCH-TYPE を `sdicf-search' 用の method シンボルに正規化する。"
+  (cond
+   ((null search-type) 'prefix)
+   ((eq search-type t) 'suffix)
+   ((eq search-type 'lambda) 'exact)
+   ((eq search-type 0) 'text)
+   ((memq search-type '(prefix suffix exact text regexp)) search-type)
+   (t
+    (error "Illegal search method : %S" search-type))))
+
+
 (defun sdicf-client-search-entry (dic string &optional search-type)
   "Function to search word with look or grep, and write results to current buffer.
 search-type の値によって次のように動作を変更する。
@@ -167,12 +179,7 @@ search-type の値によって次のように動作を変更する。
               (lambda (entry)
                 (cons (sdicf-entry-headword entry) entry)))
             (sdicf-search (get dic 'sdic-object)
-                          (cond
-                           ((not search-type) 'prefix)
-                           ((eq search-type t) 'suffix)
-                           ((eq search-type 'lambda) 'exact)
-                           ((eq search-type 0) 'text)
-                           (t (error "Illegal search method : %S" search-type)))
+                          (sdicf-client-normalize-search-type search-type)
                           string))))
 
 
