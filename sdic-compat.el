@@ -152,10 +152,6 @@
 
 (defvar sdic-compat-grep-regexp-option "-E" "Command line option for grep to specify extended regular expression")
 
-(defvar sdic-compat-grep-max-count 500
-  "Max count of search result for grep.
-If nil, do not limit search result.")
-
 (defconst sdic-compat-search-buffer-name " *sdic-compat*")
 
 
@@ -219,8 +215,8 @@ search-type の値によって次のように動作を変更する。
 検索結果として見つかった見出し語をキーとし、その定義文の先頭位置を値とする
 連想リストを返す。"
   (let ((max-count (sdicf--normalize-max-count
-                    sdic-compat-grep-max-count
-                    'sdic-compat-grep-max-count)))
+                    sdic-search-max-count
+                    'sdic-search-max-count)))
     (when (zerop (or max-count 1))
       (cl-return-from sdic-compat-search-entry nil))
     (with-current-buffer (get dic 'sdic-compat-search-buffer)

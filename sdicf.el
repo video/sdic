@@ -43,12 +43,15 @@
 ;; * `auto-compression-mode' を有効にすることで、`direct' 方式で圧縮
 ;;   した辞書を用いることが出来る。展開は自動で行なわれるため、特別な
 ;;   設定は必要ありません。
-;; 
+;;
 ;; * 速度重視のため `save-match-data' による一致データの退避と回復は一
 ;;   切していません。
 
 
 (require 'cl-lib)
+
+(defvar sdic-search-max-count 1000
+  "Common max count of search results defined in sdic.el.")
 
 
 ;;;------------------------------------------------------------
@@ -69,16 +72,8 @@
 (defvar sdicf-grep-command (sdicf-find-program "rg" "grep")
   "Executable file name of grep")
 
-(defvar sdicf-grep-max-count 2000
-  "Max count of search result for rg/grep.
-If nil, do not limit search result.")
-
 (defvar sdicf-array-command (sdicf-find-program "sary")
   "Executable file name of sary.")
-
-(defvar sdicf-array-max-count 2000
-  "Max count of search result for sary.
-If nil, do not limit search result.")
 
 (defvar sdicf-default-coding-system 'utf-8
   "Default coding system for sdicf.el")
@@ -330,8 +325,8 @@ CODING-SYSTEM 以外の引数の意味は call-process-region と同じ。"
 使って検索する。"
   (sdicf-grep-init sdic)
   (let ((max-count (sdicf--normalize-max-count
-                    sdicf-grep-max-count
-                    'sdicf-grep-max-count)))
+                    sdic-search-max-count
+                    'sdic-search-max-count)))
     (when (zerop (or max-count 1))
       (cl-return-from sdicf-grep-search nil))
     (with-current-buffer (sdicf-get-buffer sdic)
@@ -404,8 +399,8 @@ CODING-SYSTEM 以外の引数の意味は call-process-region と同じ。"
   (when regexp
     (signal 'sdicf-invalid-method '(regexp)))
   (let ((max-count (sdicf--normalize-max-count
-                    sdicf-array-max-count
-                    'sdicf-array-max-count)))
+                    sdic-search-max-count
+                    'sdic-search-max-count)))
     (when (zerop (or max-count 1))
       (cl-return-from sdicf-array-search nil))
     (with-current-buffer (sdicf-get-buffer sdic)
