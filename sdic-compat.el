@@ -218,70 +218,79 @@ search-type の値によって次のように動作を変更する。
     regexp : 正規表現検索
 検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
 連想配列を返す。"
-  (with-current-buffer (get dic 'sdic-compat-search-buffer)
-    (save-excursion
-      (save-restriction
-        (if (get dic 'sdic-compat-erase-buffer)
-            (let ((inhibit-read-only t)) (erase-buffer))
-          (goto-char (point-max))
-          (narrow-to-region (point-max) (point-max)))
-        (put dic 'sdic-compat-erase-buffer nil)
-        (let ((filename    (get dic 'file-name))
-              (coding      (get dic 'coding-system))
-              (l-case-opt  (get dic 'look-case-option))
-              (g-case-opt  (get dic 'grep-case-option))
-              (eg-case-opt (get dic 'egrep-case-option))
-              (is-non-ascii (string-match "\\Ca" string)))
-          (cond
-           ;; 前方一致検索の場合 -> look を使って検索
-           ((eq search-type nil)
-            (if is-non-ascii
+  (let ((max-count (sdicf--normalize-max-count
+                    sdic-compat-grep-max-count
+                    'sdic-compat-grep-max-count)))
+    (when (zerop (or max-count 1))
+      (cl-return-from sdic-compat-search-entry nil))
+    (with-current-buffer (get dic 'sdic-compat-search-buffer)
+      (save-excursion
+        (save-restriction
+          (if (get dic 'sdic-compat-erase-buffer)
+              (let ((inhibit-read-only t)) (erase-buffer))
+            (goto-char (point-max))
+            (narrow-to-region (point-max) (point-max)))
+          (put dic 'sdic-compat-erase-buffer nil)
+          (let ((filename (get dic 'file-name))
+                (coding (get dic 'coding-system))
+                (l-case-opt (get dic 'look-case-option))
+                (g-case-opt (get dic 'grep-case-option))
+                (eg-case-opt (get dic 'egrep-case-option))
+                (is-non-ascii (string-match "\\Ca" string)))
+            (cond
+             ;; 前方一致検索の場合 -> look を使って検索
+             ((eq search-type nil)
+              (if is-non-ascii
+                  (sdicf-call-process (get dic 'look) coding nil t nil
+                                      string filename)
                 (sdicf-call-process (get dic 'look) coding nil t nil
-                                    string filename)
-              (sdicf-call-process (get dic 'look) coding nil t nil
-                                  l-case-opt string filename)))
-           ;; 後方一致検索の場合 -> grep を使って検索
-           ((eq search-type t)
-            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
-                                (if is-non-ascii nil (list g-case-opt))
-                                (list (concat string "\t") filename))))
-              (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
-           ;; 完全一致検索の場合 -> look を使って検索 / 余分なデータを消去
-           ((eq search-type 'lambda)
-            (if is-non-ascii
+                                    l-case-opt string filename)))
+             ;; 後方一致検索の場合 -> grep を使って検索
+             ((eq search-type t)
+              (let ((args (append
+                           (sdicf--max-count-option max-count)
+                           (if is-non-ascii nil (list g-case-opt))
+                           (list (concat string "\t") filename))))
+                (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
+             ;; 完全一致検索の場合 -> look を使って検索 / 余分なデータを消去
+             ((eq search-type 'lambda)
+              (if is-non-ascii
+                  (sdicf-call-process (get dic 'look) coding nil t nil
+                                      string filename)
                 (sdicf-call-process (get dic 'look) coding nil t nil
-                                    string filename)
-              (sdicf-call-process (get dic 'look) coding nil t nil
-                                  l-case-opt string filename))
-            (goto-char (point-min))
-            (while (if (looking-at (format "%s\t" (regexp-quote string)))
-                       (= 0 (forward-line 1))
-                     (delete-region (point) (point-max)))))
-           ;; 全文検索の場合 -> grep を使って検索
-           ((eq search-type 0)
-            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
-                                (if is-non-ascii nil (list g-case-opt))
-                                (list string filename))))
-              (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
-           ;; 正規表現検索の場合 -> egrep を使って検索
-           ((eq search-type 'regexp)
-            (or (stringp (get dic 'egrep))
-                (error "%s" "Command to search regular expression pattern is not specified"))
-            (let ((args (append (if sdic-compat-grep-max-count (list (format "--max-count=%d" sdic-compat-grep-max-count)) nil)
-                                (if is-non-ascii nil (list eg-case-opt))
-                                (list string filename))))
-              (apply #'sdicf-call-process (get dic 'egrep) coding nil t nil args)))
-           ;; それ以外の検索形式を指定された場合
-           (t (error "Not supported search type is specified. \(%s\)"
+                                    l-case-opt string filename))
+              (goto-char (point-min))
+              (while (if (looking-at (format "%s\t" (regexp-quote string)))
+                         (= 0 (forward-line 1))
+                       (delete-region (point) (point-max)))))
+             ;; 全文検索の場合 -> grep を使って検索
+             ((eq search-type 0)
+              (let ((args (append
+                           (sdicf--max-count-option max-count)
+                           (if is-non-ascii nil (list g-case-opt))
+                           (list string filename))))
+                (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
+             ;; 正規表現検索の場合 -> egrep を使って検索
+             ((eq search-type 'regexp)
+              (or (stringp (get dic 'egrep))
+                  (error "%s" "Command to search regular expression pattern is not specified"))
+              (let ((args (append
+                           (sdicf--max-count-option max-count)
+                           (if is-non-ascii nil (list eg-case-opt))
+                           (list string filename))))
+                (apply #'sdicf-call-process (get dic 'egrep) coding nil t nil args)))
+             ;; それ以外の検索形式を指定された場合
+             (t
+              (error "Not supported search type is specified. (%s)"
                      (prin1-to-string search-type)))))
-        ;; 各検索結果に ID を付与する
-        (goto-char (point-min))
-        (let (ret)
-          (while (if (looking-at "\\([^\t]+\\)\t")
-                     (progn
-                       (setq ret (cons (cons (match-string 1) (match-end 0)) ret))
-                       (= 0 (forward-line 1)))))
-          (nreverse ret))))))
+          ;; 各検索結果に ID を付与する
+          (goto-char (point-min))
+          (let (ret)
+            (while (if (looking-at "\\([^\t]+\\)\t")
+                       (progn
+                         (setq ret (cons (cons (match-string 1) (match-end 0)) ret))
+                         (= 0 (forward-line 1)))))
+            (nreverse ret)))))))
 
 
 (defun sdic-compat-get-content (dic point)
