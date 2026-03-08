@@ -84,8 +84,9 @@
 ;;     値を使います。
 ;;
 ;; grep
-;;     後方一致検索/全文検索の時に利用する外部コマンドの名前を指定しま
-;;     す。省略した場合は sdic-compat-grep-command の値を使います。
+;;     後方一致検索/全文検索/正規表現検索の時に利用する外部コマンドの
+;;     名前を指定します。省略した場合は sdic-compat-grep-command の値
+;;     を使います。
 ;;
 ;; grep-case-option
 ;;     grep オプションによって指定された外部コマンドに対して、英大文字
@@ -93,23 +94,23 @@
 ;;     引数を指定します。省略した場合は sdic-compat-grep-case-option の
 ;;     値を使います。
 ;;
-;; egrep
-;;     正規表現検索の時に利用する外部コマンドの名前を指定します。省略
-;;     した場合は sdic-compat-egrep-command の値を使います。
+;; grep-fixed-option
+;;     grep オプションによって指定された外部コマンドに対して、固定文字
+;;     列として検索するように指示するためのコマンドライン引数を指定します。
+;;     省略した場合は sdic-compat-grep-fixed-option の値を使います。
 ;;
-;; egrep-case-option
-;;     egrep オプションによって指定された外部コマンドに対して、英大文
-;;     字/小文字を区別しないで検索するように指示するためのコマンドライ
-;;     ン引数を指定します。省略した場合は
-;;     sdic-compat-egrep-case-option の値を使います。
+;; grep-regexp-option
+;;     grep オプションによって指定された外部コマンドに対して、拡張正規
+;;     表現として検索するように指示するためのコマンドライン引数を指定し
+;;     ます。省略した場合は sdic-compat-grep-regexp-option の値を使います。
 
 
 ;;; Note:
 
-;; sdic-compat-look-command / sdic-compat-grep-command /
-;; sdic-compat-egrep-command の値は自動的に設定されます。例えば、
-;; sdic-compat-grep-command の場合、fgrep / grep と2種のコマンドを検索して、
-;; 最初に見つかったコマンドを使います。
+;; sdic-compat-look-command / sdic-compat-grep-command の値は自動的に
+;; 設定されます。以前のバージョンでは fgrep や egrep も検索していま
+;; したが、現在は grep に一本化され、オプションによって検索種別を
+;; 切り替えるようになっています。
 ;;
 ;; sdic-compat.el と sdic-gene.el は同じ機能を提供しているライブラリで
 ;; す。sdic-compat.el は外部コマンドを呼び出しているのに対して、
@@ -142,19 +143,18 @@
 
 (defvar sdic-compat-look-case-option "-f" "Command line option for look to ignore case")
 
-(defvar sdic-compat-grep-command (sdicf-find-program "fgrep" "grep")
+(defvar sdic-compat-grep-command (sdicf-find-program "grep")
   "Executable file name of grep")
 
 (defvar sdic-compat-grep-case-option "-i" "Command line option for grep to ignore case")
 
+(defvar sdic-compat-grep-fixed-option "-F" "Command line option for grep to specify fixed strings")
+
+(defvar sdic-compat-grep-regexp-option "-E" "Command line option for grep to specify extended regular expression")
+
 (defvar sdic-compat-grep-max-count 500
-  "Max count of search result for grep/egrep.
+  "Max count of search result for grep.
 If nil, do not limit search result.")
-
-(defvar sdic-compat-egrep-command (sdicf-find-program "egrep" "grep")
-  "Executable file name of egrep")
-
-(defvar sdic-compat-egrep-case-option "-i" "Command line option for egrep to ignore case")
 
 (defconst sdic-compat-search-buffer-name " *sdic-compat*")
 
@@ -182,10 +182,10 @@ If nil, do not limit search result.")
               (put dic 'grep sdic-compat-grep-command))
           (or (get dic 'grep-case-option)
               (put dic 'grep-case-option sdic-compat-grep-case-option))
-          (or (get dic 'egrep)
-              (put dic 'egrep sdic-compat-egrep-command))
-          (or (get dic 'egrep-case-option)
-              (put dic 'egrep-case-option sdic-compat-egrep-case-option))
+          (or (get dic 'grep-fixed-option)
+              (put dic 'grep-fixed-option sdic-compat-grep-fixed-option))
+          (or (get dic 'grep-regexp-option)
+              (put dic 'grep-regexp-option sdic-compat-grep-regexp-option))
           (or (get dic 'coding-system)
               (put dic 'coding-system sdic-default-coding-system))
           (and (stringp (get dic 'look))
@@ -235,7 +235,8 @@ search-type の値によって次のように動作を変更する。
                 (coding (get dic 'coding-system))
                 (l-case-opt (get dic 'look-case-option))
                 (g-case-opt (get dic 'grep-case-option))
-                (eg-case-opt (get dic 'egrep-case-option))
+                (g-fixed-opt (get dic 'grep-fixed-option))
+                (g-regexp-opt (get dic 'grep-regexp-option))
                 (is-non-ascii (string-match "\\Ca" string)))
             (cond
              ;; 前方一致検索の場合 -> look を使って検索
@@ -250,6 +251,7 @@ search-type の値によって次のように動作を変更する。
               (let ((args (append
                            (sdicf--max-count-option max-count)
                            (if is-non-ascii nil (list g-case-opt))
+                           (if g-fixed-opt (list g-fixed-opt))
                            (list (concat string "\t") filename))))
                 (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
              ;; 完全一致検索の場合 -> look を使って検索 / 余分なデータを消去
@@ -268,17 +270,19 @@ search-type の値によって次のように動作を変更する。
               (let ((args (append
                            (sdicf--max-count-option max-count)
                            (if is-non-ascii nil (list g-case-opt))
+                           (if g-fixed-opt (list g-fixed-opt))
                            (list string filename))))
                 (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
-             ;; 正規表現検索の場合 -> egrep を使って検索
+             ;; 正規表現検索の場合 -> 拡張正規表現を有効にした grep を使って検索
              ((eq search-type 'regexp)
-              (or (stringp (get dic 'egrep))
+              (or (stringp (get dic 'grep))
                   (error "%s" "Command to search regular expression pattern is not specified"))
               (let ((args (append
                            (sdicf--max-count-option max-count)
-                           (if is-non-ascii nil (list eg-case-opt))
+                           (if is-non-ascii nil (list g-case-opt))
+                           (if g-regexp-opt (list g-regexp-opt))
                            (list string filename))))
-                (apply #'sdicf-call-process (get dic 'egrep) coding nil t nil args)))
+                (apply #'sdicf-call-process (get dic 'grep) coding nil t nil args)))
              ;; それ以外の検索形式を指定された場合
              (t
               (error "Not supported search type is specified. (%s)"
