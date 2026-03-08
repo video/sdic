@@ -177,15 +177,15 @@
 
 
 (defun sdic-gene-search-entry (dic string &optional search-type)
-  "look または grep を使って検索し、結果をカレントバッファに書き込む関数。
+  "検索用バッファ内で検索する。
 search-type の値によって次のように動作を変更する。
     nil    : 前方一致検索
     t      : 後方一致検索
     lambda : 完全一致検索
     0      : 全文検索
     regexp : 正規表現検索
-検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
-連想配列を返す。"
+検索結果として見つかった見出し語をキーとし、その定義文の先頭位置を値とする
+連想リストを返す。"
   (with-current-buffer (get dic 'sdic-gene-search-buffer)
     (save-excursion
       (goto-char (point-min))

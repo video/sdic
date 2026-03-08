@@ -209,15 +209,15 @@ If nil, do not limit search result.")
 
 
 (defun sdic-compat-search-entry (dic string &optional search-type)
-  "look または grep を使って検索し、結果をカレントバッファに書き込む関数。
+  "look または grep を使って検索する。結果は専用の検索バッファに保持される。
 search-type の値によって次のように動作を変更する。
     nil    : 前方一致検索
     t      : 後方一致検索
     lambda : 完全一致検索
     0      : 全文検索
     regexp : 正規表現検索
-検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
-連想配列を返す。"
+検索結果として見つかった見出し語をキーとし、その定義文の先頭位置を値とする
+連想リストを返す。"
   (let ((max-count (sdicf--normalize-max-count
                     sdic-compat-grep-max-count
                     'sdic-compat-grep-max-count)))

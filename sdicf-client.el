@@ -85,10 +85,10 @@
 ;;     ンドを必要としませんが、大量のメモリが必要になります。
 ;;
 ;; `grep'
-;;     fgrep または Ripgrep (rg) を利用して検索を行います。
+;;     rg または grep を利用して検索を行います。
 ;;
 ;; `array'
-;;     array を利用して検索を行います。辞書の index file を事前に生成
+;;     sary を利用して検索を行います。辞書の index file を事前に生成
 ;;     しておいてから検索を行いますので、高速に検索が可能です。しかし、
 ;;     index file は辞書の3倍程度の大きさになります。
 ;;
@@ -157,14 +157,16 @@
 
 
 (defun sdicf-client-search-entry (dic string &optional search-type)
-  "Function to search word with look or grep, and write results to current buffer.
-search-type の値によって次のように動作を変更する。
+  "`sdicf-search' を使って検索する。
+search-type の値によって次のように検索方式を切り替える。
     nil    : 前方一致検索
     t      : 後方一致検索
     lambda : 完全一致検索
     0      : 全文検索
-検索結果として見つかった見出し語をキーとし、その定義文の先頭の point を値とする
-連想配列を返す。
+    regexp : 正規表現検索
+検索結果として見つかった表示用見出しをキーとし、SDIC エントリ文字列を値とする
+連想リストを返す。`add-keys-to-headword' が non-nil の場合、キーには追加検索
+キーも含まれる。
 "
   (let ((case-fold-search t) list)
     (mapcar (if (get dic 'add-keys-to-headword)
