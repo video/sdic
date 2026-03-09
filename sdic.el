@@ -456,29 +456,30 @@ SPC は継行インデント文字列、TOP は現在行の開始ポイント。
   "QUERY から検索形式を判定して複数の辞書 DIC-LIST を検索するマクロ。
 QUERY に検索形式を指定する構造が含まれていない場合は、default の動作として SEXP を評価する。
 通常の検索の場合は、検索された見出し語のリストを返す。"
-  `(cond
-    ((sdic--query-empty-p ,query)
-     (error "Query must not be empty"))
-    ;; 検索語が '' で囲まれている場合 -> 完全一致検索
-    ((and (eq ?' (string-to-char ,query))
-          (equal "'" (substring ,query -1)))
-     (sdic-insert-entry-list
-      (sdic-search-multi-dictionaries ,dic-list (substring ,query 1 -1) 'lambda)))
-    ;; 検索語の先頭に / がある場合 -> 全文検索
-    ((eq ?/ (string-to-char ,query))
-     (sdic-insert-entry-list
-      (sdic-search-multi-dictionaries ,dic-list (substring ,query 1) 0)))
-    ;; 検索語の先頭に * がある場合 -> 後方一致検索
-    ((eq ?* (string-to-char ,query))
-     (sdic-insert-entry-list
-      (sdic-search-multi-dictionaries ,dic-list (substring ,query 1) t)))
-    ;; 検索語の末尾に * がある場合 -> 前方一致検索
-    ((equal "*" (substring ,query -1))
-     (sdic-insert-entry-list
-      (sdic-search-multi-dictionaries ,dic-list (substring ,query 0 -1))))
-    ;; 特に指定がない場合 -> 指定された S 式を評価
-    (t
-     ,@sexp)))
+  (let ((q-sym (make-symbol "sdic-query")))
+    `(let ((,q-sym ,query))
+       (cond
+        ((sdic--query-empty-p ,q-sym)
+         (error "Query must not be empty"))
+        ;; 検索語が '' で囲まれている場合 -> 完全一致検索
+        ((string-match "^'\\(.+\\)'$" ,q-sym)
+         (sdic-insert-entry-list
+          (sdic-search-multi-dictionaries ,dic-list (match-string 1 ,q-sym) 'lambda)))
+        ;; 検索語の先頭に / がある場合 -> 全文検索
+        ((string-match "^/\\(.+\\)$" ,q-sym)
+         (sdic-insert-entry-list
+          (sdic-search-multi-dictionaries ,dic-list (match-string 1 ,q-sym) 0)))
+        ;; 検索語の先頭に * がある場合 -> 後方一致検索
+        ((string-match "^\\*\\(.+\\)$" ,q-sym)
+         (sdic-insert-entry-list
+          (sdic-search-multi-dictionaries ,dic-list (match-string 1 ,q-sym) t)))
+        ;; 検索語の末尾に * がある場合 -> 前方一致検索
+        ((string-match "^\\(.+\\)\\*$" ,q-sym)
+         (sdic-insert-entry-list
+          (sdic-search-multi-dictionaries ,dic-list (match-string 1 ,q-sym))))
+        ;; 特に指定がない場合 -> 指定された S 式を評価
+        (t
+         ,@sexp)))))
 
 
 ;; 英和辞典を検索する関数 - サブ関数群

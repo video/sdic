@@ -134,14 +134,19 @@
 
 (defun sdicf-client-open-dictionary (dic)
   "Function to open dictionary"
-  (if (put dic 'sdic-object
-           (sdicf-open (get dic 'file-name) (get dic 'coding-system) (get dic 'strategy)))
-      dic))
+  (or (get dic 'sdic-object)
+      (put dic 'sdic-object
+           (sdicf-open (get dic 'file-name)
+                       (get dic 'coding-system)
+                       (get dic 'strategy))))
+  dic)
 
 
 (defun sdicf-client-close-dictionary (dic)
   "Function to close dictionary"
-  (if (get dic 'sdic-object) (sdicf-close (get dic 'sdic-object))))
+  (when (get dic 'sdic-object)
+    (sdicf-close (get dic 'sdic-object))
+    (put dic 'sdic-object nil)))
 
 
 (defun sdicf-client-normalize-search-type (search-type)

@@ -327,52 +327,52 @@ CODING-SYSTEM 以外の引数の意味は call-process-region と同じ。"
   (let ((max-count (sdicf--normalize-max-count
                     sdic-search-max-count
                     'sdic-search-max-count)))
-    (when (zerop (or max-count 1))
-      (cl-return-from sdicf-grep-search nil))
-    (with-current-buffer (sdicf-get-buffer sdic)
-      (save-excursion
-        (let ((inhibit-read-only t))
-          (erase-buffer))
-        (let* ((coding (sdicf-get-coding-system sdic))
-               (prog sdicf-grep-command)
-               (file (sdicf-get-filename sdic))
-               (is-rg (string-match "rg\\(\\.exe\\)?$"
-                                    (file-name-nondirectory prog)))
-               (args (append
-                      (if case '("-i") nil)
-                      (sdicf--max-count-option max-count)
-                      (if is-rg
-                          (if regexp '("-N") '("-N" "-F"))
-                        (if regexp '("-E") '("-F")))
-                      (list "-f" "-" file)))
-               (fallback-args (append
-                               (if case '("-i") nil)
-                               (if is-rg
-                                   (if regexp '("-N") '("-N" "-F"))
-                                 (if regexp '("-E") '("-F")))
-                               (list "-f" "-" file)))
-               status)
-          (with-temp-buffer
-            (insert pattern)
-            (setq status
-                  (apply #'sdicf-call-process-region
-                         (point-min) (point-max)
-                         prog coding
-                         (sdicf-get-buffer sdic) nil
-                         args))
-            (when (and max-count (not (memq status '(0 1))))
-              (with-current-buffer (sdicf-get-buffer sdic)
-                (let ((inhibit-read-only t))
-                  (erase-buffer)))
+    (if (zerop (or max-count 1))
+        nil
+      (with-current-buffer (sdicf-get-buffer sdic)
+        (save-excursion
+          (let ((inhibit-read-only t))
+            (erase-buffer))
+          (let* ((coding (sdicf-get-coding-system sdic))
+                 (prog sdicf-grep-command)
+                 (file (sdicf-get-filename sdic))
+                 (is-rg (string-match "rg\\(\\.exe\\)?$"
+                                      (file-name-nondirectory prog)))
+                 (args (append
+                        (if case '("-i") nil)
+                        (sdicf--max-count-option max-count)
+                        (if is-rg
+                            (if regexp '("-N") '("-N" "-F"))
+                          (if regexp '("-E") '("-F")))
+                        (list "-f" "-" file)))
+                 (fallback-args (append
+                                 (if case '("-i") nil)
+                                 (if is-rg
+                                     (if regexp '("-N") '("-N" "-F"))
+                                   (if regexp '("-E") '("-F")))
+                                 (list "-f" "-" file)))
+                 status)
+            (with-temp-buffer
+              (insert pattern)
               (setq status
                     (apply #'sdicf-call-process-region
                            (point-min) (point-max)
                            prog coding
                            (sdicf-get-buffer sdic) nil
-                           fallback-args))))
-          (unless (memq status '(0 1))
-            (error "grep/rg failed: %s" prog))
-          (sdicf--limit-entries (sdicf-collect-entry-lines) max-count))))))
+                           args))
+              (when (and max-count (not (memq status '(0 1))))
+                (with-current-buffer (sdicf-get-buffer sdic)
+                  (let ((inhibit-read-only t))
+                    (erase-buffer)))
+                (setq status
+                      (apply #'sdicf-call-process-region
+                             (point-min) (point-max)
+                             prog coding
+                             (sdicf-get-buffer sdic) nil
+                             fallback-args))))
+            (unless (memq status '(0 1))
+              (error "grep/rg failed: %s" prog))
+            (sdicf--limit-entries (sdicf-collect-entry-lines) max-count)))))))
 
 
 
@@ -401,34 +401,34 @@ CODING-SYSTEM 以外の引数の意味は call-process-region と同じ。"
   (let ((max-count (sdicf--normalize-max-count
                     sdic-search-max-count
                     'sdic-search-max-count)))
-    (when (zerop (or max-count 1))
-      (cl-return-from sdicf-array-search nil))
-    (with-current-buffer (sdicf-get-buffer sdic)
-      (save-excursion
-        (let ((inhibit-read-only t))
-          (erase-buffer))
-        (let* ((coding (sdicf-get-coding-system sdic))
-               (file (sdicf-get-filename sdic))
-               (args (append (if case '("-i") nil)
-                             (list pattern file)))
-               status)
-          (if (and max-count (executable-find "head"))
-              (let ((shell-command
-                     (format "%s%s %s %s | head -n %d"
-                             (shell-quote-argument sdicf-array-command)
-                             (if case " -i" "")
-                             (shell-quote-argument pattern)
-                             (shell-quote-argument file)
-                             max-count)))
-                (setq status
-                      (sdicf-call-process shell-file-name coding nil t nil
-                                          shell-command-switch shell-command)))
-            (setq status
-                  (apply #'sdicf-call-process
-                         sdicf-array-command coding nil t nil args)))
-          (unless (memq status '(0 1))
-            (error "sary failed: %s" sdicf-array-command))
-          (sdicf--limit-entries (sdicf-collect-entry-lines) max-count))))))
+    (if (zerop (or max-count 1))
+        nil
+      (with-current-buffer (sdicf-get-buffer sdic)
+        (save-excursion
+          (let ((inhibit-read-only t))
+            (erase-buffer))
+          (let* ((coding (sdicf-get-coding-system sdic))
+                 (file (sdicf-get-filename sdic))
+                 (args (append (if case '("-i") nil)
+                               (list pattern file)))
+                 status)
+            (if (and max-count (executable-find "head"))
+                (let ((shell-command
+                       (format "%s%s %s %s | head -n %d"
+                               (shell-quote-argument sdicf-array-command)
+                               (if case " -i" "")
+                               (shell-quote-argument pattern)
+                               (shell-quote-argument file)
+                               max-count)))
+                  (setq status
+                        (sdicf-call-process shell-file-name coding nil t nil
+                                            shell-command-switch shell-command)))
+              (setq status
+                    (apply #'sdicf-call-process
+                           sdicf-array-command coding nil t nil args)))
+            (unless (memq status '(0 1))
+              (error "sary failed: %s" sdicf-array-command))
+            (sdicf--limit-entries (sdicf-collect-entry-lines) max-count)))))))
 
 
 ;;;------------------------------------------------------------
