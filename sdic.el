@@ -386,7 +386,7 @@ ENTRY-LIST を、見出し語の辞書順に並べ替える関数。"
 (defun sdic--content-normalize-slashes (content)
   "数字または空白で挟まれないスラッシュの前後に空白を挿入した文字列を返す非公開関数。"
   (let ((buf nil) (pos 0))
-    (while (string-match "[^ 0-9]\(/\)[^ 0-9]" content pos)
+    (while (string-match "[^ 0-9/]\\(/\\)[^ 0-9/]" content pos)
       (setq buf (cons " / " (cons (substring content pos (match-beginning 1)) buf))
             pos (match-end 1)))
     (mapconcat #'identity
